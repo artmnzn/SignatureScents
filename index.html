@@ -1,0 +1,2138 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Signature Scents</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500&display=swap" rel="stylesheet">
+  <style>
+    /* --- BASE Y TIPOGRAFÍA --- */
+/* --- CONFIGURACIÓN GLOBAL --- */
+html, body {
+  max-width: 100%;
+  overflow-x: hidden; /* Elimina el espacio fantasma a la derecha */
+  position: relative;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background-color: #0a0a0a;
+  color: #fff;
+  text-align: center;
+}
+
+/* --- AJUSTE DEL CONTENEDOR --- */
+.container {
+  width: 100%;
+  display: grid; /* Asegúrate de mantener el grid para las cards */
+  grid-template-columns: repeat(auto-fill, minmax(250px, 280px));
+  gap: 20px;
+  justify-content: center;
+  box-sizing: border-box; /* El padding no afecta el ancho total */
+  padding: 20px;
+  margin-top: 20px;
+}
+
+    header a {
+      font-family: 'Playfair Display', serif;
+      font-size: 32px;
+      letter-spacing: 2px;
+      color: #c9a96e;
+      text-decoration: none;
+      transition: 0.3s;
+    }
+
+    header a:hover {
+      color: #fff;
+      letter-spacing: 3px;
+    }
+
+    .watermark {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background-image: url('Decants_website/logopng.png');
+      background-repeat: no-repeat;
+      background-position: center 60%;
+      background-size: 400px;
+      opacity: 0.02; 
+      filter: blur(2px);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* --- NAVEGACIÓN (TOP BAR) --- */
+    .top-bar {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%;
+      z-index: 1000;
+      background: #0a0a0a;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.5);
+    }
+
+    .brand-header {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 20px;
+    }
+
+    .logo { width: 50px; transition: 0.3s; }
+    .brand-name { font-family: 'Playfair Display', serif; font-size: 32px; color: #c9a96e; transition: 0.3s; }
+    .brand-link { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+    .brand-link:hover .brand-name { color: #fff; letter-spacing: 3px; }
+
+    #cart-indicator {
+      cursor: pointer;
+      display: inline-flex;   
+      align-items: center;
+      gap: 18px;
+      margin-bottom: 20px;
+    }
+
+    #cart-text { font-size: 20px; transition: opacity 0.2s ease; }
+    #cart-text:hover {
+      color: #c9a96e;
+      cursor: pointer;
+     }
+
+    #cart-count {
+      position: absolute;
+      top: -8px; /* Ajusta esto para que flote sobre el icono */
+     right: -12px;
+     background: #c9a96e;
+     color: #000;
+     font-size: 12px;
+     font-weight: bold;
+    min-width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1001; /* Asegura que esté por encima de la barra */
+    }
+
+    /* --- SELECTOR DE CATEGORÍAS --- */
+.category-selector {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  padding: 20px;
+  margin-top: 240px; 
+}
+
+.category-card {
+  position: relative;
+  width: 100%;
+  max-width: 400px;
+  height: 200px;
+  border-radius: 12px;
+  overflow: hidden;
+  cursor: pointer;
+  border: 1px solid #222;
+  /* Quitamos el espacio en el selector de abajo */
+  transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+
+.category-card img {
+  width: 100%; 
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.6;
+  transition: 0.6s ease;
+}
+
+.cate
+
+/* CORRECCIÓN: Sin espacio antes de :hover */
+.category-card:hover {
+  border-color: #c9a96e; /* Cambié a dorado para que combine con tu marca */
+  transform: translateY(-5px); /* Un pequeño salto le da mucha calidad */
+  box-shadow: 0 10px 20px rgba(0,0,0,0.5);
+}
+
+/* Efecto en la imagen cuando la card tiene hover */
+.category-card:hover img {
+  opacity: 0.9;
+  transform: scale(1.05);
+  filter: brightness(1.1);
+}
+
+.category-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(to top, rgba(0,0,0,0.7), transparent);
+  transition: background 0.6s;
+}
+
+.category-overlay span {
+  font-family: 'Playfair Display', serif;
+  font-size: 24px;
+  letter-spacing: 3px;
+  color: #c9a96e;
+  transition: all 0.4s ease;
+}
+
+/* El texto también puede brillar un poco */
+.category-card:hover .category-overlay span {
+  color: #fff;
+  letter-spacing: 4px;
+}
+    /* --- CONTENEDOR DE PRODUCTOS --- */
+   .container {
+   margin-top: 40px; /* Reducimos el margen para que no se corte */
+   display: grid;
+   grid-template-columns: repeat(auto-fill, minmax(250px, 280px));
+   gap: 20px;
+   justify-content: center;
+   padding: 20px; /* Añadimos padding para que los productos respiren */
+   scroll-margin-top: 250px; /* Esto ayuda a que el scroll automático no lo pegue al techo */
+  }
+
+    .card {
+      display: none;
+      background: #111;
+      border-radius: 15px;
+      overflow: hidden;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+      transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+      width: 100%;
+      border: 1px solid #1a1a1a;
+      z-index: 1;
+    }
+   
+    .card:hover {
+  /* 1. Empuje hacia el frente (Scale 1.05 = 5% más grande) */
+  transform: scale(1.05) translateY(-5px); 
+  
+  /* 2. Brillo dorado sutil y sombra más profunda */
+  box-shadow: 0 20px 40px rgba(201, 169, 110, 0.25); 
+  
+  /* 3. Borde dorado sutil que se enciende */
+  border-color: #c9a96e; 
+  
+  /* 4. Subimos el z-index para que esté por encima de sus vecinas al crecer */
+  z-index: 10; 
+}
+
+    .card.hidden { display: none; opacity: 0; }
+
+    .img-container {
+  width: 100%; 
+  aspect-ratio: 3 / 4; /* Mantenemos tu proporción */
+  background: radial-gradient(circle at center, #1a1a1a 0%, #0a0a0a 100%);
+  position: relative;  /* 👈 NECESARIO para que las notas se alineen aquí dentro */
+  overflow: hidden;    /* 👈 NECESARIO para que nada sobresalga de las esquinas */
+}
+
+    .card:hover .img-container img {
+  transform: scale(1.03); 
+}
+
+    .img-container img { width: 100%; height: 100%; object-fit: cover;transition: transform 0.6s ease; }
+    .card-content { padding: 15px; }
+    .card-title { font-size: 18px; margin-bottom: 5px; }
+    .card-name { font-size: 15px; margin-bottom: 5px; color: #fff; }
+    .ml { font-size: 13px; color: #aaa; margin-bottom: 8px; }
+    .price { color: #c9a96e; font-weight: bold; margin-bottom: 15px; }
+
+.btn {
+  display: block;
+  padding: 12px;
+  background: #e5c98b !important; 
+  color: #000;
+  text-decoration: none; 
+  border-radius: 8px;
+  font-weight: bold; 
+  transition: all 0.3s ease;
+  border: 1px solid transparent;
+  outline: none; /* 👈 Solo agregas esta línea */
+}
+
+   .btn:hover {
+      background: #000;      /* Invierte colores */
+      color: #c9a96e;
+      border: 1px solid #c9a96e;
+     transform: translateY(-3px); /* Pequeño salto hacia arriba */
+     box-shadow: 0 5px 15px rgba(201, 169, 110, 0.3); /* Brillo dorado sutil */
+     transform: scale(1.05);
+   }
+  
+   .btn:focus {
+    background: #c9a96e !important; 
+    color: #000 !important;
+    transform: scale(1) !important;
+    outline: none;
+   }
+  
+   .btn:active {
+   transform: scale(0.92) !important; /* Se hunde un poco */
+   background: #b3955d !important;    /* Se oscurece un pelín */
+   transition: 0.1s; /* Respuesta instantánea al tacto */
+  }
+
+  .info-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  
+  /* Usamos un color sólido o casi sólido para que NO se transparente la botella */
+  background: rgba(10, 10, 10, 0.95); 
+  
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  
+  opacity: 0; /* Escondido al principio */
+  transition: opacity 0.3s ease;
+  z-index: 2; /* Por encima de la imagen del perfume */
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+/* Cuando pasamos el mouse por la card, el telón aparece */
+.card:hover .info-overlay {
+  opacity: 1;
+}
+
+/* Estilo para las notas olfativas */
+.notes-content {
+  text-align: center;
+}
+
+.notes-content h4 {
+  color: #fff;
+  font-family: 'Playfair Display', serif;
+  margin-bottom: 10px;
+  border-bottom: 1px solid #c9a96e;
+  padding-bottom: 5px;
+}
+
+.notes-content p {
+  font-size: 13px;
+  color: #c9a96e; /* Dorado */
+  margin: 5px 0;
+  line-height: 1.4;
+}
+
+    /* --- CARRITO (PANEL LATERAL) --- */
+    #cart-panel {
+      position: fixed;
+      top: 0; right: -350px;
+      width: 320px; height: 100vh;
+      background: #111;
+      box-shadow: -10px 0 30px rgba(0,0,0,0.9);
+      transition: 0.4s ease;
+      display: flex;
+      flex-direction: column;
+      z-index: 99999;
+    }
+
+    #cart-panel.active { right: 0; }
+
+    .cart-header {
+      padding: 20px 20px 20px;
+      border-bottom: 1px solid #222;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    #close-cart {
+      background: #222; border: none; color: #fff;
+      width: 32px; height: 32px; border-radius: 6px;
+      cursor: pointer;
+     transition: 0.3s; /* DE VUELTA LA ANIMACIÓN */
+     display: flex; align-items: center; justify-content: center;
+    }
+   
+    #close-cart:hover {
+   background: #c9a96e;
+  color: #000;
+  transform: rotate(90deg);
+   }
+   
+    .category-selector {
+     margin-bottom: 100px; 
+     }
+
+    #cart-items { flex: 1; overflow-y: auto;padding: 0px 10px 0px 10px; list-style: none; text-align: left;margin:0; }
+    .cart-item { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid #222; }
+    .cart-item span { font-size: 13px; color: #efefef; }
+
+    .cart-icon {
+      position: relative; /* 👈 Vital para que el número se pegue al icono */
+      display: flex;
+      align-items: center;
+      justify-content: center;
+     }
+
+    .qty-btn { 
+     background: #1a1a1a;
+     border: 1px solid #333; 
+     color: #c9a96e; 
+     border-radius: 4px; 
+     width: 24px; 
+     height: 24px;
+     cursor: pointer; 
+     transition: all 0.3s ease;
+    }
+
+    .qty-btn:hover {
+   background: #c9a96e;
+   color: #000;
+   border-color: #c9a96e;
+   transform: scale(1.1);
+   }
+    .remove-btn { background: transparent; border: none; color: #ff4d4d; cursor: pointer; margin-left: 10px; }
+
+    .cart-actions { padding: 20px; background: #181818; display: flex; flex-direction: column; gap: 10px; }
+    .cart-actions button { padding: 12px; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; }
+    #clear-cart { background: #222; color: #fff; }
+    
+
+    #checkout {
+    background: #c9a96e;
+    color: #000;
+    transition: 0.3s ease;
+   }
+
+   #checkout:hover {
+   background: #e5c98b;
+   letter-spacing: 1px; /* Efecto elegante de expansión de texto */
+   transform: scale(1.02);
+   }
+
+   #clear-cart {
+   background: #c9a96e;
+   color: black;
+   transition: 0.3s ease;
+  }
+
+  #clear-cart:hover {
+   color: black;
+   letter-spacing: 1px;
+   transform: scale(1.02);
+  }
+
+.search-container {
+  position: relative;
+  max-width: 600px;
+  margin: 30px auto;
+  padding: 0 20px;
+}
+
+#perfume-search {
+  width: 100%;
+  padding: 15px 20px 15px 45px;
+  background: #111;
+  border: 1px solid #333;
+  border-radius: 30px;
+  color: #fff;
+  font-size: 16px;
+  outline: none;
+  transition: all 0.3s ease;
+}
+
+#perfume-search:focus {
+  border-color: #c9a96e;
+  box-shadow: 0 0 15px rgba(201, 169, 110, 0.2);
+  background: #181818;
+}
+
+.search-icon {
+  position: absolute;
+  left: 35px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #c9a96e;
+  pointer-events: none;
+}
+
+    /* --- RESPONSIVO --- */
+  
+/* --- 7. RESPONSIVO --- */
+
+/* Tablets y pantallas medianas */
+@media (max-width: 768px) {
+  .category-selector { 
+    flex-direction: column; 
+    align-items: center; 
+    margin-top: 280px; 
+  }
+  .container { 
+    grid-template-columns: repeat(2, 1fr); 
+  }
+}
+
+/* Celulares (iPhone/Android) */
+@media (max-width: 480px) {
+  #cart-panel {
+    width: 100% !important; /* Cubre todo el ancho */
+    right: -100%;           /* Se esconde fuera */
+    height: 100vh;          /* Cubre todo el alto */
+    top: 0;
+  }
+
+  #cart-panel.active {
+    right: 0;
+  }
+ 
+ .card-name { font-size: 12px;}
+ .card-title { font-size: 16px;}
+
+  .cart-header {
+    /* Padding ajustado para que la "X" de cerrar sea fácil de tocar */
+    padding: 80px 20px 20px;  
+  }
+
+  .cart-actions {
+    padding: 20px;
+    /* Esto es oro puro para iPhones con barra abajo */
+    padding-bottom: env(safe-area-inset-bottom, 20px); 
+  }
+
+  .cart-actions button {
+    height: 55px; /* Un poquito más alto para dedos grandes */
+    font-size: 16px;
+  }
+  
+  #perfume-search {width:auto;}
+  
+  .category-card:active .category-overlay span {
+    color: #fff !important;
+    letter-spacing: 5px !important;
+    transition: 0.2s;
+  }
+
+  /* También podemos hacer que la imagen brille al tocarla */
+  .category-card:active img {
+    opacity: 0.9 !important;
+    transform: scale(1.05) !important;
+  }
+  
+  /* Esto asegura que el botón regrese al dorado original después del toque */
+.btn:focus {
+    background: #c9a96e !important;
+    color: #000 !important;
+    transform: scale(1) !important;
+    box-shadow: none !important;
+    outline: none !important;
+}
+
+/* Solo permitimos que se vea "presionado" mientras el dedo está sobre la pantalla */
+.btn:active {
+    background: #b3955d !important;
+    transform: scale(0.95) !important;
+}
+
+}
+  </style>
+</head>
+<body>
+
+<div class="watermark"></div>
+
+<div class="top-bar">
+  <header class="brand-header">
+    <a href="https://www.facebook.com/SignatureScentsSV/" target="_blank" class="brand-link">
+      <img src="Decants_website/logopng.png" alt="logo" class="logo">
+      <span class="brand-name">Signature Scents</span>
+    </a>
+  </header>
+  <div id="cart-indicator">
+    <div class="cart-icon">
+      <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle>
+        <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+      </svg>
+      <span id="cart-count">0</span>
+    </div>
+    <span id="cart-text">productos</span>
+  </div>
+</div>
+
+
+<div class="category-selector">
+  <div class="category-card" onclick="filtrar('disenador')">
+    <img src="Decants_website/disenadorlogo.png" alt="Diseñador">
+    <div class="category-overlay"><span>DISEÑADOR</span></div>
+  </div>
+  <div class="category-card" onclick="filtrar('nicho')">
+    <img src="Decants_website/nichelogo.png" alt="Nicho">
+    <div class="category-overlay"><span>NICHO</span></div>
+  </div>
+</div>
+
+<div class="search-container">
+  <input type="text" id="perfume-search" placeholder="Busca tu perfume favorito." onkeyup="buscarPerfume()">
+  <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+</div>
+<div class="container" id="perfume-container"></div>
+
+<div id="cart-panel">
+  <div class="cart-header">
+    <span>Tu carrito</span>
+    <button id="close-cart">✖</button>
+  </div>
+  <ul id="cart-items"></ul>
+  <div id="cart-total" style="padding: 15px; border-top: 1px solid #222;">Total: $0.00</div>
+  <div class="cart-actions">
+    <button id="clear-cart">Vaciar</button>
+    <button id="checkout">Hacer pedido</button>
+  </div>
+</div>
+
+<footer>© 2026 Signature Scents</footer>
+
+<script>
+  // --- LÓGICA DE FILTRADO ---
+
+const productos = [
+  {
+    id: 1,
+    marca: "Jean Paul Gaultier",
+    nombre: "Le Beau Le Parfum",
+    ml: "5ml",
+    precio: 7.00,
+    categoria: "disenador",
+    imagen: "Decants_website/LEBEAU.png",
+    notas: {
+      salida: "Piña, Iris, Ciprés",
+      corazon: "Coco, Madera, Sal",
+      fondo: "Sándalo, Ámbar, Haba Tonka"
+    }
+  },
+  {
+    id: 2,
+    marca: "Jean Paul Gaultier",
+    nombre: "Le Male Le Parfum",
+    ml: "5ml",
+    precio: 7.00,
+    categoria: "disenador",
+    imagen: "Decants_website/lemaleleparfum.png",
+    notas: {
+      salida: "Cardamomo",
+      corazon: "Lavanda, Iris",
+      fondo: "Vainilla, Notas Orientales"
+    }
+  },
+  {
+    id: 3,
+    marca: "Jean Paul Gaultier",
+    nombre: "Le Male Elixir",
+    ml: "5ml",
+    precio: 7.00,
+    categoria: "disenador",
+    imagen: "Decants_website/lemaleelixir.png",
+    notas: {
+      salida: "Lavanda, Menta",
+      corazon: "Vainilla, Benzoin",
+      fondo: "Miel, Haba Tonka, Tabaco"
+    }
+  },
+  {
+    id: 4,
+    marca: "Jean Paul Gaultier",
+    nombre: "Le Male Elixir Absolu",
+    ml: "5ml",
+    precio: 7.00,
+    categoria: "disenador",
+    imagen: "Decants_website/lemaleabsolu.png",
+    notas: {
+      salida: "Bergamota, Pera",
+      corazon: "Lavanda, Especias",
+      fondo: "Vainilla, Cuero, Madera"
+    }
+  },
+  {
+    id: 5,
+    marca: "Jean Paul Gaultier",
+    nombre: "Le Male In The Navy",
+    ml: "5ml",
+    precio: 7.00,
+    categoria: "disenador",
+    imagen: "Decants_website/lemaleinthenavy.png",
+    notas: {
+      salida: "Menta Helada",
+      corazon: "Notas Marinas",
+      fondo: "Vainilla, Ámbar Gris"
+    }
+  },
+  {
+    id: 6,
+    marca: "Jean Paul Gaultier",
+    nombre: "Le Male Essence",
+    ml: "5ml",
+    precio: 7.00,
+    categoria: "disenador",
+    imagen: "Decants_website/lemaleessence.png",
+    notas: {
+      salida: "Cardamomo, Pimienta",
+      corazon: "Lavanda, Cuero",
+      fondo: "Notas Amaderadas, Costus"
+    }
+  },
+   {
+    id: 7,
+    marca: "Jean Paul Gaultier",
+    nombre: "Le Male Ultramale",
+    ml: "5ml",
+    precio: 7.00,
+    categoria: "disenador",
+    imagen: "Decants_website/ultramale.png",
+    notas: {
+      salida: "Pera, Lavanda, Menta",
+      corazon: "Canela, Salvia, Alcaravea",
+      fondo: "Vainilla Negra, Ámbar, Cedro"
+    }
+  },
+  {
+    id: 8,
+    marca: "Jean Paul Gaultier",
+    nombre: "Scandal",
+    ml: "5ml",
+    precio: 6.00,
+    categoria: "disenador",
+    imagen: "Decants_website/scandal.png",
+    notas: {
+      salida: "Esclarea, Mandarina",
+      corazon: "Caramelo, Haba Tonka",
+      fondo: "Vetiver"
+    }
+  },
+  {
+    id: 9,
+    marca: "Yves Saint Laurent",
+    nombre: "Y EDP",
+    ml: "5ml",
+    precio: 7.00,
+    categoria: "disenador",
+    imagen: "Decants_website/yedp.png",
+    notas: {
+      salida: "Manzana, Jengibre, Bergamota",
+      corazon: "Salvia, Enebro, Geranio",
+      fondo: "Amberwood, Haba Tonka, Cedro"
+    }
+  },
+  {
+    id: 10,
+    marca: "Yves Saint Laurent",
+    nombre: "Y Iced Cologne",
+    ml: "5ml",
+    precio: 9.00,
+    categoria: "disenador",
+    imagen: "Decants_website/yiced.png",
+    notas: {
+      salida: "Jengibre, Bergamota, Limón",
+      corazon: "Enebro, Salvia, Geranio",
+      fondo: "Cedro, Amberwood"
+    }
+  },
+  {
+    id: 11,
+    marca: "Yves Saint Laurent",
+    nombre: "L’Homme Cologne Bleue",
+    ml: "5ml",
+    precio: 6.00,
+    categoria: "disenador",
+    imagen: "Decants_website/lhommecologne.png",
+    notas: {
+      salida: "Notas Marinas, Toronja, Cardamomo",
+      corazon: "Lavanda, Geranio, Tomillo",
+      fondo: "Cedro, Pachulí, Sándalo"
+    }
+  },
+  {
+    id: 12,
+    marca: "Dior",
+    nombre: "Sauvage Parfum",
+    ml: "5ml",
+    precio: 8.00,
+    categoria: "disenador",
+    imagen: "Decants_website/SauvageParfum.png",
+    notas: {
+      salida: "Bergamota, Mandarina",
+      corazon: "Sándalo de Sri Lanka",
+      fondo: "Vainilla de Papúa Nueva Guinea, Haba Tonka"
+    }
+  },
+  {
+    id: 13,
+    marca: "Dior",
+    nombre: "Homme",
+    ml: "5ml",
+    precio: 7.00,
+    categoria: "disenador",
+    imagen: "Decants_website/diorhomme.png",
+    notas: {
+      salida: "Bergamota, Pimienta Rosa, Elemi",
+      corazon: "Madera de Cachemira, Cedro del Atlas, Pachulí",
+      fondo: "Iso E Super, Almizcle Blanco, Vetiver de Haití"
+    }
+  },
+  {
+    id: 14,
+    marca: "Azzaro",
+    nombre: "TMW Parfum",
+    ml: "5ml",
+    precio: 7.00,
+    categoria: "disenador",
+    imagen: "Decants_website/TMWP.png",
+    notas: {
+      salida: "Jengibre",
+      corazon: "Notas Amaderadas, Salvia",
+      fondo: "Haba Tonka Bourbon"
+    }
+  },
+  {
+    id: 15,
+    marca: "Carolina Herrera",
+    nombre: "212 VIP Black Elixir",
+    ml: "5ml",
+    precio: 7.00,
+    categoria: "disenador",
+    imagen: "Decants_website/VIPELIXIR.png",
+    notas: {
+      salida: "Absenta, Pimienta Negra",
+      corazon: "Lavanda, Cuero",
+      fondo: "Vainilla de Madagascar, Ámbar"
+    }
+  },
+  {
+    id: 16,
+    marca: "Versace",
+    nombre: "Dylan Blue",
+    ml: "5ml",
+    precio: 6.00,
+    categoria: "disenador",
+    imagen: "Decants_website/Dylanblue.png",
+    notas: {
+      salida: "Calabrian Bergamot, Pomelo, Hojas de Higo",
+      corazon: "Ambroxan, Pachulí, Pimienta Negra",
+      fondo: "Incienso, Almizcle, Haba Tonka"
+    }
+  },
+  {
+    id: 17,
+    marca: "Versace",
+    nombre: "The Dreamer",
+    ml: "5ml",
+    precio: 6.00,
+    categoria: "disenador",
+    imagen: "Decants_website/thedreamer.png",
+    notas: {
+      salida: "Enebro, Artemisia, Estragón",
+      corazon: "Lirio, Lino, Ámbar",
+      fondo: "Flor de Tabaco, Estragón"
+    }
+  },
+  {
+    id: 18,
+    marca: "Versace",
+    nombre: "Eros Energy",
+    ml: "5ml",
+    precio: 7.00,
+    categoria: "disenador",
+    imagen: "Decants_website/erosenergy.png",
+    notas: {
+      salida: "Naranja Sanguínea, Limón, Mandarina",
+      corazon: "Pimienta Rosa, Ámbar Blanco",
+      fondo: "Musgo de Roble, Pachulí, Almizcle"
+    }
+  },
+{
+    id: 19,
+    marca: "Versace",
+    nombre: "Eros",
+    ml: "5ml",
+    precio: 6.00,
+    categoria: "disenador",
+    imagen: "Decants_website/eros.png",
+    notas: {
+      salida: "Menta, Manzana Verde, Limón",
+      corazon: "Haba Tonka, Ambroxan, Geranio",
+      fondo: "Vainilla de Madagascar, Cedro, Vetiver"
+    }
+  },
+  {
+    id: 20,
+    marca: "Versace",
+    nombre: "Eros Najim",
+    ml: "5ml",
+    precio: 7.00,
+    categoria: "disenador",
+    imagen: "Decants_website/erosnajim.png",
+    notas: {
+      salida: "Menta, Limón, Mandarina",
+      corazon: "Manzana, Geranio, Pimienta Rosa",
+      fondo: "Sándalo, Patchouli, Oud"
+    }
+  },
+  {
+    id: 21,
+    marca: "Prada",
+    nombre: "Ocean Le Parfum",
+    ml: "5ml",
+    precio: 7.00,
+    categoria: "disenador",
+    imagen: "Decants_website/oceanleparfum.png",
+    notas: {
+      salida: "Esencia de Limón",
+      corazon: "Azafrán, Notas de Iris",
+      fondo: "Madera de Roble, Vetiver"
+    }
+  },
+  {
+    id: 22,
+    marca: "Moschino",
+    nombre: "Toy 2 Pearl",
+    ml: "5ml",
+    precio: 6.00,
+    categoria: "disenador",
+    imagen: "Decants_website/toy2pearl.png",
+    notas: {
+      salida: "Limón, Sorbete, Orégano",
+      corazon: "Arena, Fresia, Jazmín",
+      fondo: "Almizcle, Ciprés, Vetiver"
+    }
+  },
+  {
+    id: 23,
+    marca: "Diesel",
+    nombre: "Only The Brave",
+    ml: "5ml",
+    precio: 6.00,
+    categoria: "disenador",
+    imagen: "Decants_website/Decants/onlythebrave.png",
+    notas: {
+      salida: "Limón de Amalfi, Mandarina",
+      corazon: "Violeta, Cedro de Virginia, Cilantro",
+      fondo: "Ámbar, Cuero, Benjuí"
+    }
+  },
+  {
+    id: 24,
+    marca: "Valentino",
+    nombre: "Uomo BIR",
+    ml: "5ml",
+    precio: 8.00,
+    categoria: "disenador",
+    imagen: "Decants_website/BIREDT.png",
+    notas: {
+      salida: "Notas Minerales, Sal, Hojas de Violeta",
+      corazon: "Salvia, Jengibre",
+      fondo: "Vetiver, Notas Amaderadas"
+    }
+  },
+{
+    id: 25,
+    marca: "Valentino",
+    nombre: "BIR Extradose",
+    ml: "5ml",
+    precio: 9.00,
+    categoria: "disenador",
+    imagen: "Decants_website/birextradose.png",
+    notas: {
+      salida: "Jengibre, Bergamota",
+      corazon: "Lirio de los Valles (Muguet)",
+      fondo: "Madera de Ámbar, Cuero"
+    }
+  },
+  {
+    id: 26,
+    marca: "Valentino",
+    nombre: "BIR Intense",
+    ml: "5ml",
+    precio: 8.00,
+    categoria: "disenador",
+    imagen: "Decants_website/birintense.png",
+    notas: {
+      salida: "Vainilla Bourbon, Jengibre",
+      corazon: "Lavanda",
+      fondo: "Vetiver de Haití"
+    }
+  },
+  {
+    id: 27,
+    marca: "Valentino",
+    nombre: "Green Stravaganza",
+    ml: "5ml",
+    precio: 8.00,
+    categoria: "disenador",
+    imagen: "Decants_website/greenstravaganza.png",
+    notas: {
+      salida: "Bergamota de Calabria",
+      corazon: "Café de Colombia",
+      fondo: "Vetiver de Haití"
+    }
+  },
+  {
+    id: 28,
+    marca: "Giorgio Armani",
+    nombre: "Acqua Di Gio",
+    ml: "5ml",
+    precio: 6.00,
+    categoria: "disenador",
+    imagen: "Decants_website/adg.png",
+    notas: {
+      salida: "Lima, Limón, Bergamota, Jazmín",
+      corazon: "Notas Marinas, Durazno, Jacinto",
+      fondo: "Almizcle Blanco, Cedro, Pachulí"
+    }
+  },
+  {
+    id: 29,
+    marca: "Giorgio Armani",
+    nombre: "Acqua Di Gio Parfum",
+    ml: "5ml",
+    precio: 7.00,
+    categoria: "disenador",
+    imagen: "Decants_website/ADGParfum.png",
+    notas: {
+      salida: "Bergamota, Notas Marinas",
+      corazon: "Salvia Esclarea, Romero, Geranio",
+      fondo: "Incienso, Pachulí"
+    }
+  },
+  {
+    id: 30,
+    marca: "Giorgio Armani",
+    nombre: "SWY Parfum",
+    ml: "5ml",
+    precio: 8.00,
+    categoria: "disenador",
+    imagen: "Decants_website/SWYP.png",
+    notas: {
+      salida: "Castaña, Canela, Lavanda",
+      corazon: "Haba Tonka, Salvia Esclarea",
+      fondo: "Pimienta Rosa, Vainilla"
+    }
+  },
+ {
+    id: 31,
+    marca: "Giorgio Armani",
+    nombre: "SWY Intensely",
+    ml: "5ml",
+    precio: 7.00,
+    categoria: "disenador",
+    imagen: "Decants_website/swyintensely.png",
+    notas: {
+      salida: "Pimienta Rosa, Enebro, Violeta",
+      corazon: "Caramelo, Canela, Salvia",
+      fondo: "Vainilla, Ámbar, Haba Tonka"
+    }
+  },
+  {
+    id: 32,
+    marca: "Burberry",
+    nombre: "Mr. Burberry Indigo",
+    ml: "5ml",
+    precio: 6.00,
+    categoria: "disenador",
+    imagen: "Decants_website/Burberryindigo.png",
+    notas: {
+      salida: "Romero, Limón, Bergamota",
+      corazon: "Notas Acuáticas, Menta, Violeta",
+      fondo: "Musgo de Roble, Ámbar"
+    }
+  },
+  {
+    id: 33,
+    marca: "Dolce & Gabbana",
+    nombre: "K EDP",
+    ml: "5ml",
+    precio: 6.00,
+    categoria: "disenador",
+    imagen: "Decants_website/kedp.png",
+    notas: {
+      salida: "Naranja Sanguínea, Pimiento, Limón",
+      corazon: "Néctar de Higo, Lavanda, Geranio",
+      fondo: "Cedro, Pachulí, Vetiver"
+    }
+  },
+  {
+    id: 34,
+    marca: "Viktor & Rolf",
+    nombre: "Spicebomb Extreme",
+    ml: "5ml",
+    precio: 7.00,
+    categoria: "disenador",
+    imagen: "Decants_website/spicebombextreme.png",
+    notas: {
+      salida: "Pimienta Negra, Comino",
+      corazon: "Tabaco, Lavanda",
+      fondo: "Vainilla Bourbon"
+    }
+  },
+  {
+    id: 35,
+    marca: "Viktor & Rolf",
+    nombre: "Spicebomb",
+    ml: "5ml",
+    precio: 6.00,
+    categoria: "disenador",
+    imagen: "Decants_website/spicebomb.png",
+    notas: {
+      salida: "Pimienta Rosa, Bergamota, Toronja",
+      corazon: "Canela, Azafrán, Pimentón",
+      fondo: "Tabaco, Cuero, Vetiver"
+    }
+  },
+  {
+    id: 36,
+    marca: "Hugo Boss",
+    nombre: "The Scent Magnetic",
+    ml: "5ml",
+    precio: 7.00,
+    categoria: "disenador",
+    imagen: "Decants_website/magnetic.png",
+    notas: {
+      salida: "Maninka",
+      corazon: "Salvado",
+      fondo: "Vainilla Negra, Cáscara de Cacao"
+    }
+  },
+  {
+    id: 37,
+    marca: "Chanel",
+    nombre: "Platinum Egoiste",
+    ml: "5ml",
+    precio: 6.00,
+    categoria: "disenador",
+    imagen: "Decants_website/platinumegoiste.png",
+    notas: {
+      salida: "Romero, Lavanda, Neroli",
+      corazon: "Gálbano, Esclarea, Jazmín",
+      fondo: "Ámbar, Sándalo, Musgo de Roble"
+    }
+  },
+  {
+    id: 38,
+    marca: "Chanel",
+    nombre: "Pour Monsieur",
+    ml: "5ml",
+    precio: 7.00,
+    categoria: "disenador",
+    imagen: "Decants_website/pourmonsieur.png",
+    notas: {
+      salida: "Limón de Sicilia, Neroli",
+      corazon: "Cardamomo, Cilantro, Albahaca",
+      fondo: "Musgo de Roble, Cedro, Vetiver"
+    }
+  },
+  {
+    id: 39,
+    marca: "Chanel",
+    nombre: "Allure Homme Sport Cologne",
+    ml: "5ml",
+    precio: 6.00,
+    categoria: "disenador",
+    imagen: "Decants_website/allurecologne.png",
+    notas: {
+      salida: "Limón, Naranja, Bergamota, Toronja",
+      corazon: "Resina de Abeto, Especias, Elemi",
+      fondo: "Pimienta, Almizcle Blanco, Cedro"
+    }
+  },
+  {
+    id: 40,
+    marca: "Chanel",
+    nombre: "Allure Homme Sport",
+    ml: "5ml",
+    precio: 7.00,
+    categoria: "disenador",
+    imagen: "Decants_website/allurehs.png",
+    notas: {
+      salida: "Naranja, Notas Marinas, Aldehídos",
+      corazon: "Pimienta, Neroli, Cedro",
+      fondo: "Vainilla, Haba Tonka, Ámbar"
+    }
+  },
+  {
+    id: 41,
+    marca: "Ralph Lauren",
+    nombre: "Polo Blue Parfum",
+    ml: "5ml",
+    precio: 7.00,
+    categoria: "disenador",
+    imagen: "Decants_website/poloblueparfum.png",
+    notas: {
+      salida: "Mandarina, Pimienta Rosa, Cardamomo",
+      corazon: "Salvia Esclarea, Lavanda, Vetiver",
+      fondo: "Madera de Roble, Incienso, Pachulí"
+    }
+  },
+  {
+    id: 42,
+    marca: "Hermès",
+    nombre: "Terre d’Hermès",
+    ml: "5ml",
+    precio: 6.00,
+    categoria: "disenador",
+    imagen: "Decants_website/terreedt.png",
+    notas: {
+      salida: "Naranja, Toronja",
+      corazon: "Pimienta, Pelargonio (Geranio)",
+      fondo: "Vetiver, Cedro, Pachulí, Benjuí"
+    }
+  },
+  {
+    id: 43,
+    marca: "Hermès",
+    nombre: "Terre Eau Intense Vétiver",
+    ml: "5ml",
+    precio: 7.00,
+    categoria: "disenador",
+    imagen: "Decants_website/eauintensevetiver.png",
+    notas: {
+      salida: "Bergamota, Toronja, Limón",
+      corazon: "Pimienta de Sichuan, Geranio",
+      fondo: "Vetiver, Amberwood, Pachulí"
+    }
+  },
+  {
+    id: 44,
+    marca: "Hermès",
+    nombre: "H24",
+    ml: "5ml",
+    precio: 6.00,
+    categoria: "disenador",
+    imagen: "Decants_website/h24.png",
+    notas: {
+      salida: "Esclarea",
+      corazon: "Narciso, Palo de Rosa",
+      fondo: "Esclarea, Notas Metálicas (Esclareno)"
+    }
+  },
+  {
+    id: 45,
+    marca: "Hermès",
+    nombre: "Un Jardin Sur Le Nil",
+    ml: "5ml",
+    precio: 6.00,
+    categoria: "disenador",
+    imagen: "Decants_website/surlenil.png",
+    notas: {
+      salida: "Mango Verde, Toronja, Tomate",
+      corazon: "Loto, Totora, Naranja",
+      fondo: "Almizcle, Incienso, Canela"
+    }
+  },
+  {
+    id: 46,
+    marca: "Hermès",
+    nombre: "Un Jardin Sur Le Toit",
+    ml: "5ml",
+    precio: 6.00,
+    categoria: "disenador",
+    imagen: "Decants_website/surletoit.png",
+    notas: {
+      salida: "Césped, Manzana Manzana Roja",
+      corazon: "Pera, Rosa",
+      fondo: "Magnolia, Romero"
+    }
+  },
+  {
+    id: 47,
+    marca: "Kerosene",
+    nombre: "Walk the Sea",
+    ml: "5ml",
+    precio: 15.00,
+    categoria: "nicho",
+    imagen: "Decants_website/walkthesea.png",
+    notas: {
+      salida: "Sal Marina, Flor de Tila",
+      corazon: "Nardo, Flores Blancas",
+      fondo: "Ámbar Gris, Almizcle"
+    }
+  },
+  {
+    id: 48,
+    marca: "Tom Ford",
+    nombre: "Bois Pacifique",
+    ml: "5ml",
+    precio: 14.00,
+    categoria: "nicho",
+    imagen: "Decants_website/BoisPacifique.png",
+    notas: {
+      salida: "Notas Amaderadas",
+      corazon: "Sal de Mar, Notas Marinas",
+      fondo: "Palo Santo, Sándalo"
+    }
+  },
+  {
+    id: 49,
+    marca: "Tom Ford",
+    nombre: "Ombre Leather Parfum",
+    ml: "5ml",
+    precio: 14.00,
+    categoria: "nicho",
+    imagen: "Decants_website/ombreleather.png",
+    notas: {
+      salida: "Hojas de Violeta, Cedro",
+      corazon: "Jazmín Sambac, Raíz de Lirio",
+      fondo: "Cuero, Notas Amaderadas, Tabaco"
+    }
+  },
+  {
+    id: 50,
+    marca: "Creed",
+    nombre: "Himalaya",
+    ml: "5ml",
+    precio: 16.00,
+    categoria: "nicho",
+    imagen: "Decants_website/himalaya.png",
+    notas: {
+      salida: "Bergamota de Calabria, Toronja, Limón de Sicilia",
+      corazon: "Sándalo",
+      fondo: "Almizcle, Ámbar Gris, Cedro"
+    }
+  },
+  {
+    id: 51,
+    marca: "Creed",
+    nombre: "Millésime Impérial",
+    ml: "5ml",
+    precio: 16.00,
+    categoria: "nicho",
+    imagen: "Decants_website/millesime.png",
+    notas: {
+      salida: "Notas Marinas, Sal de Mar",
+      corazon: "Mandarina de Sicilia, Bergamota, Limón",
+      fondo: "Almizcle, Notas Amaderadas"
+    }
+  },
+  {
+    id: 52,
+    marca: "Room1015",
+    nombre: "Wavechild",
+    ml: "5ml",
+    precio: 15.00,
+    categoria: "nicho",
+    imagen: "Decants_website/wavechild.png",
+    notas: {
+      salida: "Sandía, Mandarina, Limón",
+      corazon: "Notas Ozónicas, Coco",
+      fondo: "Ámbar Gris, Cacao, Maderas Blancas"
+    }
+  },
+  {
+    id: 53,
+    marca: "Acqua Di Parma",
+    nombre: "Fico Di Amalfi",
+    ml: "5ml",
+    precio: 9.00,
+    categoria: "nicho",
+    imagen: "Decants_website/FicoDiAmalfi.png",
+    notas: {
+      salida: "Toronja, Bergamota, Limón, Cidra",
+      corazon: "Néctar de Higo, Jazmín, Pimienta Rosa",
+      fondo: "Higuera, Cedro, Benjuí"
+    }
+  },
+  {
+    id: 54,
+    marca: "Imaginary Authors",
+    nombre: "Falling Into The Sea",
+    ml: "5ml",
+    precio: 15.00,
+    categoria: "nicho",
+    imagen: "Decants_website/fallinginto.png",
+    notas: {
+      salida: "Limón, Bergamota, Toronja",
+      corazon: "Lichi, Flor de la Selva Tropical",
+      fondo: "Arena Tibia, Niebla Marina"
+    }
+  },
+  {
+    id: 55,
+    marca: "Montale",
+    nombre: "Chocolate Greedy",
+    ml: "5ml",
+    precio: 7.00,
+    categoria: "nicho",
+    imagen: "Decants_website/ChocolateG.png",
+    notas: {
+      salida: "Café, Cacao",
+      corazon: "Haba Tonka, Naranja Amarga",
+      fondo: "Vainilla, Frutos Secos"
+    }
+  },
+  {
+    id: 56,
+    marca: "Montale",
+    nombre: "Arabians Tonka",
+    ml: "5ml",
+    precio: 8.00,
+    categoria: "nicho",
+    imagen: "Decants_website/arabianst.png",
+    notas: {
+      salida: "Azafrán, Bergamota",
+      corazon: "Oud (Madera de Agar), Rosa de Bulgaria",
+      fondo: "Haba Tonka, Caña de Azúcar, Ámbar, Almizcle Blanco"
+    }
+  },
+  {
+    id: 57,
+    marca: "Orto Parisi",
+    nombre: "Megamare",
+    ml: "3ml",
+    precio: 12.00,
+    categoria: "nicho",
+    imagen: "Decants_website/megamare.png",
+    notas: {
+      salida: "Notas Marinas, Algas, Pepino",
+      corazon: "Sal, Notas Ozónicas",
+      fondo: "Ámbar Gris, Madera de Sándalo"
+    }
+  },
+  {
+    id: 58,
+    marca: "Sospiro",
+    nombre: "Erba Pura Magica",
+    ml: "5ml",
+    precio: 14.00,
+    categoria: "nicho",
+    imagen: "Decants_website/erbapuramagica.png",
+    notas: {
+      salida: "Notas Frutales, Bergamota, Limón",
+      corazon: "Jazmín, Notas Solares",
+      fondo: "Ámbar, Almizcle Blanco, Caramelo"
+    }
+  },
+  {
+    id: 59,
+    marca: "Sospiro",
+    nombre: "Vibrato",
+    ml: "5ml",
+    precio: 14.00,
+    categoria: "nicho",
+    imagen: "Decants_website/vibrato.png",
+    notas: {
+      salida: "Bergamota, Jazmín, Toronja",
+      corazon: "Jengibre, Notas Herbales",
+      fondo: "Cedro, Ámbar, Almizcle"
+    }
+  },
+  {
+    id: 60,
+    marca: "Xerjoff",
+    nombre: "Erba Pura",
+    ml: "5ml",
+    precio: 14.00,
+    categoria: "nicho",
+    imagen: "Decants_website/erbapura.png",
+    notas: {
+      salida: "Naranja de Sicilia, Bergamota de Calabria, Limón",
+      corazon: "Canasta de Frutas del Mediterráneo",
+      fondo: "Almizcle Blanco, Ámbar, Vainilla de Madagascar"
+    }
+  },
+  {
+    id: 61,
+    marca: "Xerjoff",
+    nombre: "Ouverture",
+    ml: "5ml",
+    precio: 14.00,
+    categoria: "nicho",
+    imagen: "Decants_website/ouverture.png",
+    notas: {
+      salida: "Naranja, Magnolia, Hojas de Higo",
+      corazon: "Ylang-Ylang, Rosa de Bulgaria, Jazmín, Canela",
+      fondo: "Sándalo, Madera de Cachemira, Ámbar, Vainilla"
+    }
+  },
+  {
+    id: 62,
+    marca: "Xerjoff",
+    nombre: "K´bridge Club",
+    ml: "5ml",
+    precio: 14.00,
+    categoria: "nicho",
+    imagen: "Decants_website/kbridge.png",
+    notas: {
+      salida: "Rosa de Bulgaria",
+      corazon: "Coriandro, Notas Dulces",
+      fondo: "Caramelo, Bourbon Vanilla"
+    }
+  },
+  {
+    id: 63,
+    marca: "Xerjoff",
+    nombre: "Opera",
+    ml: "5ml",
+    precio: 14.00,
+    categoria: "nicho",
+    imagen: "Decants_website/opera.png",
+    notas: {
+      salida: "Notas Frutales, Rosa Turca",
+      corazon: "Ylang-Ylang, Ámbar, Cuero, Nuez Moscada",
+      fondo: "Patchouli, Vainilla, Almizcle, Vetiver"
+    }
+  },
+   {
+    id: 64,
+    marca: "Akro",
+    nombre: "Breathe",
+    ml: "5ml",
+    precio: 14.00,
+    categoria: "nicho",
+    imagen: "Decants_website/akrobreathe.png",
+    notas: {
+      salida: "Menta, Té Verde",
+      corazon: "Lirio de los Valles",
+      fondo: "Almizcle Blanco"
+    }
+  },
+  {
+    id: 65,
+    marca: "M. Micallef",
+    nombre: "Edenfalls",
+    ml: "5ml",
+    precio: 15.00,
+    categoria: "nicho",
+    imagen: "Decants_website/edenfalls.png",
+    notas: {
+      salida: "Pimienta Rosa, Bergamota, Mandarina",
+      corazon: "Neroli, Jazmín, Cilantro",
+      fondo: "Musgo, Almizcle, Pachulí"
+    }
+  },
+  {
+    id: 66,
+    marca: "M. Micallef",
+    nombre: "GNTonic",
+    ml: "5ml",
+    precio: 15.00,
+    categoria: "nicho",
+    imagen: "Decants_website/gntonic.png",
+    notas: {
+      salida: "Ginebra, Lima, Jengibre, Menta",
+      corazon: "Cedro, Aceite de Cipriol, Lirio de los Valles",
+      fondo: "Vetiver, Sándalo, Almizcle Blanco"
+    }
+  },
+  {
+    id: 67,
+    marca: "Mancera",
+    nombre: "Lemon Line",
+    ml: "5ml",
+    precio: 7.00,
+    categoria: "nicho",
+    imagen: "Decants_website/lemonline.png",
+    notas: {
+      salida: "Limón, Naranja, Lavanda",
+      corazon: "Flores Blancas, Ámbar, Geranio",
+      fondo: "Almizcle Blanco, Musgo de Roble"
+    }
+  },
+  {
+    id: 68,
+    marca: "Mancera",
+    nombre: "Aoud Blue Notes",
+    ml: "5ml",
+    precio: 7.00,
+    categoria: "nicho",
+    imagen: "Decants_website/aoudbluenotes.png",
+    notas: {
+      salida: "Notas Frutales, Limón, Mandarina",
+      corazon: "Raíz de Lirio, Violeta, Rosa, Pachulí",
+      fondo: "Cuero, Ámbar, Sándalo, Madera de Guayaco"
+    }
+  },
+  {
+    id: 69,
+    marca: "Mancera",
+    nombre: "Cinque Terre",
+    ml: "5ml",
+    precio: 7.00,
+    categoria: "nicho",
+    imagen: "Decants_website/cinqueterre.png",
+    notas: {
+      salida: "Hojas de Higo, Romero, Limón",
+      corazon: "Agua de Mar, Cedro, Pino",
+      fondo: "Musgo de Roble, Ámbar, Sándalo"
+    }
+  },
+  {
+    id: 70,
+    marca: "Mancera",
+    nombre: "Cedrat Boise",
+    ml: "5ml",
+    precio: 7.00,
+    categoria: "nicho",
+    imagen: "Decants_website/cedrat.png",
+    notas: {
+      salida: "Limón de Sicilia, Grosellas Negras, Especias",
+      corazon: "Notas Frutales, Pachulí, Jazmín",
+      fondo: "Cedro, Cuero, Sándalo, Vainilla"
+    }
+  },
+  {
+    id: 71,
+    marca: "Mancera",
+    nombre: "Hindu Kush",
+    ml: "5ml",
+    precio: 7.00,
+    categoria: "nicho",
+    imagen: "Decants_website/hindu.png",
+    notas: {
+      salida: "Incienso, Especias, Cannabis, Ládano",
+      corazon: "Hojas de Pachulí, Notas Amaderadas",
+      fondo: "Ámbar, Madera de Guayaco, Vainilla, Almizcle Blanco"
+    }
+  },
+  {
+    id: 72,
+    marca: "Mancera",
+    nombre: "Fig Extasy",
+    ml: "5ml",
+    precio: 7.00,
+    categoria: "nicho",
+    imagen: "Decants_website/fig.png",
+    notas: {
+      salida: "Higo, Incienso, Jengibre, Pimienta Negra",
+      corazon: "Hojas de Higo, Cuero, Sándalo, Tomillo",
+      fondo: "Vainilla, Benjuí, Cedro"
+    }
+  },
+  {
+    id: 73,
+    marca: "Mancera",
+    nombre: "Red Tobacco Intense",
+    ml: "5ml",
+    precio: 7.00,
+    categoria: "nicho",
+    imagen: "Decants_website/tobaccointense.png",
+    notas: {
+      salida: "Canela, Incienso, Azafrán, Pera",
+      corazon: "Tabaco, Pachulí, Jazmín, Cuero",
+      fondo: "Vainilla, Madera de Guayaco, Almizcle Blanco"
+    }
+  },
+  {
+    id: 74,
+    marca: "Argos",
+    nombre: "La Primavera",
+    ml: "5ml",
+    precio: 16.00,
+    categoria: "nicho",
+    imagen: "Decants_website/argos.png",
+    notas: {
+      salida: "Frambuesa, Bergamota, Limón",
+      corazon: "Neroli, Iris, Jazmín",
+      fondo: "Sándalo, Ámbar, Almizcle"
+    }
+  },
+  {
+    id: 75,
+    marca: "Aghatho",
+    nombre: "Olimpoverde",
+    ml: "5ml",
+    precio: 15.00,
+    categoria: "nicho",
+    imagen: "Decants_website/agathoolimpo.png",
+    notas: {
+      salida: "Bergamota, Naranja, Petitgrain",
+      corazon: "Neroli, Lirio de los Valles",
+      fondo: "Almizcle, Notas Amaderadas"
+    }
+  },
+  {
+    id: 76,
+    marca: "Aghatho",
+    nombre: "Bronzeo",
+    ml: "5ml",
+    precio: 15.00,
+    categoria: "nicho",
+    imagen: "Decants_website/bronzeo.png",
+    notas: {
+      salida: "Menta, Limón, Mandarina",
+      corazon: "Notas Florales, Jazmín",
+      fondo: "Sándalo, Ámbar"
+    }
+  },
+  {
+    id: 77,
+    marca: "Fragrance One",
+    nombre: "Date For Men",
+    ml: "5ml",
+    precio: 13.00,
+    categoria: "nicho",
+    imagen: "Decants_website/date.png",
+    notas: {
+      salida: "Enebro, Bergamota, Mandarina",
+      corazon: "Pachulí, Cardamomo",
+      fondo: "Vetiver, Oud, Almizcle"
+    }
+  },
+  {
+    id: 78,
+    marca: "Fragrance One",
+    nombre: "Office For Men",
+    ml: "5ml",
+    precio: 13.00,
+    categoria: "nicho",
+    imagen: "Decants_website/officeformen.png",
+    notas: {
+      salida: "Ambroxan, Bergamota, Raíz de Lirio",
+      corazon: "Notas Amaderadas, Jazmín",
+      fondo: "Almizcle, Pachulí"
+    }
+  },
+  {
+    id: 79,
+    marca: "Fragrance One",
+    nombre: "The Mint",
+    ml: "5ml",
+    precio: 15.00,
+    categoria: "nicho",
+    imagen: "Decants_website/themint.png",
+    notas: {
+      salida: "Menta Helada, Bergamota",
+      corazon: "Enebro, Notas Florales",
+      fondo: "Almizcle, Notas Amaderadas"
+    }
+  },
+  {
+    id: 80,
+    marca: "Zoologist",
+    nombre: "Seahorse",
+    ml: "3ml",
+    precio: 15.00,
+    categoria: "nicho",
+    imagen: "Decants_website/seahorse.png",
+    notas: {
+      salida: "Hinojo, Cardamomo, Salvia",
+      corazon: "Algas Marinas, Nardo, Salvia Esclarea",
+      fondo: "Ámbar Gris, Vetiver"
+    }
+  },
+  {
+    id: 81,
+    marca: "Lorenzo Pazzaglia",
+    nombre: "Adam & Eve´s dress",
+    ml: "3ml",
+    precio: 12.00,
+    categoria: "nicho",
+    imagen: "Decants_website/adams.png",
+    notas: {
+      salida: "Higo, Notas Verdes, Bergamota",
+      corazon: "Hojas de Higo, Jazmín, Nardo",
+      fondo: "Sándalo, Almizcle, Maderas Preciosas"
+    }
+  },
+  {
+    id: 82,
+    marca: "Lorenzo Pazzaglia",
+    nombre: "Black Sea",
+    ml: "3ml",
+    precio: 12.00,
+    categoria: "nicho",
+    imagen: "Decants_website/blacksea.png",
+    notas: {
+      salida: "Sal Marina, Ozono, Algas",
+      corazon: "Notas Marinas, Salitre",
+      fondo: "Ámbar Gris, Musgo de Roble, Sándalo"
+    }
+  },
+  {
+    id: 83,
+    marca: "Superz.",
+    nombre: "Caesar Ultra",
+    ml: "5ml",
+    precio: 15.00,
+    categoria: "nicho",
+    imagen: "Decants_website/caesar.png",
+    notas: {
+      salida: "Notas Especiadas, Cítricos",
+      corazon: "Maderas Nobles, Pachulí",
+      fondo: "Ámbar, Incienso"
+    }
+  },
+  {
+    id: 84,
+    marca: "Bond No 9",
+    nombre: "Wall Street",
+    ml: "5ml",
+    precio: 14.00,
+    categoria: "nicho",
+    imagen: "Decants_website/wallstreet.png",
+    notas: {
+      salida: "Pepino, Algas, Limón",
+      corazon: "Lavanda, Pistacho, Alcaravea",
+      fondo: "Ámbar Gris, Almizcle, Vetiver"
+    }
+  },
+  {
+    id: 85,
+    marca: "Bond No 9",
+    nombre: "Bond No 9 Signature Scent",
+    ml: "5ml",
+    precio: 14.00,
+    categoria: "nicho",
+    imagen: "Decants_website/bondn9.png",
+    notas: {
+      salida: "Extracto de Oud",
+      corazon: "Rosa de Bulgaria, Haba Tonka",
+      fondo: "Almizcle Blanco"
+    }
+  },
+  {
+    id: 86,
+    marca: "Bond No 9",
+    nombre: "Dubai Garnet",
+    ml: "5ml",
+    precio: 14.00,
+    categoria: "nicho",
+    imagen: "Decants_website/garnet.png",
+    notas: {
+      salida: "Zarzamora, Cardamomo, Algas",
+      corazon: "Rosa, Jazmín, Lavanda",
+      fondo: "Almizcle, Ámbar, Mirra"
+    }
+  },
+  {
+    id: 87,
+    marca: "Bond No 9",
+    nombre: "The Scent Of Peace For Her",
+    ml: "5ml",
+    precio: 14.00,
+    categoria: "nicho",
+    imagen: "Decants_website/scentofpeaceh.png",
+    notas: {
+      salida: "Toronja, Grosellas Negras",
+      corazon: "Lirio de los Valles",
+      fondo: "Almizcle, Cedro"
+    }
+  },
+  {
+    id: 88,
+    marca: "Goldfield & Banks",
+    nombre: "Bohemian Lime",
+    ml: "5ml",
+    precio: 13.00,
+    categoria: "nicho",
+    imagen: "Decants_website/Decants/bohemian.png",
+    notas: {
+      salida: "Dedo de Lima (Finger Lime), Bergamota",
+      corazon: "Cilantro",
+      fondo: "Sándalo, Vetiver, Cedro"
+    }
+  },
+  {
+    id: 89,
+    marca: "Goldfield & Banks",
+    nombre: "Pacific Rock Moss",
+    ml: "5ml",
+    precio: 13.00,
+    categoria: "nicho",
+    imagen: "Decants_website/pacificrock.png",
+    notas: {
+      salida: "Limón de Italia, Notas Acuáticas",
+      corazon: "Musgo de Roca, Salvia",
+      fondo: "Cedro, Almizcle"
+    }
+  },
+  {
+    id: 90,
+    marca: "Theodoros Kalotinis",
+    nombre: "Aegean Salt & Citrus",
+    ml: "5ml",
+    precio: 13.00,
+    categoria: "nicho",
+    imagen: "Decants_website/saltcitrus.png",
+    notas: {
+      salida: "Sal Marina",
+      corazon: "Cítricos de Grecia",
+      fondo: "Notas Oceánicas"
+    }
+  },
+  {
+    id: 91,
+    marca: "Maison Margiela REPLICA",
+    nombre: "Under The Lemon Trees",
+    ml: "5ml",
+    precio: 7.00,
+    categoria: "nicho",
+    imagen: "Decants_website/underthe.png",
+    notas: {
+      salida: "Lima, Petitgrain, Cardamomo",
+      corazon: "Té Verde, Cilantro, Mate",
+      fondo: "Almizcle Blanco, Cedro, Rosa"
+    }
+  },
+  {
+    id: 92,
+    marca: "Maison Margiela REPLICA",
+    nombre: "Coffee Break",
+    ml: "5ml",
+    precio: 7.00,
+    categoria: "nicho",
+    imagen: "Decants_website/coffeebreak.png",
+    notas: {
+      salida: "Café, Pimienta Rosa, Flor de Azahar",
+      corazon: "Lavanda, Leche, Spearmint",
+      fondo: "Vainilla, Sándalo, Cedro"
+    }
+  },
+  {
+    id: 93,
+    marca: "Nishane",
+    nombre: "Hacivat",
+    ml: "5ml",
+    precio: 14.00,
+    categoria: "nicho",
+    imagen: "Decants_website/hacivat.png",
+    notas: {
+      salida: "Piña, Toronja, Bergamota",
+      corazon: "Cedro, Pachulí, Jazmín",
+      fondo: "Musgo de Roble, Notas Amaderadas"
+    }
+  }
+];
+// --- 1. LÓGICA DE BÚSQUEDA Y FILTRADO ---
+
+function buscarPerfume() {
+    const input = document.getElementById('perfume-search').value.toLowerCase();
+    const cards = document.querySelectorAll('.card');
+    const container = document.getElementById('perfume-container');
+
+    // Si la barra está vacía, ocultamos todo para mantener la limpieza
+    if (input === "") {
+        cards.forEach(card => {
+            card.style.display = 'none';
+            card.classList.add('hidden');
+        });
+        return;
+    }
+
+    container.style.display = 'grid';
+    cards.forEach(card => {
+        const marca = card.querySelector('.card-title').innerText.toLowerCase();
+        const nombre = card.querySelector('.card-name').innerText.toLowerCase();
+
+        if (marca.includes(input) || nombre.includes(input)) {
+            card.style.display = 'block';
+            setTimeout(() => { card.classList.remove('hidden'); }, 10);
+        } else {
+            card.style.display = 'none';
+            card.classList.add('hidden');
+        }
+    });
+}
+
+function filtrar(categoria) {
+    const cards = document.querySelectorAll('.card');
+    const container = document.getElementById('perfume-container');
+    const searchBar = document.querySelector('.search-container');
+    
+    container.style.display = 'grid';
+
+    cards.forEach(card => {
+        if (card.getAttribute('data-category') === categoria) {
+            card.style.display = 'block';
+            setTimeout(() => { card.classList.remove('hidden'); }, 10);
+        } else {
+            card.style.display = 'none';
+            card.classList.add('hidden');
+        }
+    });
+
+    // Scroll suave hacia la zona de búsqueda/catálogo
+    window.scrollTo({
+        top: searchBar.offsetTop - 100,
+        behavior: 'smooth'
+    });
+}
+
+// --- 2. LÓGICA DEL CARRITO ---
+
+let carrito = JSON.parse(localStorage.getItem('carrito')) || [];
+
+function actualizarContador() {
+    const total = carrito.reduce((acc, item) => acc + item.cantidad, 0);
+    const counter = document.getElementById('cart-count');
+    counter.innerText = total;
+    // Animación de pop al actualizar
+    counter.style.transform = 'scale(1.3)';
+    setTimeout(() => { counter.style.transform = 'scale(1)'; }, 200);
+}
+
+function actualizarTotal() {
+    const total = carrito.reduce((acc, item) => acc + item.precio * item.cantidad, 0);
+    document.getElementById('cart-total').innerText = `Total: $${total.toFixed(2)}`;
+}
+
+function renderCarrito() {
+    const cartItems = document.getElementById('cart-items');
+    cartItems.innerHTML = '';
+    
+    carrito.forEach((item, index) => {
+        const li = document.createElement('li');
+        li.innerHTML = `
+            <div class="cart-item">
+                <span>${item.nombre}</span>
+                <div class="cart-controls">
+                    <button class="qty-btn" onclick="cambiarCantidad(${index}, -1)">−</button>
+                    <span class="qty">${item.cantidad}</span>
+                    <button class="qty-btn" onclick="cambiarCantidad(${index}, 1)">+</button>
+                    <button class="remove-btn" onclick="eliminarItem(${index})">✕</button>
+                </div>
+            </div>
+        `;
+        cartItems.appendChild(li);
+    });
+
+    localStorage.setItem('carrito', JSON.stringify(carrito));
+    actualizarContador();
+    actualizarTotal();
+}
+
+function cambiarCantidad(index, cambio) {
+    carrito[index].cantidad += cambio;
+    if (carrito[index].cantidad <= 0) carrito.splice(index, 1);
+    renderCarrito();
+}
+
+function eliminarItem(index) {
+    carrito.splice(index, 1);
+    renderCarrito();
+}
+
+function hacerPedido() {
+    if (carrito.length === 0) { alert('Tu carrito está vacío'); return; }
+    
+    // Usamos el guion estándar (-) que es seguro en cualquier sistema
+    const lista = carrito.map(item => `- ${item.nombre} (x${item.cantidad})`).join('\n');
+    const total = carrito.reduce((acc, item) => acc + item.precio * item.cantidad, 0);
+    
+    // Texto plano y directo. La elegancia está en la claridad.
+    const saludo = "¡Hola Signature Scents!";
+    const cuerpo = "Quiero realizar el siguiente pedido:";
+    
+    // El asterisco (*) para negritas sí es seguro en WhatsApp
+    const mensaje = `${saludo}\n\n${cuerpo}\n${lista}\n\n*Total a pagar: $${total.toFixed(2)}*`;
+    
+    // Sin códigos extraños, solo el mensaje limpio
+    const url = `https://wa.me/50375392948?text=${encodeURIComponent(mensaje)}`;
+    
+    window.open(url, '_blank');
+}
+// --- 3. GENERADOR DE PRODUCTOS (HTML DINÁMICO) ---
+
+function renderizarProductos() {
+    const container = document.getElementById('perfume-container');
+    if(!container) return;
+    container.innerHTML = ""; 
+
+    productos.forEach(p => {
+        const card = document.createElement('div');
+        card.className = `card hidden`; // Empiezan ocultas para el efecto de búsqueda/filtro
+        card.style.display = "none";    // Se muestran solo al filtrar o buscar
+        card.setAttribute('data-category', p.categoria);
+
+        card.innerHTML = `
+            <div class="img-container">
+                <img src="${p.imagen}" class="main-img">
+                <div class="info-overlay">
+                    <div class="notes-content">
+                        <h4>Notas Olfativas</h4>
+                        <p><strong>Salida:</strong> ${p.notas.salida}</p>
+                        <p><strong>Corazón:</strong> ${p.notas.corazon}</p>
+                        <p><strong>Fondo:</strong> ${p.notas.fondo}</p>
+                    </div>
+                </div>
+            </div>
+            <div class="card-content">
+                <div class="card-title">${p.marca}</div>
+                <div class="card-name">${p.nombre}</div>
+                <div class="ml">${p.ml}</div>
+                <div class="price">$${p.precio.toFixed(2)}</div>
+                <a class="btn add-cart" href="#">Agregar</a>
+            </div>
+        `;
+        container.appendChild(card);
+    });
+}
+
+// --- 4. ENCENDIDO DEL MOTOR (DOMContent Loaded) ---
+
+document.addEventListener('DOMContentLoaded', () => {
+    // 1. Dibujar todos los perfumes en el HTML
+    renderizarProductos();
+    
+    // 2. Cargar estado previo del carrito
+    renderCarrito();
+
+    // 3. Listener para el panel del carrito
+    const cartIndicator = document.getElementById('cart-indicator');
+    const cartPanel = document.getElementById('cart-panel');
+    const closeCart = document.getElementById('close-cart');
+    const checkoutBtn = document.getElementById('checkout');
+    const clearCart = document.getElementById('clear-cart');
+
+    cartIndicator.addEventListener('click', () => {
+        cartPanel.classList.toggle('active');
+        document.body.style.overflow = cartPanel.classList.contains('active') ? 'hidden' : 'auto';
+    });
+
+    closeCart.addEventListener('click', () => {
+        cartPanel.classList.remove('active');
+        document.body.style.overflow = 'auto';
+    });
+
+    checkoutBtn.addEventListener('click', hacerPedido);
+    clearCart.addEventListener('click', () => { carrito = []; renderCarrito(); });
+
+    // 4. Delegación de eventos para botones "Agregar" (Porque las cards son dinámicas)
+    document.addEventListener('click', (e) => {
+        if (e.target.classList.contains('add-cart')) {
+            e.preventDefault();
+            const btn = e.target;
+            const card = btn.closest('.card');
+            const nombre = card.querySelector('.card-name').innerText;
+            const ml = card.querySelector('.ml')?.innerText || '';
+            const precio = parseFloat(card.querySelector('.price').innerText.replace('$', ''));
+
+            const productoFull = `${nombre} ${ml}`;
+            const existente = carrito.find(item => item.nombre === productoFull);
+
+            if (existente) existente.cantidad++;
+            else carrito.push({ nombre: productoFull, cantidad: 1, precio: precio });
+
+            renderCarrito();
+            
+            // Feedback visual rápido
+            btn.innerText = "¡Añadido!";
+            setTimeout(() => { btn.innerText = "Agregar"; }, 800);
+        }
+    });
+
+    // 5. Efecto Hover en el texto del carrito
+    const cartText = document.getElementById('cart-text');
+    cartText.addEventListener('mouseenter', () => {
+        cartText.style.opacity = '0';
+        setTimeout(() => { cartText.innerText = 'ver carrito'; cartText.style.opacity = '1'; }, 150);
+    });
+    cartText.addEventListener('mouseleave', () => {
+        cartText.style.opacity = '0';
+        setTimeout(() => { cartText.innerText = 'productos'; cartText.style.opacity = '1'; }, 150);
+    });
+});
+</script>
+
+</body>
+</html>
