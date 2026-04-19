@@ -123,7 +123,7 @@ body {
   gap: 20px;
   justify-content: center;
   padding: 20px;
-  margin-top: 240px; 
+  margin-top: 200px; 
 }
 
 .category-card {
@@ -146,8 +146,6 @@ body {
   opacity: 0.6;
   transition: 0.6s ease;
 }
-
-.cate
 
 /* CORRECCIÓN: Sin espacio antes de :hover */
 .category-card:hover {
@@ -362,10 +360,6 @@ body {
   color: #000;
   transform: rotate(90deg);
    }
-   
-    .category-selector {
-     margin-bottom: 100px; 
-     }
 
     #cart-items { flex: 1; overflow-y: auto;padding: 0px 10px 0px 10px; list-style: none; text-align: left;margin:0; }
     .cart-item { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid #222; }
@@ -459,18 +453,34 @@ body {
   color: #c9a96e;
   pointer-events: none;
 }
+ 
+.btn-gender {
+    background: transparent;
+    color: #fff;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    padding: 8px 20px;
+    margin: 5px;
+    cursor: pointer;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
 
-    /* --- RESPONSIVO --- */
-  
-/* --- 7. RESPONSIVO --- */
+.btn-gender:hover {
+    background: #fff;
+    color: #000;
+    border-color: #fff;
+    transform: translateY(-2px);
+}
 
-/* Tablets y pantallas medianas */
 @media (max-width: 768px) {
   .category-selector { 
     flex-direction: column; 
-    align-items: center; 
-    margin-top: 280px; 
+    align-items: center;    
   }
+/*margin-top: 280px;*/
   .container { 
     grid-template-columns: repeat(2, 1fr); 
   }
@@ -536,8 +546,9 @@ body {
     background: #b3955d !important;
     transform: scale(0.95) !important;
 }
-
 }
+
+
   </style>
 </head>
 <body>
@@ -575,6 +586,14 @@ body {
   </div>
 </div>
 
+<div class="filter-container">
+    <div class="gender-filters" style="margin-top: 15px;">
+        <button class="btn-gender" onclick="filtrarGenero('hombre')">Hombre</button>
+        <button class="btn-gender" onclick="filtrarGenero('mujer')">Mujer</button>
+        <button class="btn-gender" onclick="filtrarGenero('unisex')">Unisex</button>
+    </div>
+</div>
+
 <div class="search-container">
   <input type="text" id="perfume-search" placeholder="Busca tu perfume favorito." onkeyup="buscarPerfume()">
   <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
@@ -604,6 +623,7 @@ const productos = [
     id: 1,
     marca: "Jean Paul Gaultier",
     nombre: "Le Beau Le Parfum",
+    genero: "hombre",
     ml: "5ml",
     precio: 7.00,
     categoria: "disenador",
@@ -618,6 +638,7 @@ const productos = [
     id: 2,
     marca: "Jean Paul Gaultier",
     nombre: "Le Male Le Parfum",
+    genero: "hombre",
     ml: "5ml",
     precio: 7.00,
     categoria: "disenador",
@@ -632,6 +653,7 @@ const productos = [
     id: 3,
     marca: "Jean Paul Gaultier",
     nombre: "Le Male Elixir",
+    genero: "hombre",
     ml: "5ml",
     precio: 7.00,
     categoria: "disenador",
@@ -646,6 +668,7 @@ const productos = [
     id: 4,
     marca: "Jean Paul Gaultier",
     nombre: "Le Male Elixir Absolu",
+    genero: "hombre",
     ml: "5ml",
     precio: 7.00,
     categoria: "disenador",
@@ -660,6 +683,7 @@ const productos = [
     id: 5,
     marca: "Jean Paul Gaultier",
     nombre: "Le Male In The Navy",
+    genero: "hombre",
     ml: "5ml",
     precio: 7.00,
     categoria: "disenador",
@@ -674,6 +698,7 @@ const productos = [
     id: 6,
     marca: "Jean Paul Gaultier",
     nombre: "Le Male Essence",
+    genero: "hombre",
     ml: "5ml",
     precio: 7.00,
     categoria: "disenador",
@@ -688,6 +713,7 @@ const productos = [
     id: 7,
     marca: "Jean Paul Gaultier",
     nombre: "Le Male Ultramale",
+    genero: "hombre",	
     ml: "5ml",
     precio: 7.00,
     categoria: "disenador",
@@ -702,6 +728,7 @@ const productos = [
     id: 8,
     marca: "Jean Paul Gaultier",
     nombre: "Scandal",
+   genero: "hombre",
     ml: "5ml",
     precio: 6.00,
     categoria: "disenador",
@@ -716,6 +743,7 @@ const productos = [
     id: 9,
     marca: "Yves Saint Laurent",
     nombre: "Y EDP",
+    genero: "hombre",
     ml: "5ml",
     precio: 7.00,
     categoria: "disenador",
@@ -730,6 +758,7 @@ const productos = [
     id: 10,
     marca: "Yves Saint Laurent",
     nombre: "Y Iced Cologne",
+    genero: "hombre",
     ml: "5ml",
     precio: 9.00,
     categoria: "disenador",
@@ -744,6 +773,7 @@ const productos = [
     id: 11,
     marca: "Yves Saint Laurent",
     nombre: "L’Homme Cologne Bleue",
+    genero: "hombre",
     ml: "5ml",
     precio: 6.00,
     categoria: "disenador",
@@ -758,6 +788,7 @@ const productos = [
     id: 12,
     marca: "Dior",
     nombre: "Sauvage Parfum",
+    genero: "hombre",
     ml: "5ml",
     precio: 8.00,
     categoria: "disenador",
@@ -772,6 +803,7 @@ const productos = [
     id: 13,
     marca: "Dior",
     nombre: "Homme 2020",
+    genero: "hombre",
     ml: "5ml",
     precio: 7.00,
     categoria: "disenador",
@@ -786,6 +818,7 @@ const productos = [
     id: 14,
     marca: "Azzaro",
     nombre: "TMW Parfum",
+    genero: "hombre",
     ml: "5ml",
     precio: 7.00,
     categoria: "disenador",
@@ -800,6 +833,7 @@ const productos = [
     id: 15,
     marca: "Carolina Herrera",
     nombre: "212 VIP Black Elixir",
+    genero: "hombre", 
     ml: "5ml",
     precio: 7.00,
     categoria: "disenador",
@@ -814,6 +848,7 @@ const productos = [
     id: 16,
     marca: "Versace",
     nombre: "Dylan Blue",
+    genero: "hombre",
     ml: "5ml",
     precio: 6.00,
     categoria: "disenador",
@@ -828,6 +863,7 @@ const productos = [
     id: 17,
     marca: "Versace",
     nombre: "The Dreamer",
+    genero: "hombre",
     ml: "5ml",
     precio: 6.00,
     categoria: "disenador",
@@ -842,6 +878,7 @@ const productos = [
     id: 18,
     marca: "Versace",
     nombre: "Eros Energy",
+    genero: "hombre",
     ml: "5ml",
     precio: 7.00,
     categoria: "disenador",
@@ -856,6 +893,7 @@ const productos = [
     id: 19,
     marca: "Versace",
     nombre: "Eros",
+    genero: "hombre",
     ml: "5ml",
     precio: 6.00,
     categoria: "disenador",
@@ -870,6 +908,7 @@ const productos = [
     id: 20,
     marca: "Versace",
     nombre: "Eros Najim",
+    genero: "hombre",
     ml: "5ml",
     precio: 7.00,
     categoria: "disenador",
@@ -884,6 +923,7 @@ const productos = [
     id: 21,
     marca: "Prada",
     nombre: "Ocean Le Parfum",
+    genero: "hombre",
     ml: "5ml",
     precio: 7.00,
     categoria: "disenador",
@@ -898,6 +938,7 @@ const productos = [
     id: 22,
     marca: "Moschino",
     nombre: "Toy 2 Pearl",
+    genero: "unisex",
     ml: "5ml",
     precio: 6.00,
     categoria: "disenador",
@@ -912,6 +953,7 @@ const productos = [
     id: 23,
     marca: "Diesel",
     nombre: "Only The Brave",
+    genero: "hombre",
     ml: "5ml",
     precio: 6.00,
     categoria: "disenador",
@@ -926,6 +968,7 @@ const productos = [
     id: 24,
     marca: "Valentino",
     nombre: "Uomo BIR",
+    genero: "hombre",
     ml: "5ml",
     precio: 8.00,
     categoria: "disenador",
@@ -940,6 +983,7 @@ const productos = [
     id: 25,
     marca: "Valentino",
     nombre: "BIR Extradose",
+    genero: "hombre",
     ml: "5ml",
     precio: 9.00,
     categoria: "disenador",
@@ -954,6 +998,7 @@ const productos = [
     id: 26,
     marca: "Valentino",
     nombre: "BIR Intense",
+    genero: "hombre",
     ml: "5ml",
     precio: 8.00,
     categoria: "disenador",
@@ -968,6 +1013,7 @@ const productos = [
     id: 27,
     marca: "Valentino",
     nombre: "Green Stravaganza",
+    genero: "hombre",
     ml: "5ml",
     precio: 8.00,
     categoria: "disenador",
@@ -982,6 +1028,7 @@ const productos = [
     id: 28,
     marca: "Giorgio Armani",
     nombre: "Acqua Di Gio",
+    genero: "hombre",
     ml: "5ml",
     precio: 6.00,
     categoria: "disenador",
@@ -996,6 +1043,7 @@ const productos = [
     id: 29,
     marca: "Giorgio Armani",
     nombre: "Acqua Di Gio Parfum",
+    genero: "hombre",
     ml: "5ml",
     precio: 7.00,
     categoria: "disenador",
@@ -1010,6 +1058,7 @@ const productos = [
     id: 30,
     marca: "Giorgio Armani",
     nombre: "SWY Parfum",
+    genero: "hombre",
     ml: "5ml",
     precio: 8.00,
     categoria: "disenador",
@@ -1024,6 +1073,7 @@ const productos = [
     id: 31,
     marca: "Giorgio Armani",
     nombre: "SWY Intensely",
+    genero: "hombre",
     ml: "5ml",
     precio: 7.00,
     categoria: "disenador",
@@ -1038,6 +1088,7 @@ const productos = [
     id: 32,
     marca: "Burberry",
     nombre: "Mr. Burberry Indigo",
+    genero: "hombre",
     ml: "5ml",
     precio: 6.00,
     categoria: "disenador",
@@ -1052,6 +1103,7 @@ const productos = [
     id: 33,
     marca: "Dolce & Gabbana",
     nombre: "K EDP",
+    genero: "hombre",
     ml: "5ml",
     precio: 6.00,
     categoria: "disenador",
@@ -1066,6 +1118,7 @@ const productos = [
     id: 34,
     marca: "Viktor & Rolf",
     nombre: "Spicebomb Extreme",
+    genero: "hombre",
     ml: "5ml",
     precio: 7.00,
     categoria: "disenador",
@@ -1080,6 +1133,7 @@ const productos = [
     id: 35,
     marca: "Viktor & Rolf",
     nombre: "Spicebomb",
+    genero: "hombre",
     ml: "5ml",
     precio: 6.00,
     categoria: "disenador",
@@ -1094,6 +1148,7 @@ const productos = [
     id: 36,
     marca: "Hugo Boss",
     nombre: "The Scent Magnetic",
+    genero: "hombre",
     ml: "5ml",
     precio: 7.00,
     categoria: "disenador",
@@ -1108,6 +1163,7 @@ const productos = [
     id: 37,
     marca: "Chanel",
     nombre: "Platinum Egoiste",
+    genero: "hombre",
     ml: "5ml",
     precio: 6.00,
     categoria: "disenador",
@@ -1122,6 +1178,7 @@ const productos = [
     id: 96,
     marca: "Chanel",
     nombre: "Bleu",
+    genero: "hombre",
     ml: "5ml",
     precio: 9.00,
     categoria: "disenador",
@@ -1136,6 +1193,7 @@ const productos = [
     id: 38,
     marca: "Chanel",
     nombre: "Pour Monsieur",
+    genero: "hombre",
     ml: "5ml",
     precio: 7.00,
     categoria: "disenador",
@@ -1150,6 +1208,7 @@ const productos = [
     id: 39,
     marca: "Chanel",
     nombre: "Allure Homme Sport Cologne",
+    genero: "hombre",
     ml: "5ml",
     precio: 6.00,
     categoria: "disenador",
@@ -1164,6 +1223,7 @@ const productos = [
     id: 40,
     marca: "Chanel",
     nombre: "Allure Homme Sport",
+    genero: "hombre",
     ml: "5ml",
     precio: 7.00,
     categoria: "disenador",
@@ -1178,6 +1238,7 @@ const productos = [
     id: 41,
     marca: "Ralph Lauren",
     nombre: "Polo Blue Parfum",
+    genero: "hombre",
     ml: "5ml",
     precio: 7.00,
     categoria: "disenador",
@@ -1192,6 +1253,7 @@ const productos = [
     id: 42,
     marca: "Hermès",
     nombre: "Terre d’Hermès",
+    genero: "hombre",
     ml: "5ml",
     precio: 6.00,
     categoria: "disenador",
@@ -1206,6 +1268,7 @@ const productos = [
     id: 43,
     marca: "Hermès",
     nombre: "Terre Eau Intense Vétiver",
+    genero: "hombre",
     ml: "5ml",
     precio: 7.00,
     categoria: "disenador",
@@ -1220,6 +1283,7 @@ const productos = [
     id: 44,
     marca: "Hermès",
     nombre: "H24",
+    genero: "hombre",
     ml: "5ml",
     precio: 6.00,
     categoria: "disenador",
@@ -1234,6 +1298,7 @@ const productos = [
     id: 45,
     marca: "Hermès",
     nombre: "Un Jardin Sur Le Nil",
+    genero: "unisex",
     ml: "5ml",
     precio: 6.00,
     categoria: "disenador",
@@ -1248,6 +1313,7 @@ const productos = [
     id: 46,
     marca: "Hermès",
     nombre: "Un Jardin Sur Le Toit",
+    genero: "unisex",
     ml: "5ml",
     precio: 6.00,
     categoria: "disenador",
@@ -1262,6 +1328,7 @@ const productos = [
     id: 47,
     marca: "Kerosene",
     nombre: "Walk the Sea",
+    genero: "unisex",
     ml: "5ml",
     precio: 15.00,
     categoria: "nicho",
@@ -1276,6 +1343,7 @@ const productos = [
     id: 48,
     marca: "Tom Ford",
     nombre: "Bois Pacifique",
+    genero: "hombre",
     ml: "5ml",
     precio: 14.00,
     categoria: "nicho",
@@ -1290,6 +1358,7 @@ const productos = [
     id: 49,
     marca: "Tom Ford",
     nombre: "Ombre Leather Parfum",
+    genero: "unisex",
     ml: "5ml",
     precio: 14.00,
     categoria: "nicho",
@@ -1304,6 +1373,7 @@ const productos = [
     id: 50,
     marca: "Creed",
     nombre: "Himalaya",
+    genero: "hombre",
     ml: "5ml",
     precio: 16.00,
     categoria: "nicho",
@@ -1318,6 +1388,7 @@ const productos = [
     id: 51,
     marca: "Creed",
     nombre: "Millésime Impérial",
+    genero: "unisex",
     ml: "5ml",
     precio: 16.00,
     categoria: "nicho",
@@ -1332,6 +1403,7 @@ const productos = [
     id: 52,
     marca: "Room1015",
     nombre: "Wavechild",
+    genero: "unisex",
     ml: "5ml",
     precio: 15.00,
     categoria: "nicho",
@@ -1346,6 +1418,7 @@ const productos = [
     id: 53,
     marca: "Acqua Di Parma",
     nombre: "Fico Di Amalfi",
+    genero: "unisex",
     ml: "5ml",
     precio: 9.00,
     categoria: "nicho",
@@ -1360,6 +1433,7 @@ const productos = [
     id: 54,
     marca: "Imaginary Authors",
     nombre: "Falling Into The Sea",
+    genero: "unisex",
     ml: "5ml",
     precio: 15.00,
     categoria: "nicho",
@@ -1374,6 +1448,7 @@ const productos = [
     id: 55,
     marca: "Montale",
     nombre: "Chocolate Greedy",
+    genero: "unisex",
     ml: "5ml",
     precio: 7.00,
     categoria: "nicho",
@@ -1388,6 +1463,7 @@ const productos = [
     id: 56,
     marca: "Montale",
     nombre: "Arabians Tonka",
+    genero: "unisex",
     ml: "5ml",
     precio: 8.00,
     categoria: "nicho",
@@ -1402,6 +1478,7 @@ const productos = [
     id: 57,
     marca: "Orto Parisi",
     nombre: "Megamare",
+    genero: "unisex",
     ml: "3ml",
     precio: 12.00,
     categoria: "nicho",
@@ -1416,6 +1493,7 @@ const productos = [
     id: 58,
     marca: "Sospiro",
     nombre: "Erba Pura Magica",
+    genero: "unisex",
     ml: "5ml",
     precio: 14.00,
     categoria: "nicho",
@@ -1430,6 +1508,7 @@ const productos = [
     id: 59,
     marca: "Sospiro",
     nombre: "Vibrato",
+    genero: "unisex",
     ml: "5ml",
     precio: 14.00,
     categoria: "nicho",
@@ -1444,6 +1523,7 @@ const productos = [
     id: 60,
     marca: "Xerjoff",
     nombre: "Erba Pura",
+    genero: "unisex",
     ml: "5ml",
     precio: 14.00,
     categoria: "nicho",
@@ -1458,6 +1538,7 @@ const productos = [
     id: 94,
     marca: "Xerjoff",
     nombre: "Erba Gold",
+    genero: "unisex",
     ml: "5ml",
     precio: 14.00,
     categoria: "nicho",
@@ -1472,6 +1553,7 @@ const productos = [
     id: 94,
     marca: "Xerjoff",
     nombre: "Duran Duran NeoRio",
+    genero: "unisex",
     ml: "5ml",
     precio: 15.00,
     categoria: "nicho",
@@ -1486,6 +1568,7 @@ const productos = [
     id: 61,
     marca: "Xerjoff",
     nombre: "Ouverture",
+    genero: "unisex",
     ml: "5ml",
     precio: 14.00,
     categoria: "nicho",
@@ -1500,6 +1583,7 @@ const productos = [
     id: 95,
     marca: "XJ 1861 Naxos",
     nombre: "Naxos",
+    genero: "unisex",
     ml: "5ml",
     precio: 14.00,
     categoria: "nicho",
@@ -1514,6 +1598,7 @@ const productos = [
     id: 62,
     marca: "Xerjoff",
     nombre: "K´bridge Club",
+    genero: "unisex",
     ml: "5ml",
     precio: 14.00,
     categoria: "nicho",
@@ -1528,6 +1613,7 @@ const productos = [
     id: 63,
     marca: "Xerjoff",
     nombre: "Opera",
+    genero: "unisex",
     ml: "5ml",
     precio: 14.00,
     categoria: "nicho",
@@ -1542,6 +1628,7 @@ const productos = [
     id: 64,
     marca: "Akro",
     nombre: "Breathe",
+    genero: "unisex",
     ml: "5ml",
     precio: 14.00,
     categoria: "nicho",
@@ -1556,6 +1643,7 @@ const productos = [
     id: 65,
     marca: "M. Micallef",
     nombre: "Edenfalls",
+    genero: "unisex",
     ml: "5ml",
     precio: 15.00,
     categoria: "nicho",
@@ -1570,6 +1658,7 @@ const productos = [
     id: 66,
     marca: "M. Micallef",
     nombre: "GNTonic",
+    genero: "hombre",
     ml: "5ml",
     precio: 15.00,
     categoria: "nicho",
@@ -1584,6 +1673,7 @@ const productos = [
     id: 67,
     marca: "Mancera",
     nombre: "Lemon Line",
+    genero: "unisex",
     ml: "5ml",
     precio: 7.00,
     categoria: "nicho",
@@ -1598,6 +1688,7 @@ const productos = [
     id: 68,
     marca: "Mancera",
     nombre: "Aoud Blue Notes",
+    genero: "unisex",
     ml: "5ml",
     precio: 7.00,
     categoria: "nicho",
@@ -1612,6 +1703,7 @@ const productos = [
     id: 69,
     marca: "Mancera",
     nombre: "Cinque Terre",
+    genero: "unisex",
     ml: "5ml",
     precio: 7.00,
     categoria: "nicho",
@@ -1626,6 +1718,7 @@ const productos = [
     id: 70,
     marca: "Mancera",
     nombre: "Cedrat Boise",
+    genero: "unisex",
     ml: "5ml",
     precio: 7.00,
     categoria: "nicho",
@@ -1640,6 +1733,7 @@ const productos = [
     id: 71,
     marca: "Mancera",
     nombre: "Hindu Kush",
+    genero: "unisex",
     ml: "5ml",
     precio: 7.00,
     categoria: "nicho",
@@ -1654,6 +1748,7 @@ const productos = [
     id: 72,
     marca: "Mancera",
     nombre: "Fig Extasy",
+    genero: "unisex",
     ml: "5ml",
     precio: 7.00,
     categoria: "nicho",
@@ -1668,6 +1763,7 @@ const productos = [
     id: 73,
     marca: "Mancera",
     nombre: "Red Tobacco Intense",
+    genero: "unisex",
     ml: "5ml",
     precio: 7.00,
     categoria: "nicho",
@@ -1682,6 +1778,7 @@ const productos = [
     id: 74,
     marca: "Argos",
     nombre: "La Primavera",
+    genero: "unisex",
     ml: "5ml",
     precio: 16.00,
     categoria: "nicho",
@@ -1696,6 +1793,7 @@ const productos = [
     id: 75,
     marca: "Aghatho",
     nombre: "Olimpoverde",
+    genero: "unisex",
     ml: "5ml",
     precio: 15.00,
     categoria: "nicho",
@@ -1710,6 +1808,7 @@ const productos = [
     id: 76,
     marca: "Aghatho",
     nombre: "Bronzeo",
+    genero: "unisex",
     ml: "5ml",
     precio: 15.00,
     categoria: "nicho",
@@ -1724,6 +1823,7 @@ const productos = [
     id: 77,
     marca: "Fragrance One",
     nombre: "Date For Men",
+    genero: "hombre",
     ml: "5ml",
     precio: 13.00,
     categoria: "nicho",
@@ -1738,6 +1838,7 @@ const productos = [
     id: 78,
     marca: "Fragrance One",
     nombre: "Office For Men",
+    genero: "hombre",
     ml: "5ml",
     precio: 13.00,
     categoria: "nicho",
@@ -1752,6 +1853,7 @@ const productos = [
     id: 79,
     marca: "Fragrance One",
     nombre: "The Mint",
+    genero: "unisex",
     ml: "5ml",
     precio: 15.00,
     categoria: "nicho",
@@ -1766,6 +1868,7 @@ const productos = [
     id: 80,
     marca: "Zoologist",
     nombre: "Seahorse",
+    genero: "unisex",
     ml: "3ml",
     precio: 15.00,
     categoria: "nicho",
@@ -1780,6 +1883,7 @@ const productos = [
     id: 81,
     marca: "Lorenzo Pazzaglia",
     nombre: "Adam & Eve´s dress",
+    genero: "unisex",
     ml: "3ml",
     precio: 12.00,
     categoria: "nicho",
@@ -1794,6 +1898,7 @@ const productos = [
     id: 82,
     marca: "Lorenzo Pazzaglia",
     nombre: "Black Sea",
+    genero: "unisex",
     ml: "3ml",
     precio: 12.00,
     categoria: "nicho",
@@ -1808,6 +1913,7 @@ const productos = [
     id: 83,
     marca: "Superz.",
     nombre: "Caesar Ultra",
+    genero: "hombre",
     ml: "5ml",
     precio: 15.00,
     categoria: "nicho",
@@ -1822,6 +1928,7 @@ const productos = [
     id: 84,
     marca: "Bond No 9",
     nombre: "Wall Street",
+    genero: "unisex",
     ml: "5ml",
     precio: 14.00,
     categoria: "nicho",
@@ -1836,6 +1943,7 @@ const productos = [
     id: 85,
     marca: "Bond No 9",
     nombre: "Bond No 9 Signature Scent",
+    genero: "unisex",
     ml: "5ml",
     precio: 14.00,
     categoria: "nicho",
@@ -1850,6 +1958,7 @@ const productos = [
     id: 86,
     marca: "Bond No 9",
     nombre: "Dubai Garnet",
+    genero: "unisex",
     ml: "5ml",
     precio: 14.00,
     categoria: "nicho",
@@ -1864,6 +1973,7 @@ const productos = [
     id: 87,
     marca: "Bond No 9",
     nombre: "The Scent Of Peace For Her",
+    genero: "mujer",
     ml: "5ml",
     precio: 14.00,
     categoria: "nicho",
@@ -1878,6 +1988,7 @@ const productos = [
     id: 88,
     marca: "Goldfield & Banks",
     nombre: "Bohemian Lime",
+    genero: "unisex",
     ml: "5ml",
     precio: 13.00,
     categoria: "nicho",
@@ -1892,6 +2003,7 @@ const productos = [
     id: 89,
     marca: "Goldfield & Banks",
     nombre: "Pacific Rock Moss",
+    genero: "unisex",
     ml: "5ml",
     precio: 13.00,
     categoria: "nicho",
@@ -1906,6 +2018,7 @@ const productos = [
     id: 90,
     marca: "Theodoros Kalotinis",
     nombre: "Aegean Salt & Citrus",
+    genero: "unisex",
     ml: "5ml",
     precio: 13.00,
     categoria: "nicho",
@@ -1920,6 +2033,7 @@ const productos = [
     id: 91,
     marca: "Maison Margiela REPLICA",
     nombre: "Under The Lemon Trees",
+    genero: "unisex",
     ml: "5ml",
     precio: 7.00,
     categoria: "nicho",
@@ -1934,6 +2048,7 @@ const productos = [
     id: 92,
     marca: "Maison Margiela REPLICA",
     nombre: "Coffee Break",
+    genero: "unisex",
     ml: "5ml",
     precio: 7.00,
     categoria: "nicho",
@@ -1948,6 +2063,7 @@ const productos = [
     id: 93,
     marca: "Nishane",
     nombre: "Hacivat",
+    genero: "unisex",
     ml: "5ml",
     precio: 14.00,
     categoria: "nicho",
@@ -2012,6 +2128,27 @@ function filtrar(categoria) {
         top: searchBar.offsetTop - 100,
         behavior: 'smooth'
     });
+}
+
+// FILTRO POR GÉNERO (Men / Women / Unisex)
+function filtrarGenero(genero) {
+    const cards = document.querySelectorAll('.card');
+    const container = document.getElementById('perfume-container');
+    const searchBar = document.querySelector('.search-container');
+    
+    container.style.display = 'grid';
+
+    cards.forEach(card => {
+        if (card.getAttribute('data-gender') === genero) {
+            card.style.display = 'block';
+            setTimeout(() => { card.classList.remove('hidden'); }, 10);
+        } else {
+            card.style.display = 'none';
+            card.classList.add('hidden');
+        }
+    });
+
+    window.scrollTo({ top: searchBar.offsetTop - 100, behavior: 'smooth' });
 }
 
 // --- 2. LÓGICA DEL CARRITO ---
@@ -2099,6 +2236,7 @@ function renderizarProductos() {
         card.className = `card hidden`; // Empiezan ocultas para el efecto de búsqueda/filtro
         card.style.display = "none";    // Se muestran solo al filtrar o buscar
         card.setAttribute('data-category', p.categoria);
+        card.setAttribute('data-gender', p.genero);
 
         card.innerHTML = `
             <div class="img-container">
