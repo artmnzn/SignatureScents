@@ -10,10 +10,11 @@
 /* --- CONFIGURACIÓN GLOBAL --- */
 html, body {
   max-width: 100%;
-  overflow-x: hidden; /* Elimina el espacio fantasma a la derecha */
-  position: relative;
+  overflow-x: hidden;
   margin: 0;
   padding: 0;
+  /* Agregamos esto para que el navegador sepa que el cuerpo ocupa toda la pantalla */
+  height: 100%; 
 }
 
 body {
@@ -21,18 +22,38 @@ body {
   background-color: #0a0a0a;
   color: #fff;
   text-align: center;
+  
+  /* --- ESTAS SON LAS LÍNEAS MÁGICAS QUE TE FALTAN --- */
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh; /* Obliga al cuerpo a medir al menos el alto de la pantalla */
+}
+
+main, .main-content { 
+  flex: 1; /* Ahora sí, esto estirará el contenido para empujar al footer */
+}
+
+footer {
+  width: 100%;
+  padding: 20px 0;
+  background: #0a0a0a;
+  border-top: 1px solid #1a1a1a;
+  text-align: center;
+  font-size: 14px;
+  color: #555;
+  margin-top: auto; /* Esto lo ancla al fondo */
 }
 
 /* --- AJUSTE DEL CONTENEDOR --- */
 .container {
-  width: 100%;
-  display: grid; /* Asegúrate de mantener el grid para las cards */
-  grid-template-columns: repeat(auto-fill, minmax(250px, 280px));
-  gap: 20px;
-  justify-content: center;
-  box-sizing: border-box; /* El padding no afecta el ancho total */
-  padding: 20px;
-  margin-top: 20px;
+    display: grid;
+    /* Cambiamos el minmax: ahora el mínimo es 250px y el máximo es 1fr (un pedazo igual del pastel) */
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); 
+    gap: 30px; /* Un poco más de espacio entre ellas da más lujo */
+    padding: 40px; /* Más aire a los costados */
+    max-width: 100%; /* Que use todo el ancho de la pantalla */
+    margin: 0 auto;
+    box-sizing: border-box;
 }
 
     header a {
@@ -64,14 +85,16 @@ body {
     }
 
     /* --- NAVEGACIÓN (TOP BAR) --- */
-    .top-bar {
-      position: fixed;
-      top: 0; left: 0;
-      width: 100%;
-      z-index: 1000;
-      background: #0a0a0a;
-      box-shadow: 0 5px 20px rgba(0,0,0,0.5);
-    }
+  .top-bar {
+    position: fixed;
+    /* En móviles la barra de anuncio suele medir unos 40px o 45px */
+    top: 40px; 
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+    background: #0a0a0a;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.5);
+}
 
     .brand-header {
       display: flex;
@@ -118,14 +141,22 @@ body {
     }
 
     /* --- SELECTOR DE CATEGORÍAS --- */
-.category-selector {
+/*.category-selector {
   display: flex;
   gap: 20px;
   justify-content: center;
   padding: 20px;
-  margin-top: 240px; 
-}
+  margin-top: 200px; 
+}*/
 
+.category-selector {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    padding: 20px;
+    /* Aumentamos un poco para dar espacio al nuevo acomodo */
+    margin-top: 240px; 
+}
 .category-card {
   position: relative;
   width: 100%;
@@ -146,8 +177,6 @@ body {
   opacity: 0.6;
   transition: 0.6s ease;
 }
-
-.cate
 
 /* CORRECCIÓN: Sin espacio antes de :hover */
 .category-card:hover {
@@ -187,27 +216,34 @@ body {
   letter-spacing: 4px;
 }
     /* --- CONTENEDOR DE PRODUCTOS --- */
-   .container {
-   margin-top: 40px; /* Reducimos el margen para que no se corte */
-   display: grid;
-   grid-template-columns: repeat(auto-fill, minmax(250px, 280px));
-   gap: 20px;
-   justify-content: center;
-   padding: 20px; /* Añadimos padding para que los productos respiren */
-   scroll-margin-top: 250px; /* Esto ayuda a que el scroll automático no lo pegue al techo */
-  }
+.container {
+    display: grid;
+    /* Ajustamos el minmax para que las tarjetas sean grandes (ej. 280px mínimo) */
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); 
+    gap: 20px;
+    padding: 20px; /* Reducimos el padding lateral al mínimo necesario */
+    width: 100%;   /* Forzamos el 100% del ancho */
+    max-width: 100vw; /* Asegura que ocupe todo el ancho visual */
+    margin: 0;     /* Quitamos el centrado automático para que use los bordes */
+    box-sizing: border-box;
+}
 
-    .card {
-      display: none;
-      background: #111;
-      border-radius: 15px;
-      overflow: hidden;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-      transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
-      width: 100%;
-      border: 1px solid #1a1a1a;
-      z-index: 1;
-    }
+ .card {
+  /* Tus propiedades originales (Diseño) */
+  display: none;
+  background: #111;
+  border-radius: 15px;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+  transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+  width: 100%;
+  border: 1px solid #1a1a1a;
+  z-index: 1;
+
+  /* Las nuevas propiedades (Control de tamaño) */
+  max-width: none; /* Evita que la imagen de Kerosene o Tom Ford se haga gigante */
+  margin: 0;    /* Centra la tarjeta si el espacio es mayor a 280px */
+}
    
     .card:hover {
   /* 1. Empuje hacia el frente (Scale 1.05 = 5% más grande) */
@@ -237,7 +273,14 @@ body {
   transform: scale(1.03); 
 }
 
-    .img-container img { width: 100%; height: 100%; object-fit: cover;transition: transform 0.6s ease; }
+   .img-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain; /* Esto es sagrado para que no se deformen */
+    padding: 5px;        /* Bajamos de 20px a 5px para que la botella crezca */
+    box-sizing: border-box;
+    transition: transform 0.6s ease;
+}
     .card-content { padding: 15px; }
     .card-title { font-size: 18px; margin-bottom: 5px; }
     .card-name { font-size: 15px; margin-bottom: 5px; color: #fff; }
@@ -362,10 +405,6 @@ body {
   color: #000;
   transform: rotate(90deg);
    }
-   
-    .category-selector {
-     margin-bottom: 100px; 
-     }
 
     #cart-items { flex: 1; overflow-y: auto;padding: 0px 10px 0px 10px; list-style: none; text-align: left;margin:0; }
     .cart-item { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid #222; }
@@ -434,7 +473,6 @@ body {
 }
 
 #perfume-search {
-  width: 100%;
   padding: 15px 20px 15px 45px;
   background: #111;
   border: 1px solid #333;
@@ -459,56 +497,188 @@ body {
   color: #c9a96e;
   pointer-events: none;
 }
+ 
+.btn-gender {
+    font-family:'Playfair Display', serif;
+    background: transparent;
+    color: #fff;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    padding: 8px 20px;
+    margin: 5px;
+    cursor: pointer;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+    letter-spacing: 1px;
+}
 
-    /* --- RESPONSIVO --- */
-  
-/* --- 7. RESPONSIVO --- */
+.btn-gender:hover {
+    background: #fff;
+    color: #000;
+    border-color: #fff;
+    transform: translateY(-2px);
+}
+.announcement-bar {
+    position: fixed;
+    z-index: 9999;
+    background: linear-gradient(90deg, #1e3a8a 0%, #6b7280 100%);
+    color: #ffffff;
+    text-align: center;
+    padding: 10px 20px;
+    font-family: 'Segoe UI', sans-serif;
+    font-size: 14px;
+    width: 100%;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
 
-/* Tablets y pantallas medianas */
+.announcement-bar p {
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap; /* Para que en celulares se vea bien si es muy largo */
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+/* Opcional: Un efecto sutil de brillo al pasar el mouse */
+.announcement-bar:hover {
+    filter: brightness(1.1);
+    transition: 0.3s ease;
+}
+
+.link-melo {
+    color: #ffffff;
+    text-decoration: underline; /* Mantiene la señal de que es un link */
+    font-weight: bold;
+    transition: color 0.3s ease;
+}
+
+.link-melo:hover {
+    color: #d1d5db; /* Cambia a un gris claro al pasar el mouse */
+}
+
+.separator {
+    opacity: 0.5;
+}
+
+}
+
+.shipping-goal-container {
+    padding: 20px;
+    background: #1a1a1a; /* Fondo oscuro como tus cards */
+    border-radius: 12px;
+    margin: 15px;
+    text-align: center;
+    border: 1px solid #333; /* Un borde sutil para dar profundidad */
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+}
+
+.progress-bg {
+    background: #333; /* Fondo de la barra más oscuro */
+    height: 10px;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+#goal-message strong {
+    color: #c9a96e; /* El monto resaltará en dorado, como tu logo */
+}
+
+.progress-fill {
+    width: 0%; 
+    height: 100%;
+    /* Degradado azul a gris, manteniendo tu branding */
+    background: linear-gradient(90deg, #1e3a8a 0%, #6b7280 100%);
+    transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Clase para cuando lleguen a la meta */
+.goal-reached {
+    background-image: url('https://www.transparenttextures.com/patterns/confetti.png'); /* Efecto sutil de confeti */
+    background-color: #1e3a8a;
+}
+
+.modal-overlay {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.9);
+    display: flex; align-items: center; justify-content: center;
+    z-index: 100000; /* Por encima de TODO */
+    visibility: hidden; opacity: 0; transition: 0.5s;
+}
+.modal-overlay.show { visibility: visible; opacity: 1; }
+.modal-content {
+    background: #111; padding: 30px; border-radius: 20px;
+    text-align: center; border: 1px solid #c9a96e; max-width: 400px; width: 90%;
+}
+.modal-logo { width: 80px; margin-bottom: 15px; }
+.zone-buttons { display: flex; flex-direction: column; gap: 10px; margin-top: 20px; }
+.zone-buttons button {
+    padding: 15px; border: 1px solid #333; background: #1a1a1a;
+    color: white; border-radius: 10px; cursor: pointer; transition: 0.3s;
+}
+.zone-buttons button:hover { border-color: #c9a96e; background: #222; }
+
 @media (max-width: 768px) {
   .category-selector { 
     flex-direction: column; 
-    align-items: center; 
-    margin-top: 280px; 
+    align-items: center;    
   }
-  .container { 
-    grid-template-columns: repeat(2, 1fr); 
-  }
+
+@media (max-width: 480px) {
+    .top-bar {
+        /* Si el texto del anuncio se duplica, bajamos el header a 55px o 60px */
+        top: 55px; 
+    }
+    .category-selector {
+        margin-top: 280px;
+    }
 }
 
 /* Celulares (iPhone/Android) */
 @media (max-width: 480px) {
+  /* --- NUEVO: ESTO ACTIVA LAS 2 COLUMNAS --- */
+  .container {
+    grid-template-columns: repeat(2, 1fr) !important; 
+    gap: 12px !important;
+    padding: 10px !important;
+    margin-top: auto !important; /* Ajusta según el alto de tu header móvil */
+  }
+ 
+.modal-content {
+ width:80%;
+}
+  .card {
+    max-width: 100% !important;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* --- TUS REGLAS ACTUALES DEL CARRITO (SE MANTIENEN) --- */
   #cart-panel {
-    width: 100% !important; /* Cubre todo el ancho */
-    right: -100%;           /* Se esconde fuera */
-    height: 100vh;          /* Cubre todo el alto */
+    width: 100% !important;
+    right: -100%;
+    height: 100vh;
     top: 0;
   }
 
-  #cart-panel.active {
-    right: 0;
-  }
- 
- .card-name { font-size: 12px;}
- .card-title { font-size: 16px;}
+  #cart-panel.active { right: 0; }
+  
+  .card-name { font-size: 12px; }
+  .card-title { font-size: 15px; }
 
-  .cart-header {
-    /* Padding ajustado para que la "X" de cerrar sea fácil de tocar */
-    padding: 80px 20px 20px;  
-  }
+  .cart-header { padding: 40px 20px 20px; }
 
   .cart-actions {
     padding: 20px;
-    /* Esto es oro puro para iPhones con barra abajo */
-    padding-bottom: env(safe-area-inset-bottom, 20px); 
   }
 
   .cart-actions button {
-    height: 55px; /* Un poquito más alto para dedos grandes */
+    height: 55px;
     font-size: 16px;
   }
   
-  #perfume-search {width:auto;}
+  #perfume-search { width: auto; }
   
   .category-card:active .category-overlay span {
     color: #fff !important;
@@ -516,32 +686,35 @@ body {
     transition: 0.2s;
   }
 
-  /* También podemos hacer que la imagen brille al tocarla */
   .category-card:active img {
     opacity: 0.9 !important;
     transform: scale(1.05) !important;
   }
   
-  /* Esto asegura que el botón regrese al dorado original después del toque */
-.btn:focus {
+  .btn:focus {
     background: #c9a96e !important;
     color: #000 !important;
     transform: scale(1) !important;
-    box-shadow: none !important;
     outline: none !important;
-}
+  }
 
-/* Solo permitimos que se vea "presionado" mientras el dedo está sobre la pantalla */
-.btn:active {
+  .btn:active {
     background: #b3955d !important;
     transform: scale(0.95) !important;
+  }
 }
 
-}
+
   </style>
 </head>
 <body>
-
+<div class="announcement-bar">
+    <p>
+        <span>🚚 <strong>Envío Local GRATIS</strong> en pedidos de $18+</span>
+        <span class="separator">|</span>
+        <span><strong>Nacional</strong> vía <a href="https://www.facebook.com/meloexpressv" target="_blank" class="link-melo">Melo Express</a> 📦</span>
+    </p>
+</div>
 <div class="watermark"></div>
 
 <div class="top-bar">
@@ -575,6 +748,14 @@ body {
   </div>
 </div>
 
+<div class="filter-container">
+    <div class="gender-filters" style="margin-top: 15px;">
+        <button class="btn-gender" onclick="filtrarGenero('hombre')">Hombre</button>
+        <button class="btn-gender" onclick="filtrarGenero('mujer')">Mujer</button>
+        <button class="btn-gender" onclick="filtrarGenero('unisex')">Unisex</button>
+    </div>
+</div>
+
 <div class="search-container">
   <input type="text" id="perfume-search" placeholder="Busca tu perfume favorito." onkeyup="buscarPerfume()">
   <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
@@ -586,12 +767,30 @@ body {
     <span>Tu carrito</span>
     <button id="close-cart">✖</button>
   </div>
+<div class="shipping-goal-container">
+    <p id="goal-message">¡Estás a $18.00 del envío gratis local!</p>
+    <div class="progress-bg">
+        <div id="progress-bar" class="progress-fill"></div>
+    </div>
+</div>
   <ul id="cart-items"></ul>
   <div id="cart-total" style="padding: 15px; border-top: 1px solid #222;">Total: $0.00</div>
   <div class="cart-actions">
     <button id="clear-cart">Vaciar</button>
     <button id="checkout">Hacer pedido</button>
   </div>
+</div>
+
+<div id="zone-modal" class="modal-overlay">
+    <div class="modal-content">
+        <img src="Decants_website/logopng.png" alt="Logo" class="modal-logo">
+        <h3>¿Dónde te encuentras?</h3>
+        <p>Selecciona tu zona para mostrarte las opciones de envío gratis.</p>
+        <div class="zone-buttons">
+            <button onclick="seleccionarZona('local')">📍 Zona Local (Escalón, San Jacinto, Mejicanos, etc.)</button>
+            <button onclick="seleccionarZona('nacional')">🚚 Resto del País (Melo Express)</button>
+        </div>
+    </div>
 </div>
 
 <footer>© 2026 Signature Scents</footer>
@@ -604,13 +803,14 @@ const productos = [
     id: 1,
     marca: "Jean Paul Gaultier",
     nombre: "Le Beau Le Parfum",
+    genero: "hombre",
     ml: "5ml",
     precio: 7.00,
     categoria: "disenador",
     imagen: "Decants_website/LEBEAU.png",
     notas: {
       salida: "Piña, Iris, Ciprés",
-      corazon: "Coco, Madera, Sal",
+      corazon: "Coco, Madera",
       fondo: "Sándalo, Ámbar, Haba Tonka"
     }
   },
@@ -618,6 +818,7 @@ const productos = [
     id: 2,
     marca: "Jean Paul Gaultier",
     nombre: "Le Male Le Parfum",
+    genero: "hombre",
     ml: "5ml",
     precio: 7.00,
     categoria: "disenador",
@@ -632,6 +833,7 @@ const productos = [
     id: 3,
     marca: "Jean Paul Gaultier",
     nombre: "Le Male Elixir",
+    genero: "hombre",
     ml: "5ml",
     precio: 7.00,
     categoria: "disenador",
@@ -646,26 +848,28 @@ const productos = [
     id: 4,
     marca: "Jean Paul Gaultier",
     nombre: "Le Male Elixir Absolu",
+    genero: "hombre",
     ml: "5ml",
     precio: 7.00,
     categoria: "disenador",
     imagen: "Decants_website/lemaleabsolu.png",
     notas: {
-      salida: "Bergamota, Pera",
-      corazon: "Lavanda, Especias",
-      fondo: "Vainilla, Cuero, Madera"
+      salida: "Bergamota, Pera, Canela",
+      corazon: "Lavanda",
+      fondo: "Haba Tonka, Benjuí, Pachulí"
     }
   },
   {
     id: 5,
     marca: "Jean Paul Gaultier",
     nombre: "Le Male In The Navy",
+    genero: "hombre",
     ml: "5ml",
     precio: 7.00,
     categoria: "disenador",
     imagen: "Decants_website/lemaleinthenavy.png",
     notas: {
-      salida: "Menta Helada",
+      salida: "Menta",
       corazon: "Notas Marinas",
       fondo: "Vainilla, Ámbar Gris"
     }
@@ -674,6 +878,7 @@ const productos = [
     id: 6,
     marca: "Jean Paul Gaultier",
     nombre: "Le Male Essence",
+    genero: "hombre",
     ml: "5ml",
     precio: 7.00,
     categoria: "disenador",
@@ -688,6 +893,7 @@ const productos = [
     id: 7,
     marca: "Jean Paul Gaultier",
     nombre: "Le Male Ultramale",
+    genero: "hombre",	
     ml: "5ml",
     precio: 7.00,
     categoria: "disenador",
@@ -702,6 +908,7 @@ const productos = [
     id: 8,
     marca: "Jean Paul Gaultier",
     nombre: "Scandal",
+   genero: "hombre",
     ml: "5ml",
     precio: 6.00,
     categoria: "disenador",
@@ -716,6 +923,7 @@ const productos = [
     id: 9,
     marca: "Yves Saint Laurent",
     nombre: "Y EDP",
+    genero: "hombre",
     ml: "5ml",
     precio: 7.00,
     categoria: "disenador",
@@ -730,27 +938,29 @@ const productos = [
     id: 10,
     marca: "Yves Saint Laurent",
     nombre: "Y Iced Cologne",
+    genero: "hombre",
     ml: "5ml",
     precio: 9.00,
     categoria: "disenador",
     imagen: "Decants_website/yiced.png",
     notas: {
-      salida: "Jengibre, Bergamota, Limón",
-      corazon: "Enebro, Salvia, Geranio",
-      fondo: "Cedro, Amberwood"
+      salida: "Menta, Hielo",
+      corazon: "Té de menta, Salvia",
+      fondo: "Pachulí, Ambroxán"
     }
   },
   {
     id: 11,
     marca: "Yves Saint Laurent",
     nombre: "L’Homme Cologne Bleue",
+    genero: "hombre",
     ml: "5ml",
     precio: 6.00,
     categoria: "disenador",
     imagen: "Decants_website/lhommecologne.png",
     notas: {
       salida: "Notas Marinas, Toronja, Cardamomo",
-      corazon: "Lavanda, Geranio, Tomillo",
+      corazon: "Lavanda, Manzana, Tomillo",
       fondo: "Cedro, Pachulí, Sándalo"
     }
   },
@@ -758,10 +968,11 @@ const productos = [
     id: 12,
     marca: "Dior",
     nombre: "Sauvage Parfum",
+    genero: "hombre",
     ml: "5ml",
     precio: 8.00,
     categoria: "disenador",
-    imagen: "Decants_website/SauvageParfum.png",
+    imagen: "Decants_website/Sauvageparfum.png",
     notas: {
       salida: "Bergamota, Mandarina",
       corazon: "Sándalo de Sri Lanka",
@@ -771,7 +982,8 @@ const productos = [
   {
     id: 13,
     marca: "Dior",
-    nombre: "Homme",
+    nombre: "Homme 2020",
+    genero: "hombre",
     ml: "5ml",
     precio: 7.00,
     categoria: "disenador",
@@ -786,34 +998,37 @@ const productos = [
     id: 14,
     marca: "Azzaro",
     nombre: "TMW Parfum",
+    genero: "hombre",
     ml: "5ml",
     precio: 7.00,
     categoria: "disenador",
     imagen: "Decants_website/TMWP.png",
     notas: {
       salida: "Jengibre",
-      corazon: "Notas Amaderadas, Salvia",
-      fondo: "Haba Tonka Bourbon"
+      corazon: "Notas Amaderadas",
+      fondo: "Vainilla de Bourbon"
     }
   },
   {
     id: 15,
     marca: "Carolina Herrera",
     nombre: "212 VIP Black Elixir",
+    genero: "hombre", 
     ml: "5ml",
     precio: 7.00,
     categoria: "disenador",
     imagen: "Decants_website/VIPELIXIR.png",
     notas: {
-      salida: "Absenta, Pimienta Negra",
-      corazon: "Lavanda, Cuero",
-      fondo: "Vainilla de Madagascar, Ámbar"
+      salida: "Lavanda",
+      corazon: "Regaliz negro",
+      fondo: "Vainilla"
     }
   },
   {
     id: 16,
     marca: "Versace",
     nombre: "Dylan Blue",
+    genero: "hombre",
     ml: "5ml",
     precio: 6.00,
     categoria: "disenador",
@@ -828,20 +1043,22 @@ const productos = [
     id: 17,
     marca: "Versace",
     nombre: "The Dreamer",
+    genero: "hombre",
     ml: "5ml",
     precio: 6.00,
     categoria: "disenador",
     imagen: "Decants_website/thedreamer.png",
     notas: {
       salida: "Enebro, Artemisia, Estragón",
-      corazon: "Lirio, Lino, Ámbar",
-      fondo: "Flor de Tabaco, Estragón"
+      corazon: "Lirio, Lino, Iris",
+      fondo: "Flor de Tabaco, Ámbar"
     }
   },
   {
     id: 18,
     marca: "Versace",
     nombre: "Eros Energy",
+    genero: "hombre",
     ml: "5ml",
     precio: 7.00,
     categoria: "disenador",
@@ -856,6 +1073,7 @@ const productos = [
     id: 19,
     marca: "Versace",
     nombre: "Eros",
+    genero: "hombre",
     ml: "5ml",
     precio: 6.00,
     categoria: "disenador",
@@ -870,6 +1088,7 @@ const productos = [
     id: 20,
     marca: "Versace",
     nombre: "Eros Najim",
+    genero: "hombre",
     ml: "5ml",
     precio: 7.00,
     categoria: "disenador",
@@ -884,20 +1103,22 @@ const productos = [
     id: 21,
     marca: "Prada",
     nombre: "Ocean Le Parfum",
+    genero: "hombre",
     ml: "5ml",
     precio: 7.00,
     categoria: "disenador",
     imagen: "Decants_website/oceanleparfum.png",
     notas: {
       salida: "Esencia de Limón",
-      corazon: "Azafrán, Notas de Iris",
-      fondo: "Madera de Roble, Vetiver"
+      corazon: "Azafrán",
+      fondo: "Madera de Roble, Ámbar Xtreme"
     }
   },
   {
     id: 22,
     marca: "Moschino",
     nombre: "Toy 2 Pearl",
+    genero: "unisex",
     ml: "5ml",
     precio: 6.00,
     categoria: "disenador",
@@ -912,10 +1133,11 @@ const productos = [
     id: 23,
     marca: "Diesel",
     nombre: "Only The Brave",
+    genero: "hombre",
     ml: "5ml",
     precio: 6.00,
     categoria: "disenador",
-    imagen: "Decants_website/Decants/onlythebrave.png",
+    imagen: "Decants_website/onlythebrave.png",
     notas: {
       salida: "Limón de Amalfi, Mandarina",
       corazon: "Violeta, Cedro de Virginia, Cilantro",
@@ -926,6 +1148,7 @@ const productos = [
     id: 24,
     marca: "Valentino",
     nombre: "Uomo BIR",
+    genero: "hombre",
     ml: "5ml",
     precio: 8.00,
     categoria: "disenador",
@@ -940,6 +1163,7 @@ const productos = [
     id: 25,
     marca: "Valentino",
     nombre: "BIR Extradose",
+    genero: "hombre",
     ml: "5ml",
     precio: 9.00,
     categoria: "disenador",
@@ -954,6 +1178,7 @@ const productos = [
     id: 26,
     marca: "Valentino",
     nombre: "BIR Intense",
+    genero: "hombre",
     ml: "5ml",
     precio: 8.00,
     categoria: "disenador",
@@ -968,6 +1193,7 @@ const productos = [
     id: 27,
     marca: "Valentino",
     nombre: "Green Stravaganza",
+    genero: "hombre",
     ml: "5ml",
     precio: 8.00,
     categoria: "disenador",
@@ -982,6 +1208,7 @@ const productos = [
     id: 28,
     marca: "Giorgio Armani",
     nombre: "Acqua Di Gio",
+    genero: "hombre",
     ml: "5ml",
     precio: 6.00,
     categoria: "disenador",
@@ -996,6 +1223,7 @@ const productos = [
     id: 29,
     marca: "Giorgio Armani",
     nombre: "Acqua Di Gio Parfum",
+    genero: "hombre",
     ml: "5ml",
     precio: 7.00,
     categoria: "disenador",
@@ -1010,6 +1238,7 @@ const productos = [
     id: 30,
     marca: "Giorgio Armani",
     nombre: "SWY Parfum",
+    genero: "hombre",
     ml: "5ml",
     precio: 8.00,
     categoria: "disenador",
@@ -1024,6 +1253,7 @@ const productos = [
     id: 31,
     marca: "Giorgio Armani",
     nombre: "SWY Intensely",
+    genero: "hombre",
     ml: "5ml",
     precio: 7.00,
     categoria: "disenador",
@@ -1038,6 +1268,7 @@ const productos = [
     id: 32,
     marca: "Burberry",
     nombre: "Mr. Burberry Indigo",
+    genero: "hombre",
     ml: "5ml",
     precio: 6.00,
     categoria: "disenador",
@@ -1052,6 +1283,7 @@ const productos = [
     id: 33,
     marca: "Dolce & Gabbana",
     nombre: "K EDP",
+    genero: "hombre",
     ml: "5ml",
     precio: 6.00,
     categoria: "disenador",
@@ -1066,20 +1298,22 @@ const productos = [
     id: 34,
     marca: "Viktor & Rolf",
     nombre: "Spicebomb Extreme",
+    genero: "hombre",
     ml: "5ml",
     precio: 7.00,
     categoria: "disenador",
     imagen: "Decants_website/spicebombextreme.png",
     notas: {
-      salida: "Pimienta Negra, Comino",
-      corazon: "Tabaco, Lavanda",
-      fondo: "Vainilla Bourbon"
+      salida: "Vainilla, Tabaco",
+      corazon: "Comino, Azafrán",
+      fondo: "Whisky Bourbon"
     }
   },
   {
     id: 35,
     marca: "Viktor & Rolf",
     nombre: "Spicebomb",
+    genero: "hombre",
     ml: "5ml",
     precio: 6.00,
     categoria: "disenador",
@@ -1094,6 +1328,7 @@ const productos = [
     id: 36,
     marca: "Hugo Boss",
     nombre: "The Scent Magnetic",
+    genero: "hombre",
     ml: "5ml",
     precio: 7.00,
     categoria: "disenador",
@@ -1108,6 +1343,7 @@ const productos = [
     id: 37,
     marca: "Chanel",
     nombre: "Platinum Egoiste",
+    genero: "hombre",
     ml: "5ml",
     precio: 6.00,
     categoria: "disenador",
@@ -1118,10 +1354,26 @@ const productos = [
       fondo: "Ámbar, Sándalo, Musgo de Roble"
     }
   },
+{
+    id: 96,
+    marca: "Chanel",
+    nombre: "Bleu",
+    genero: "hombre",
+    ml: "5ml",
+    precio: 9.00,
+    categoria: "disenador",
+    imagen: "Decants_website/bleu.png",
+    notas: {
+      salida: "Bergamota, Menta, Artemisia",
+      corazon: "Lavanda, Piña, Notas Verdes",
+      fondo: "Sándalo, Cedro, Haba Tonka"
+    }
+  },
   {
     id: 38,
     marca: "Chanel",
     nombre: "Pour Monsieur",
+    genero: "hombre",
     ml: "5ml",
     precio: 7.00,
     categoria: "disenador",
@@ -1136,6 +1388,7 @@ const productos = [
     id: 39,
     marca: "Chanel",
     nombre: "Allure Homme Sport Cologne",
+    genero: "hombre",
     ml: "5ml",
     precio: 6.00,
     categoria: "disenador",
@@ -1150,6 +1403,7 @@ const productos = [
     id: 40,
     marca: "Chanel",
     nombre: "Allure Homme Sport",
+    genero: "hombre",
     ml: "5ml",
     precio: 7.00,
     categoria: "disenador",
@@ -1164,6 +1418,7 @@ const productos = [
     id: 41,
     marca: "Ralph Lauren",
     nombre: "Polo Blue Parfum",
+    genero: "hombre",
     ml: "5ml",
     precio: 7.00,
     categoria: "disenador",
@@ -1178,6 +1433,7 @@ const productos = [
     id: 42,
     marca: "Hermès",
     nombre: "Terre d’Hermès",
+    genero: "hombre",
     ml: "5ml",
     precio: 6.00,
     categoria: "disenador",
@@ -1192,6 +1448,7 @@ const productos = [
     id: 43,
     marca: "Hermès",
     nombre: "Terre Eau Intense Vétiver",
+    genero: "hombre",
     ml: "5ml",
     precio: 7.00,
     categoria: "disenador",
@@ -1206,6 +1463,7 @@ const productos = [
     id: 44,
     marca: "Hermès",
     nombre: "H24",
+    genero: "hombre",
     ml: "5ml",
     precio: 6.00,
     categoria: "disenador",
@@ -1213,13 +1471,14 @@ const productos = [
     notas: {
       salida: "Esclarea",
       corazon: "Narciso, Palo de Rosa",
-      fondo: "Esclarea, Notas Metálicas (Esclareno)"
+      fondo: "Notas Metálicas (Esclareo)"
     }
   },
   {
     id: 45,
     marca: "Hermès",
     nombre: "Un Jardin Sur Le Nil",
+    genero: "unisex",
     ml: "5ml",
     precio: 6.00,
     categoria: "disenador",
@@ -1234,6 +1493,7 @@ const productos = [
     id: 46,
     marca: "Hermès",
     nombre: "Un Jardin Sur Le Toit",
+    genero: "unisex",
     ml: "5ml",
     precio: 6.00,
     categoria: "disenador",
@@ -1248,13 +1508,14 @@ const productos = [
     id: 47,
     marca: "Kerosene",
     nombre: "Walk the Sea",
+    genero: "unisex",
     ml: "5ml",
     precio: 15.00,
     categoria: "nicho",
     imagen: "Decants_website/walkthesea.png",
     notas: {
       salida: "Sal Marina, Flor de Tila",
-      corazon: "Nardo, Flores Blancas",
+      corazon: "Flores Blancas",
       fondo: "Ámbar Gris, Almizcle"
     }
   },
@@ -1262,20 +1523,22 @@ const productos = [
     id: 48,
     marca: "Tom Ford",
     nombre: "Bois Pacifique",
+    genero: "hombre",
     ml: "5ml",
     precio: 14.00,
     categoria: "nicho",
     imagen: "Decants_website/BoisPacifique.png",
     notas: {
-      salida: "Notas Amaderadas",
-      corazon: "Sal de Mar, Notas Marinas",
-      fondo: "Palo Santo, Sándalo"
+      salida: "Cardamomo, Cúrcuma",
+      corazon: "Incienso, Roble, Iris",
+      fondo: "Ámbar, Vainilla"
     }
   },
   {
     id: 49,
     marca: "Tom Ford",
     nombre: "Ombre Leather Parfum",
+    genero: "unisex",
     ml: "5ml",
     precio: 14.00,
     categoria: "nicho",
@@ -1290,6 +1553,7 @@ const productos = [
     id: 50,
     marca: "Creed",
     nombre: "Himalaya",
+    genero: "hombre",
     ml: "5ml",
     precio: 16.00,
     categoria: "nicho",
@@ -1304,6 +1568,7 @@ const productos = [
     id: 51,
     marca: "Creed",
     nombre: "Millésime Impérial",
+    genero: "unisex",
     ml: "5ml",
     precio: 16.00,
     categoria: "nicho",
@@ -1318,6 +1583,7 @@ const productos = [
     id: 52,
     marca: "Room1015",
     nombre: "Wavechild",
+    genero: "unisex",
     ml: "5ml",
     precio: 15.00,
     categoria: "nicho",
@@ -1332,6 +1598,7 @@ const productos = [
     id: 53,
     marca: "Acqua Di Parma",
     nombre: "Fico Di Amalfi",
+    genero: "unisex",
     ml: "5ml",
     precio: 9.00,
     categoria: "nicho",
@@ -1346,6 +1613,7 @@ const productos = [
     id: 54,
     marca: "Imaginary Authors",
     nombre: "Falling Into The Sea",
+    genero: "unisex",
     ml: "5ml",
     precio: 15.00,
     categoria: "nicho",
@@ -1360,6 +1628,7 @@ const productos = [
     id: 55,
     marca: "Montale",
     nombre: "Chocolate Greedy",
+    genero: "unisex",
     ml: "5ml",
     precio: 7.00,
     categoria: "nicho",
@@ -1374,6 +1643,7 @@ const productos = [
     id: 56,
     marca: "Montale",
     nombre: "Arabians Tonka",
+    genero: "unisex",
     ml: "5ml",
     precio: 8.00,
     categoria: "nicho",
@@ -1388,6 +1658,7 @@ const productos = [
     id: 57,
     marca: "Orto Parisi",
     nombre: "Megamare",
+    genero: "unisex",
     ml: "3ml",
     precio: 12.00,
     categoria: "nicho",
@@ -1402,6 +1673,7 @@ const productos = [
     id: 58,
     marca: "Sospiro",
     nombre: "Erba Pura Magica",
+    genero: "unisex",
     ml: "5ml",
     precio: 14.00,
     categoria: "nicho",
@@ -1416,6 +1688,7 @@ const productos = [
     id: 59,
     marca: "Sospiro",
     nombre: "Vibrato",
+    genero: "unisex",
     ml: "5ml",
     precio: 14.00,
     categoria: "nicho",
@@ -1430,6 +1703,7 @@ const productos = [
     id: 60,
     marca: "Xerjoff",
     nombre: "Erba Pura",
+    genero: "unisex",
     ml: "5ml",
     precio: 14.00,
     categoria: "nicho",
@@ -1440,10 +1714,41 @@ const productos = [
       fondo: "Almizcle Blanco, Ámbar, Vainilla de Madagascar"
     }
   },
+{
+    id: 94,
+    marca: "Xerjoff",
+    nombre: "Erba Gold",
+    genero: "unisex",
+    ml: "5ml",
+    precio: 14.00,
+    categoria: "nicho",
+    imagen: "Decants_website/erbagold.png",
+    notas: {
+      salida: "Naranja brasileña, Bergamota, Jengibre",
+      corazon: "Melón, Pera, Especias",
+      fondo: "Almizcle Blanco, Ámbar, Vainilla de Madagascar"
+    }
+  },
+{
+    id: 94,
+    marca: "Xerjoff",
+    nombre: "Duran Duran NeoRio",
+    genero: "unisex",
+    ml: "5ml",
+    precio: 15.00,
+    categoria: "nicho",
+    imagen: "Decants_website/neogreen.png",
+    notas: {
+      salida: "Ron, Higo, Elemí",
+      corazon: "Jarabe de arce, Azafrán",
+      fondo: "Bálsamo del Perú, Pachulí, Haba Tonka"
+    }
+  },
   {
     id: 61,
     marca: "Xerjoff",
     nombre: "Ouverture",
+    genero: "unisex",
     ml: "5ml",
     precio: 14.00,
     categoria: "nicho",
@@ -1454,10 +1759,26 @@ const productos = [
       fondo: "Sándalo, Madera de Cachemira, Ámbar, Vainilla"
     }
   },
+ {
+    id: 95,
+    marca: "Xerjoff",
+    nombre: "XJ 1861 Naxos",
+    genero: "unisex",
+    ml: "5ml",
+    precio: 14.00,
+    categoria: "nicho",
+    imagen: "Decants_website/naxos.png",
+    notas: {
+      salida: "Lavanda, Bergamota, Limón",
+      corazon: "Miel, Canela, Jazmín Sambac",
+      fondo: "Hojas de Tabaco, Vainilla, Haba Tonka"
+    }
+  },
   {
     id: 62,
     marca: "Xerjoff",
     nombre: "K´bridge Club",
+    genero: "unisex",
     ml: "5ml",
     precio: 14.00,
     categoria: "nicho",
@@ -1472,6 +1793,7 @@ const productos = [
     id: 63,
     marca: "Xerjoff",
     nombre: "Opera",
+    genero: "unisex",
     ml: "5ml",
     precio: 14.00,
     categoria: "nicho",
@@ -1486,6 +1808,7 @@ const productos = [
     id: 64,
     marca: "Akro",
     nombre: "Breathe",
+    genero: "unisex",
     ml: "5ml",
     precio: 14.00,
     categoria: "nicho",
@@ -1500,6 +1823,7 @@ const productos = [
     id: 65,
     marca: "M. Micallef",
     nombre: "Edenfalls",
+    genero: "unisex",
     ml: "5ml",
     precio: 15.00,
     categoria: "nicho",
@@ -1514,6 +1838,7 @@ const productos = [
     id: 66,
     marca: "M. Micallef",
     nombre: "GNTonic",
+    genero: "hombre",
     ml: "5ml",
     precio: 15.00,
     categoria: "nicho",
@@ -1528,6 +1853,7 @@ const productos = [
     id: 67,
     marca: "Mancera",
     nombre: "Lemon Line",
+    genero: "unisex",
     ml: "5ml",
     precio: 7.00,
     categoria: "nicho",
@@ -1542,6 +1868,7 @@ const productos = [
     id: 68,
     marca: "Mancera",
     nombre: "Aoud Blue Notes",
+    genero: "unisex",
     ml: "5ml",
     precio: 7.00,
     categoria: "nicho",
@@ -1556,6 +1883,7 @@ const productos = [
     id: 69,
     marca: "Mancera",
     nombre: "Cinque Terre",
+    genero: "unisex",
     ml: "5ml",
     precio: 7.00,
     categoria: "nicho",
@@ -1570,6 +1898,7 @@ const productos = [
     id: 70,
     marca: "Mancera",
     nombre: "Cedrat Boise",
+    genero: "unisex",
     ml: "5ml",
     precio: 7.00,
     categoria: "nicho",
@@ -1584,6 +1913,7 @@ const productos = [
     id: 71,
     marca: "Mancera",
     nombre: "Hindu Kush",
+    genero: "unisex",
     ml: "5ml",
     precio: 7.00,
     categoria: "nicho",
@@ -1598,6 +1928,7 @@ const productos = [
     id: 72,
     marca: "Mancera",
     nombre: "Fig Extasy",
+    genero: "unisex",
     ml: "5ml",
     precio: 7.00,
     categoria: "nicho",
@@ -1612,6 +1943,7 @@ const productos = [
     id: 73,
     marca: "Mancera",
     nombre: "Red Tobacco Intense",
+    genero: "unisex",
     ml: "5ml",
     precio: 7.00,
     categoria: "nicho",
@@ -1626,6 +1958,7 @@ const productos = [
     id: 74,
     marca: "Argos",
     nombre: "La Primavera",
+    genero: "unisex",
     ml: "5ml",
     precio: 16.00,
     categoria: "nicho",
@@ -1640,6 +1973,7 @@ const productos = [
     id: 75,
     marca: "Aghatho",
     nombre: "Olimpoverde",
+    genero: "unisex",
     ml: "5ml",
     precio: 15.00,
     categoria: "nicho",
@@ -1654,6 +1988,7 @@ const productos = [
     id: 76,
     marca: "Aghatho",
     nombre: "Bronzeo",
+    genero: "unisex",
     ml: "5ml",
     precio: 15.00,
     categoria: "nicho",
@@ -1668,6 +2003,7 @@ const productos = [
     id: 77,
     marca: "Fragrance One",
     nombre: "Date For Men",
+    genero: "hombre",
     ml: "5ml",
     precio: 13.00,
     categoria: "nicho",
@@ -1682,6 +2018,7 @@ const productos = [
     id: 78,
     marca: "Fragrance One",
     nombre: "Office For Men",
+    genero: "hombre",
     ml: "5ml",
     precio: 13.00,
     categoria: "nicho",
@@ -1696,6 +2033,7 @@ const productos = [
     id: 79,
     marca: "Fragrance One",
     nombre: "The Mint",
+    genero: "unisex",
     ml: "5ml",
     precio: 15.00,
     categoria: "nicho",
@@ -1710,6 +2048,7 @@ const productos = [
     id: 80,
     marca: "Zoologist",
     nombre: "Seahorse",
+    genero: "unisex",
     ml: "3ml",
     precio: 15.00,
     categoria: "nicho",
@@ -1724,6 +2063,7 @@ const productos = [
     id: 81,
     marca: "Lorenzo Pazzaglia",
     nombre: "Adam & Eve´s dress",
+    genero: "unisex",
     ml: "3ml",
     precio: 12.00,
     categoria: "nicho",
@@ -1738,6 +2078,7 @@ const productos = [
     id: 82,
     marca: "Lorenzo Pazzaglia",
     nombre: "Black Sea",
+    genero: "unisex",
     ml: "3ml",
     precio: 12.00,
     categoria: "nicho",
@@ -1752,6 +2093,7 @@ const productos = [
     id: 83,
     marca: "Superz.",
     nombre: "Caesar Ultra",
+    genero: "hombre",
     ml: "5ml",
     precio: 15.00,
     categoria: "nicho",
@@ -1766,6 +2108,7 @@ const productos = [
     id: 84,
     marca: "Bond No 9",
     nombre: "Wall Street",
+    genero: "unisex",
     ml: "5ml",
     precio: 14.00,
     categoria: "nicho",
@@ -1780,6 +2123,7 @@ const productos = [
     id: 85,
     marca: "Bond No 9",
     nombre: "Bond No 9 Signature Scent",
+    genero: "unisex",
     ml: "5ml",
     precio: 14.00,
     categoria: "nicho",
@@ -1794,6 +2138,7 @@ const productos = [
     id: 86,
     marca: "Bond No 9",
     nombre: "Dubai Garnet",
+    genero: "unisex",
     ml: "5ml",
     precio: 14.00,
     categoria: "nicho",
@@ -1808,6 +2153,7 @@ const productos = [
     id: 87,
     marca: "Bond No 9",
     nombre: "The Scent Of Peace For Her",
+    genero: "mujer",
     ml: "5ml",
     precio: 14.00,
     categoria: "nicho",
@@ -1822,10 +2168,11 @@ const productos = [
     id: 88,
     marca: "Goldfield & Banks",
     nombre: "Bohemian Lime",
+    genero: "unisex",
     ml: "5ml",
     precio: 13.00,
     categoria: "nicho",
-    imagen: "Decants_website/Decants/bohemian.png",
+    imagen: "Decants_website/bohemian.png",
     notas: {
       salida: "Dedo de Lima (Finger Lime), Bergamota",
       corazon: "Cilantro",
@@ -1836,6 +2183,7 @@ const productos = [
     id: 89,
     marca: "Goldfield & Banks",
     nombre: "Pacific Rock Moss",
+    genero: "unisex",
     ml: "5ml",
     precio: 13.00,
     categoria: "nicho",
@@ -1850,6 +2198,7 @@ const productos = [
     id: 90,
     marca: "Theodoros Kalotinis",
     nombre: "Aegean Salt & Citrus",
+    genero: "unisex",
     ml: "5ml",
     precio: 13.00,
     categoria: "nicho",
@@ -1864,6 +2213,7 @@ const productos = [
     id: 91,
     marca: "Maison Margiela REPLICA",
     nombre: "Under The Lemon Trees",
+    genero: "unisex",
     ml: "5ml",
     precio: 7.00,
     categoria: "nicho",
@@ -1878,6 +2228,7 @@ const productos = [
     id: 92,
     marca: "Maison Margiela REPLICA",
     nombre: "Coffee Break",
+    genero: "unisex",
     ml: "5ml",
     precio: 7.00,
     categoria: "nicho",
@@ -1892,6 +2243,7 @@ const productos = [
     id: 93,
     marca: "Nishane",
     nombre: "Hacivat",
+    genero: "unisex",
     ml: "5ml",
     precio: 14.00,
     categoria: "nicho",
@@ -1958,6 +2310,27 @@ function filtrar(categoria) {
     });
 }
 
+// FILTRO POR GÉNERO (Men / Women / Unisex)
+function filtrarGenero(genero) {
+    const cards = document.querySelectorAll('.card');
+    const container = document.getElementById('perfume-container');
+    const searchBar = document.querySelector('.search-container');
+    
+    container.style.display = 'grid';
+
+    cards.forEach(card => {
+        if (card.getAttribute('data-gender') === genero) {
+            card.style.display = 'block';
+            setTimeout(() => { card.classList.remove('hidden'); }, 10);
+        } else {
+            card.style.display = 'none';
+            card.classList.add('hidden');
+        }
+    });
+
+    window.scrollTo({ top: searchBar.offsetTop - 100, behavior: 'smooth' });
+}
+
 // --- 2. LÓGICA DEL CARRITO ---
 
 let carrito = JSON.parse(localStorage.getItem('carrito')) || [];
@@ -1999,6 +2372,9 @@ function renderCarrito() {
     localStorage.setItem('carrito', JSON.stringify(carrito));
     actualizarContador();
     actualizarTotal();
+  
+  const totalActual = carrito.reduce((acc, item) => acc + item.precio * item.cantidad, 0);
+    actualizarBarraProgreso(totalActual);
 }
 
 function cambiarCantidad(index, cambio) {
@@ -2013,24 +2389,110 @@ function eliminarItem(index) {
 }
 
 function hacerPedido() {
-    if (carrito.length === 0) { alert('Tu carrito está vacío'); return; }
+    if (carrito.length === 0) { 
+        alert('Tu carrito está vacío'); 
+        return; 
+    }
     
-    // Usamos el guion estándar (-) que es seguro en cualquier sistema
+    const subtotal = carrito.reduce((acc, item) => acc + item.precio * item.cantidad, 0);
+    let costoEnvio = 0;
+    let envioTexto = "";
+
+    // Lógica de envío sin iconos
+    if (subtotal < META_ENVIO_GRATIS) {
+        costoEnvio = 2.50;
+        envioTexto = `\nCosto de envío: $2.50`;
+    } else {
+        envioTexto = `\nEnvío: GRATIS`;
+    }
+
+    const totalFinal = subtotal + costoEnvio;
     const lista = carrito.map(item => `- ${item.nombre} (x${item.cantidad})`).join('\n');
-    const total = carrito.reduce((acc, item) => acc + item.precio * item.cantidad, 0);
     
-    // Texto plano y directo. La elegancia está en la claridad.
-    const saludo = "¡Hola Signature Scents!";
-    const cuerpo = "Quiero realizar el siguiente pedido:";
+    const saludo = "Hola Signature Scents.";
+    const cuerpo = "Deseo realizar el siguiente pedido:";
     
-    // El asterisco (*) para negritas sí es seguro en WhatsApp
-    const mensaje = `${saludo}\n\n${cuerpo}\n${lista}\n\n*Total a pagar: $${total.toFixed(2)}*`;
+    // Construcción del mensaje limpio y serio
+    const mensaje = `${saludo}\n\n${cuerpo}\n\n${lista}\n\n---${envioTexto}\n*Total a pagar: $${totalFinal.toFixed(2)}*`;
     
-    // Sin códigos extraños, solo el mensaje limpio
+    // Tu número de WhatsApp
     const url = `https://wa.me/50375392948?text=${encodeURIComponent(mensaje)}`;
     
     window.open(url, '_blank');
 }
+//---META CARRITO--
+
+// Configuración de la meta
+
+// 1. La variable ahora es "let" para que pueda cambiar de 18 a 25
+let META_ENVIO_GRATIS = 18.00; 
+
+// 2. Esta es tu función de la barra (se mantiene igual, solo asegúrate que use la variable de arriba)
+function actualizarBarraProgreso(montoActual) {
+    const barra = document.getElementById('progress-bar');
+    const mensaje = document.getElementById('goal-message');
+    
+    let porcentaje = (montoActual / META_ENVIO_GRATIS) * 100;
+    if (porcentaje > 100) porcentaje = 100;
+
+    barra.style.width = porcentaje + '%';
+
+    if (montoActual >= META_ENVIO_GRATIS) {
+        mensaje.innerHTML = "🎉 ¡Felicidades! Tienes <strong>Envío GRATIS</strong>";
+        barra.classList.add('goal-reached');
+    } else if (montoActual > 0) {
+        // AQUÍ ESTÁ EL CAMBIO: Mostramos cuánto falta O el costo del envío
+        let faltante = (META_ENVIO_GRATIS - montoActual).toFixed(2);
+        mensaje.innerHTML = `Faltan <strong>$${faltante}</strong> para envío gratis <br> <span style="font-size: 11px; opacity: 0.8;">o costo de envío: $2.50</span>`;
+        barra.classList.remove('goal-reached');
+    } else {
+        mensaje.innerHTML = `Envío GRATIS desde <strong>$${META_ENVIO_GRATIS.toFixed(2)}</strong>`;
+    }
+}
+
+// 3. Esta es la función que conecta el Pop-up con la barra
+function seleccionarZona(zona) {
+    localStorage.setItem('zonaUsuario', zona);
+    
+    // Aquí es donde sucede la magia de los montos
+    if (zona === 'local') {
+        META_ENVIO_GRATIS = 18.00;
+    } else {
+        META_ENVIO_GRATIS = 25.00; // Meta para envíos nacionales
+    }
+    
+    // Cerramos el modal
+    const modal = document.getElementById('zone-modal');
+    if (modal) modal.classList.remove('show');
+    
+    // Recalculamos la barra con el total que ya esté en el carrito
+    const totalActual = carrito.reduce((acc, item) => acc + item.precio * item.cantidad, 0);
+    actualizarBarraProgreso(totalActual);
+}
+
+// 4. El "encendido" al cargar la página
+document.addEventListener('DOMContentLoaded', () => {
+    // 1. Verificamos si hay productos en el carrito
+    // Asumo que tu array de productos se llama 'carrito'
+    const carritoVacio = typeof carrito !== 'undefined' && carrito.length === 0;
+    
+    // 2. Verificamos si ya había una zona guardada
+    const zonaGuardada = localStorage.getItem('zonaUsuario');
+
+    // SOLO mostramos el modal si:
+    // El carrito está vacío Y (es la primera vez O queremos que siempre pregunte al F5)
+    if (carritoVacio) {
+        // Opcional: Si quieres que SIEMPRE pregunte al refrescar aunque ya hubiera elegido, 
+        // dejamos que pase. Si prefieres que solo pregunte UNA vez, añade: && !zonaGuardada
+        setTimeout(() => {
+            const modal = document.getElementById('zone-modal');
+            if (modal) modal.classList.add('show');
+        }, 1000);
+    } else if (zonaGuardada) {
+        // Si el carrito tiene cosas y ya sabemos la zona, solo la aplicamos
+        seleccionarZona(zonaGuardada);
+    }
+});
 // --- 3. GENERADOR DE PRODUCTOS (HTML DINÁMICO) ---
 
 function renderizarProductos() {
@@ -2043,6 +2505,7 @@ function renderizarProductos() {
         card.className = `card hidden`; // Empiezan ocultas para el efecto de búsqueda/filtro
         card.style.display = "none";    // Se muestran solo al filtrar o buscar
         card.setAttribute('data-category', p.categoria);
+        card.setAttribute('data-gender', p.genero);
 
         card.innerHTML = `
             <div class="img-container">
