@@ -12,9 +12,7 @@ html, body {
   max-width: 100%;
   overflow-x: hidden;
   margin: 0;
-  padding: 0;
-  /* Agregamos esto para que el navegador sepa que el cuerpo ocupa toda la pantalla */
-  height: 100%; 
+  padding: 0; 
 }
 
 body {
@@ -22,11 +20,8 @@ body {
   background-color: #0a0a0a;
   color: #fff;
   text-align: center;
-  
-  /* --- ESTAS SON LAS LÍNEAS MÁGICAS QUE TE FALTAN --- */
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh; /* Obliga al cuerpo a medir al menos el alto de la pantalla */
+  display: block;
+  min-height: auto;
 }
 
 main, .main-content { 
@@ -35,13 +30,12 @@ main, .main-content {
 
 footer {
   width: 100%;
-  padding: 20px 0;
+  padding: 40px 0;
   background: #0a0a0a;
-  border-top: 1px solid #1a1a1a;
   text-align: center;
   font-size: 14px;
   color: #555;
-  margin-top: auto; /* Esto lo ancla al fondo */
+  margin-top: auto; 
 }
 
 /* --- AJUSTE DEL CONTENEDOR --- */
@@ -154,8 +148,8 @@ footer {
     gap: 20px;
     justify-content: center;
     padding: 20px;
-    /* Aumentamos un poco para dar espacio al nuevo acomodo */
     margin-top: 240px; 
+    min-height: 35vh;
 }
 .category-card {
   position: relative;
@@ -375,11 +369,8 @@ footer {
     top: 0; 
     right: -350px;
     width: 320px; 
-    
-    /* Úsalo aquí para que sea la base de todo */
     height: 100vh; 
     height: 100dvh; 
-
     background: #111;
     box-shadow: -10px 0 30px rgba(0,0,0,0.9);
     transition: 0.4s ease;
@@ -640,16 +631,6 @@ footer {
     align-items: center;    
   }
 
-@media (max-width: 480px) {
-    .top-bar {
-        /* Si el texto del anuncio se duplica, bajamos el header a 55px o 60px */
-        top: 55px; 
-    }
-    .category-selector {
-        margin-top: 280px;
-    }
-}
-
 /* Celulares (iPhone/Android) */
 @media (max-width: 480px) {
   /* --- NUEVO: ESTO ACTIVA LAS 2 COLUMNAS --- */
@@ -659,7 +640,10 @@ footer {
     padding: 10px !important;
     margin-top: auto !important; /* Ajusta según el alto de tu header móvil */
   }
- 
+  .top-bar {
+        /* Si el texto del anuncio se duplica, bajamos el header a 55px o 60px */
+        top: 55px; 
+    }
 .modal-content {
  width:80%;
 }
@@ -978,6 +962,66 @@ const productos = [
       fondo: "Cedro, Pachulí, Sándalo"
     }
   },
+{
+    id: 103,
+    marca: "Yves Saint Laurent",
+    nombre: "Opium",
+    genero: "mujer",
+    ml: "5ml",
+    precio: 6.00,
+    categoria: "disenador",
+    imagen: "Decants_website/opium.png",
+    notas: {
+      salida: "Mandarina, Bergamota, Lirio",
+      corazon: "Mirra, Clavel, Jazmín",
+      fondo: "Vainilla, Pachulí, Ámbar"
+    }
+  },
+{
+    id: 102,
+    marca: "Dior",
+    nombre: "Hypnotic Poison EDP",
+    genero: "mujer",
+    ml: "5ml",
+    precio: 7.00,
+    categoria: "disenador",
+    imagen: "Decants_website/hypnoticpoison.png",
+    notas: {
+      salida: "Regaliz, Almendra",
+      corazon: "Azahar, Jazmín",
+      fondo: "Vainilla, Haba Tonka"
+    }
+  },
+{
+    id: 104,
+    marca: "Dior",
+    nombre: "Poison",
+    genero: "mujer",
+    ml: "5ml",
+    precio: 7.00,
+    categoria: "disenador",
+    imagen: "Decants_website/poison.png",
+    notas: {
+      salida: "Ciruela, Bayas Silvestres, Cilantro",
+      corazon: "Miel, Clavel, Jazmín, Canela",
+      fondo: "Vainilla, Vetiver, Ámbar"
+    }
+  },
+{
+    id: 108,
+    marca: "Dior",
+    nombre: "Sauvage Elixir",
+    genero: "hombre",
+    ml: "5ml",
+    precio: 16.00,
+    categoria: "disenador",
+    imagen: "Decants_website/sauvageelixir.png",
+    notas: {
+      salida: "Canela, Nuez moscada, Cardamomo",
+      corazon: "Lavanda",
+      fondo: "Regaliz, Sándalo, Ámbar, Pachulí"
+    }
+  },
   {
     id: 12,
     marca: "Dior",
@@ -1036,6 +1080,21 @@ const productos = [
       salida: "Lavanda",
       corazon: "Regaliz negro",
       fondo: "Vainilla"
+    }
+  },
+{
+    id: 107,
+    marca: "Versace",
+    nombre: "Dylan Turquoise",
+    genero: "mujer",
+    ml: "5ml",
+    precio: 7.00,
+    categoria: "disenador",
+    imagen: "Decants_website/dylanturquoise.png",
+    notas: {
+      salida: "Limón, Mandarina, Pimienta Rosa",
+      corazon: "Guayaba, Fresia, Jazmín",
+      fondo: "Clearwood, Almizcle, Cedro"
     }
   },
   {
@@ -1310,7 +1369,7 @@ const productos = [
   },
   {
     id: 33,
-    marca: "Dolce & Gabbana",
+    marca: "Dolce&Gabbana",
     nombre: "K EDP",
     genero: "hombre",
     ml: "5ml",
@@ -1321,6 +1380,21 @@ const productos = [
       salida: "Naranja Sanguínea, Pimiento, Limón",
       corazon: "Néctar de Higo, Lavanda, Geranio",
       fondo: "Cedro, Pachulí, Vetiver"
+    }
+  },
+{
+    id: 100,
+    marca: "Dolce&Gabbana",
+    nombre: "Devotion",
+    genero: "mujer",
+    ml: "5ml",
+    precio: 6.00,
+    categoria: "disenador",
+    imagen: "Decants_website/devotionedp.png",
+    notas: {
+      salida: "Limón confitado",
+      corazon: "Panacota, Flor de naranjo, Ron",
+      fondo: "Vainilla"
     }
   },
   {
@@ -1351,6 +1425,21 @@ const productos = [
       salida: "Pimienta Rosa, Bergamota, Toronja",
       corazon: "Canela, Azafrán, Pimentón",
       fondo: "Tabaco, Cuero, Vetiver"
+    }
+  },
+{
+    id: 101,
+    marca: "Viktor&Rolf",
+    nombre: "Flowerbomb",
+    genero: "mujer",
+    ml: "5ml",
+    precio: 7.00,
+    categoria: "disenador",
+    imagen: "Decants_website/flowerbomb.png",
+    notas: {
+      salida: "Té, Bergamota, Osmanto",
+      corazon: "Fresia, Rosa, Jazmín",
+      fondo: "Vainilla, Pachulí, Almizcle"
     }
   },
   {
@@ -1460,7 +1549,7 @@ const productos = [
   },
   {
     id: 42,
-    marca: "Hermès",
+    marca: "Hermes",
     nombre: "Terre d’Hermès",
     genero: "hombre",
     ml: "5ml",
@@ -1475,7 +1564,7 @@ const productos = [
   },
   {
     id: 43,
-    marca: "Hermès",
+    marca: "Hermes",
     nombre: "Terre Eau Intense Vétiver",
     genero: "hombre",
     ml: "5ml",
@@ -1490,7 +1579,7 @@ const productos = [
   },
   {
     id: 44,
-    marca: "Hermès",
+    marca: "Hermes",
     nombre: "H24",
     genero: "hombre",
     ml: "5ml",
@@ -1505,7 +1594,7 @@ const productos = [
   },
   {
     id: 45,
-    marca: "Hermès",
+    marca: "Hermes",
     nombre: "Un Jardin Sur Le Nil",
     genero: "unisex",
     ml: "5ml",
@@ -1520,7 +1609,7 @@ const productos = [
   },
   {
     id: 46,
-    marca: "Hermès",
+    marca: "Hermes",
     nombre: "Un Jardin Sur Le Toit",
     genero: "unisex",
     ml: "5ml",
@@ -1531,6 +1620,21 @@ const productos = [
       salida: "Césped, Manzana Manzana Roja",
       corazon: "Pera, Rosa",
       fondo: "Magnolia, Romero"
+    }
+  },
+{
+    id: 106,
+    marca: "Hermes",
+    nombre: "Tutti Twilly",
+    genero: "mujer",
+    ml: "5ml",
+    precio: 7.00,
+    categoria: "disenador",
+    imagen: "Decants_website/tutti.png",
+    notas: {
+      salida: "Lychee",
+      corazon: "Flor de Jengibre",
+      fondo: "Almizcle"
     }
   },
  {
@@ -1548,7 +1652,37 @@ const productos = [
       fondo: "Almizcle, Cedro, Pachuli"
     }
   },
-  {
+{
+    id: 99,
+    marca: "Escada",
+    nombre: "Flor del Sol",
+    genero: "mujer",
+    ml: "5ml",
+    precio: 6.00,
+    categoria: "disenador",
+    imagen: "Decants_website/flordelsol.png",
+    notas: {
+      salida: "Granadine, Tequila, Naranja",
+      corazon: "Dalia",
+      fondo: "Sándalo"
+    }
+  },
+{
+    id: 105,
+    marca: "Moschino",
+    nombre: "Toy 2",
+    genero: "mujer",
+    ml: "5ml",
+    precio: 6.00,
+    categoria: "disenador",
+    imagen: "Decants_website/toy2.png",
+    notas: {
+      salida: "Manzana, Mandarina, Magnolia",
+      corazon: "Grosella Blanca, Peonía, Jazmín",
+      fondo: "Almizcle, Sándalo, Amberwood"
+    }
+  },
+ {
     id: 47,
     marca: "Kerosene",
     nombre: "Walk the Sea",
@@ -2255,7 +2389,7 @@ const productos = [
   },
   {
     id: 91,
-    marca: "Maison Margiela REPLICA",
+    marca: "Maison Margiela",
     nombre: "Under The Lemon Trees",
     genero: "unisex",
     ml: "5ml",
@@ -2270,7 +2404,7 @@ const productos = [
   },
   {
     id: 92,
-    marca: "Maison Margiela REPLICA",
+    marca: "Maison Margiela",
     nombre: "Coffee Break",
     genero: "unisex",
     ml: "5ml",
@@ -2347,11 +2481,16 @@ function filtrar(categoria) {
         }
     });
 
-    // Scroll suave hacia la zona de búsqueda/catálogo
-    window.scrollTo({
-        top: searchBar.offsetTop - 100,
-        behavior: 'smooth'
-    });
+    // Esta forma es la que mejor funciona en móviles modernos
+    setTimeout(() => {
+        const yOffset = -120; // Espacio para que no lo tape la barra superior
+        const y = searchBar.getBoundingClientRect().top + window.pageYOffset + yOffset;
+        
+        window.scrollTo({
+            top: y,
+            behavior: 'smooth'
+        });
+    }, 200);
 }
 
 // FILTRO POR GÉNERO (Men / Women / Unisex)
