@@ -30,7 +30,6 @@ main, .main-content {
 
 footer {
   width: 100%;
-  padding: 40px 0;
   background: #0a0a0a;
   text-align: center;
   font-size: 14px;
@@ -474,7 +473,7 @@ footer {
 .search-container {
   position: relative;
   max-width: 600px;
-  margin: 30px auto;
+  margin: 15px auto;
   padding: 0 20px;
 }
 
@@ -617,7 +616,7 @@ footer {
     background: #111; padding: 30px; border-radius: 20px;
     text-align: center; border: 1px solid #c9a96e; max-width: 400px; width: 90%;
 }
-.modal-logo { width: 80px; margin-bottom: 15px; }
+.modal-logo { width: 80px; }
 .zone-buttons { display: flex; flex-direction: column; gap: 10px; margin-top: 20px; }
 .zone-buttons button {
     padding: 15px; border: 1px solid #333; background: #1a1a1a;
@@ -746,17 +745,17 @@ footer {
   </div>
 </div>
 
+<div class="search-container">
+  <input type="text" id="perfume-search" placeholder="Busca tu perfume favorito." onkeyup="buscarPerfume()">
+  <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+</div>
+
 <div class="filter-container">
-    <div class="gender-filters" style="margin-top: 15px;">
+    <div class="gender-filters" style="margin-bottom: 15px;">
         <button class="btn-gender" onclick="filtrarGenero('hombre')">Hombre</button>
         <button class="btn-gender" onclick="filtrarGenero('mujer')">Mujer</button>
         <button class="btn-gender" onclick="filtrarGenero('unisex')">Unisex</button>
     </div>
-</div>
-
-<div class="search-container">
-  <input type="text" id="perfume-search" placeholder="Busca tu perfume favorito." onkeyup="buscarPerfume()">
-  <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
 </div>
 <div class="container" id="perfume-container"></div>
 
@@ -785,13 +784,29 @@ footer {
         <h3>¿Dónde te encuentras?</h3>
         <p>Selecciona tu zona para mostrarte las opciones de envío gratis.</p>
         <div class="zone-buttons">
-            <button onclick="seleccionarZona('local')">📍 Zona Local (Escalón, San Jacinto, Mejicanos, etc.)</button>
-            <button onclick="seleccionarZona('nacional')">🚚 Resto del País (Melo Express)</button>
+            <button onclick="seleccionarZona('local')">📍 Local (Escalón, San Miguelito, Ayutuxtepeque.)</button>
+            <button onclick="seleccionarZona('nacional')">🚚 Resto del País (Incluye Soyapango, San Marcos, Santa Tecla, etc.)</button>
         </div>
     </div>
 </div>
 
-<footer>© 2026 Signature Scents</footer>
+<footer>
+    <div class="payment-methods" style="opacity: 0.6;">
+        <p style="font-size: 11px; letter-spacing: 2px; margin-bottom: 15px; margin-top: 20px; color: #aaa;">ACEPTAMOS</p>
+        <div style="display: flex; justify-content: center; align-items: center; gap: 20px;">
+            <img src="Decants_website/visa.png" 
+                 alt="Visa" 
+                 style="height: 22px; filter: grayscale(1) brightness(2);">
+            
+            <img src="Decants_website/mastercard.svg" 
+                 alt="Mastercard" 
+                 style="height: 22px; filter: grayscale(1) brightness(2);">
+        </div>
+    </div>
+    <p style="font-size: 10px; color: #444; letter-spacing: 1px; margin-top: 15px;">
+        &copy; 2026 SIGNATURE SCENTS.
+    </p>
+</footer>
 
 <script>
   // --- LÓGICA DE FILTRADO ---
@@ -2483,7 +2498,7 @@ function filtrar(categoria) {
 
     // Esta forma es la que mejor funciona en móviles modernos
     setTimeout(() => {
-        const yOffset = -120; // Espacio para que no lo tape la barra superior
+        const yOffset = -100; // Espacio para que no lo tape la barra superior
         const y = searchBar.getBoundingClientRect().top + window.pageYOffset + yOffset;
         
         window.scrollTo({
