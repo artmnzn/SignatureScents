@@ -622,6 +622,13 @@ footer {
 }
 .zone-buttons button:hover { border-color: #c9a96e; background: #222; }
 
+.no-scroll {
+    overflow: hidden !important;
+    height: 100vh !important;
+    position: fixed !important; 
+    width: 100%;
+}
+
 @media (max-width: 768px) {
   .category-selector { 
     flex-direction: column; 
@@ -629,7 +636,6 @@ footer {
   }
 }
 
-/* Celulares (iPhone/Android) */
 @media (max-width: 480px) {
   .container {
     grid-template-columns: repeat(2, 1fr) !important; 
@@ -696,8 +702,6 @@ footer {
     transform: scale(0.95) !important;
   }
 }
-
-
   </style>
 </head>
 <body>
@@ -2806,18 +2810,30 @@ document.addEventListener('DOMContentLoaded', () => {
     const checkoutBtn = document.getElementById('checkout');
     const clearCart = document.getElementById('clear-cart');
 
-    cartIndicator.addEventListener('click', () => {
-        cartPanel.classList.toggle('active');
-        document.body.style.overflow = cartPanel.classList.contains('active') ? 'hidden' : 'auto';
-    });
+  cartIndicator.addEventListener('click', () => {
+    cartPanel.classList.toggle('active');
+    
+    document.body.classList.toggle('no-scroll', cartPanel.classList.contains('active'));
+});
 
     closeCart.addEventListener('click', () => {
-        cartPanel.classList.remove('active');
-        document.body.style.overflow = 'auto';
-    });
+    cartPanel.classList.remove('active');
+    document.body.classList.remove('no-scroll'); 
+});
 
-    checkoutBtn.addEventListener('click', hacerPedido);
-    clearCart.addEventListener('click', () => { carrito = []; renderCarrito(); });
+   clearCart.addEventListener('click', () => { 
+     carrito = []; 
+     renderCarrito(); 
+     cartPanel.classList.remove('active');
+     document.body.classList.remove('no-scroll');
+});
+
+   checkoutBtn.addEventListener('click', () => {
+    hacerPedido(); 
+    cartPanel.classList.remove('active');
+    document.body.classList.remove('no-scroll');
+});
+   
 
     // 4. Delegación de eventos para botones "Agregar" (Porque las cards son dinámicas)
     document.addEventListener('click', (e) => {
