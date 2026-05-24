@@ -6,8 +6,6 @@
   <title>Signature Scents</title>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500&display=swap" rel="stylesheet">
   <style>
-    /* --- BASE Y TIPOGRAFÍA --- */
-/* --- CONFIGURACIÓN GLOBAL --- */
 html, body {
   max-width: 100%;
   overflow-x: hidden;
@@ -78,60 +76,159 @@ footer {
     }
 
     /* --- NAVEGACIÓN (TOP BAR) --- */
-  .top-bar {
+.top-bar {
     position: fixed;
-    /* En móviles la barra de anuncio suele medir unos 40px o 45px */
     top: 40px; 
     left: 0;
     width: 100%;
     z-index: 1000;
     background: #0a0a0a;
     box-shadow: 0 5px 20px rgba(0,0,0,0.5);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 30px; /* Espacio lateral en Desktop */
+    height: 80px;
+    box-sizing: border-box;
+}
+  .brand-header {
+    display: flex;
+    align-items: center;
+    flex: 1;
 }
 
-    .brand-header {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-      padding: 20px;
-    }
+/* --- ESTILOS DEL SWITCH --- */
+.catalog-mode-selector {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: rgba(255, 255, 255, 0.05);
+    padding: 8px 18px;
+    border-radius: 30px;
+    border: 1px solid rgba(201, 169, 110, 0.3);
+    cursor: pointer;
+    flex: 0;
+    user-select: none;
+    transition: background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}
 
-    .logo { width: 50px; transition: 0.3s; }
-    .brand-name { font-family: 'Playfair Display', serif; font-size: 32px; color: #c9a96e; transition: 0.3s; }
-    .brand-link { display: flex; align-items: center; gap: 10px; text-decoration: none; }
-    .brand-link:hover .brand-name { color: #fff; letter-spacing: 3px; }
+.catalog-mode-selector:hover {
+    border-color: rgba(201, 169, 110, 0.55);
+    background: rgba(255, 255, 255, 0.08);
+}
 
-    #cart-indicator {
-      cursor: pointer;
-      display: inline-flex;   
-      align-items: center;
-      gap: 18px;
-      margin-bottom: 20px;
-    }
+.catalog-mode-selector:focus-visible {
+    outline: 2px solid #c9a96e;
+    outline-offset: 3px;
+}
 
-    #cart-text { font-size: 20px; transition: opacity 0.2s ease; }
+.catalog-mode-selector.full-mode {
+    background: rgba(201, 169, 110, 0.1);
+    border-color: rgba(201, 169, 110, 0.65);
+    box-shadow: 0 0 12px rgba(201, 169, 110, 0.15);
+}
+
+.mode-label {
+    font-size: 11px;
+    letter-spacing: 1px;
+    color: #555;
+    font-weight: bold;
+    transition: color 0.3s ease, opacity 0.3s ease;
+}
+
+.mode-label.active {
+    color: #c9a96e;
+    opacity: 1;
+}
+
+.mode-label:not(.active) {
+    opacity: 0.55;
+}
+
+.switch-body {
+    width: 34px;
+    height: 18px;
+    background: #111;
+    border: 1px solid #c9a96e;
+    border-radius: 10px;
+    position: relative;
+    flex-shrink: 0;
+}
+
+.indicator {
+    width: 12px;
+    height: 12px;
+    background: #c9a96e;
+    border-radius: 50%;
+    position: absolute;
+    top: 2px;
+    left: 3px;
+    transition: left 0.35s cubic-bezier(0.4, 0, 0.2, 1), transform 0.15s ease;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.4);
+}
+
+.catalog-mode-selector:active .indicator {
+    transform: scale(0.88);
+}
+
+.catalog-mode-selector.full-mode .indicator {
+    left: 17px;
+}
+
+
+.logo { width: 50px; transition: 0.3s; }
+.brand-name { font-family: 'Playfair Display', serif; font-size: 25px; color: #c9a96e; transition: 0.3s; }
+.brand-link { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+.brand-link:hover .brand-name { color: #fff; letter-spacing: 3px; }
+
+#cart-indicator {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 12px;
+    flex: 1;
+    cursor: pointer;
+    position: relative;
+}
+
+    #cart-text { 
+    font-size: 16px; 
+    color: #fff;
+    transition: color 0.2s ease, transform 0.2s ease; /* Transición limpia */
+    display: inline-block;
+    transform-origin: right center; /* 👈 Obliga a que cualquier microcambio crezca hacia la derecha y NO hacia la izquierda (el icono) */
+}
     #cart-text:hover {
       color: #c9a96e;
-      cursor: pointer;
      }
 
-    #cart-count {
-      position: absolute;
-      top: -8px; /* Ajusta esto para que flote sobre el icono */
-     right: -12px;
-     background: #c9a96e;
-     color: #000;
-     font-size: 12px;
-     font-weight: bold;
+#cart-text:hover {
+    color: #c9a96e;
+}
+
+#cart-indicator:has(#cart-text:hover) .cart-icon {
+    transform: scale(1.12);
+}
+
+#cart-indicator:has(#cart-text:hover) .cart-icon svg {
+    stroke: #c9a96e;
+} 
+
+#cart-count {
+    position: absolute;
+    top: -8px;
+    right: -10px;
+    background: #c9a96e;
+    color: #000;
+    font-size: 11px;
+    font-weight: bold;
     min-width: 18px;
     height: 18px;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    z-index: 1001; /* Asegura que esté por encima de la barra */
-    }
+}
 
     /* --- SELECTOR DE CATEGORÍAS --- */
 /*.category-selector {
@@ -207,6 +304,18 @@ footer {
   letter-spacing: 4px;
 }
     /* --- CONTENEDOR DE PRODUCTOS --- */
+.catalogo-vacio {
+    grid-column: 1 / -1;
+    padding: 40px 20px;
+    color: #888;
+    font-size: 15px;
+    line-height: 1.6;
+}
+
+.catalogo-vacio strong {
+    color: #c9a96e;
+}
+
 .container {
     display: grid;
     /* Ajustamos el minmax para que las tarjetas sean grandes (ej. 280px mínimo) */
@@ -405,10 +514,10 @@ footer {
     .cart-item span { font-size: 13px; color: #efefef; }
 
     .cart-icon {
-      position: relative; /* 👈 Vital para que el número se pegue al icono */
+      position: relative;
       display: flex;
       align-items: center;
-      justify-content: center;
+      flex-shrink: 0;
      }
 
     .qty-btn { 
@@ -629,10 +738,63 @@ footer {
     width: 100%;
 }
 
+@media (min-width: 481px) {
+  .cart-icon { order: 2; flex-shrink: 0; }
+  #cart-text  { order: 1; min-width: 6.85rem; text-align: right; flex-shrink: 0; }
+}
+
 @media (max-width: 768px) {
-  .category-selector { 
-    flex-direction: column; 
-    align-items: center;    
+  .category-selector {
+    flex-direction: column;
+    align-items: center;
+    margin-top: 215px;
+    padding-top: 12px;
+  }
+
+  /* Tablet: misma lógica de dos filas que en móvil para que no se amontone */
+  .top-bar {
+    flex-wrap: wrap;
+    height: auto;
+    padding: 10px 15px;
+    top: 65px;
+  }
+
+  .brand-header {
+    width: 100%;
+    flex: none;
+    justify-content: center;
+    margin-bottom: 8px;
+  }
+
+  .brand-name {
+    font-size: 22px;
+  }
+
+  .logo {
+    width: 42px;
+  }
+
+  .catalog-mode-selector {
+    order: 2;
+    flex: none;
+    padding: 6px 14px;
+  }
+
+  #cart-indicator {
+    order: 3;
+    flex: none;
+    min-width: auto;
+    margin-left: auto;
+  }
+
+  .cart-icon,
+  #cart-text {
+    order: unset;
+  }
+
+  #cart-text {
+    min-width: 0;
+    text-align: left;
   }
 }
 
@@ -643,12 +805,45 @@ footer {
     padding: 10px !important;
     margin-top: auto !important; /* Ajusta según el alto de tu header móvil */
   }
-  .top-bar {
-        top: 55px; 
+
+.brand-header {
+        width: 100%;
+        flex: none;
+        justify-content: center;
+        margin-bottom: 10px;
     }
+ 
+#cart-indicator {
+        order: 3; /* Carrito abajo a la derecha */
+        flex: none;
+        min-width: auto;
+    }
+
+  .top-bar {
+        flex-wrap: wrap; /* Permite dos filas */
+        height: auto;
+        padding: 10px 10px;
+        top: 65px; /* Ajuste para la barra azul */
+    }
+
+ .catalog-mode-selector {
+        order: 2; /* Switch abajo a la izquierda */
+        flex: none;
+        padding: 5px 12px;
+    }
+
+ .category-selector {
+        margin-top: 228px !important; /* Barra azul + header en 2 filas (switch + carrito) */
+        padding-top: 16px !important;
+    }
+
+ .logo { width: 40px; }
+.brand-name { font-size: 30px; }
  .modal-content {
        width:80%;
    }
+
+
   .card {
     max-width: 100% !important;
     display: flex;
@@ -721,18 +916,29 @@ footer {
       <span class="brand-name">Signature Scents</span>
     </a>
   </header>
-  <div id="cart-indicator">
+
+  <div class="catalog-mode-selector" id="catalog-mode-selector" role="switch" tabindex="0" aria-checked="false" aria-label="Modo de catálogo: Decants o Botellas">
+    <span id="label-decants" class="mode-label active">Decants</span>
+    <div class="switch-body">
+      <div id="switch-indicator" class="indicator"></div>
+    </div>
+    <span id="label-full" class="mode-label">Botellas</span>
+  </div>
+
+
+<div id="cart-indicator">
     <div class="cart-icon">
       <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-        <circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle>
+        <circle cx="9" cy="21" r="1"></circle>
+        <circle cx="20" cy="21" r="1"></circle>
         <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
       </svg>
       <span id="cart-count">0</span>
     </div>
     <span id="cart-text">productos</span>
   </div>
-</div>
 
+</div>
 
 <div class="category-selector">
   <div class="category-card" onclick="filtrar('disenador')">
@@ -1742,6 +1948,7 @@ const productos = [
       fondo: "Amberwood"
     }
   },
+  /* --- PERFUMERIA DE NICHO --- */
  {
     id: 47,
     marca: "Kerosene",
@@ -1877,7 +2084,7 @@ const productos = [
       fondo: "Vainilla, Frutos Secos"
     }
   },
-  {
+  /*{
     id: 56,
     marca: "Montale",
     nombre: "Arabians Tonka",
@@ -1891,7 +2098,7 @@ const productos = [
       corazon: "Oud (Madera de Agar), Rosa de Bulgaria",
       fondo: "Haba Tonka, Caña de Azúcar, Ámbar, Almizcle Blanco"
     }
-  },
+  },*/
   {
     id: 57,
     marca: "Orto Parisi",
@@ -2508,6 +2715,1031 @@ const productos = [
     }
   }
 ];
+
+/*
+ * CATÁLOGO BOTELLAS — Agrega tus productos aquí (misma estructura que decants).
+ * Imágenes sugeridas en carpeta: Botellas_website/
+ * id: usa 10001, 10002… para no repetir los de decants.
+ */
+const productosBotellas = [
+  // --- EJEMPLO (borra o reemplaza cuando agregues los tuyos) ---
+  {
+    id: 1001,
+    marca: "Mancera",
+    nombre: "Instant Crush",
+    genero: "unisex",
+    ml: "120ml",
+    precio: 115.00,
+    categoria: "nicho",
+    imagen: "Botellas_website/mancerainstantcrush.webp",
+    notas: {
+      salida: "Azafrán, Jengibre,  Bergamota",
+      corazon: "Rosa, Pachulí, Jazmín",
+      fondo: "Vainilla, Almizcle,  Sándalo"
+    }
+  },
+ {
+    id: 1039,
+    marca: "Mancera",
+    nombre: "Fig Me Up",
+    genero: "unisex",
+    ml: "120ml",
+    precio: 125.00,
+    categoria: "nicho",
+    imagen: "Botellas_website/figmeup.webp",
+    notas: {
+      salida: "Ruibardo, Hoja de Higuera, Violeta",
+      corazon: "Ciruela, Néctar de Higo, Oud",
+      fondo: "Tabaco, Almizcle, Haba Tonka"
+    }
+  },
+ {
+    id: 1040,
+    marca: "Mancera",
+    nombre: "Tonka Cola",
+    genero: "unisex",
+    ml: "120ml",
+    precio: 105.00,
+    categoria: "nicho",
+    imagen: "Botellas_website/tonkacola.webp",
+    notas: {
+      salida: "Canela, Cereza, Limón",
+      corazon: "Coca-Cola, Pachulí, Flor de Azahar",
+      fondo: "Vainilla, Benjuí, Haba Tonka"
+    }
+  },
+{
+    id: 1035,
+    marca: "Montale",
+    nombre: "Infinity",
+    genero: "unisex",
+    ml: "100ml",
+    precio: 125.00,
+    categoria: "nicho",
+    imagen: "Botellas_website/infinity.webp",
+    notas: {
+      salida: "Cereza Negra, Azafrán, Pimienta Rosa",
+      corazon: "Oud, Cuero, Sándalo",
+      fondo: "Hoja de Tabaco, Haba Tonka, Ámbar"
+    }
+  },
+{
+    id: 1036,
+    marca: "Imaginary Authors",
+    nombre: "A Little Secret",
+    genero: "unisex",
+    ml: "50ml",
+    precio: 145.00,
+    categoria: "nicho",
+    imagen: "Botellas_website/alittlesecret.webp",
+    notas: {
+      salida: "Cereza, Azafrán",
+      corazon: "Mazapán, Azúcar, Hojaldre",
+      fondo: "Pachulí, Haba Tonka, Ron"
+    }
+  },
+{
+    id: 1037,
+    marca: "Imaginary Authors",
+    nombre: "Falling Into The Sea",
+    genero: "unisex",
+    ml: "50ml",
+    precio: 135.00,
+    categoria: "nicho",
+    imagen: "Botellas_website/fallingintothesea.webp",
+    notas: {
+      salida: "Limón, Pomelo, Lychee",
+      corazon: "Arena, Notas Florales",
+      fondo: "Bergamota"
+    }
+  },
+{
+    id: 1038,
+    marca: "Imaginary Authors",
+    nombre: "A Whiff Of Wafle Cone",
+    genero: "unisex",
+    ml: "50ml",
+    precio: 145.00,
+    categoria: "nicho",
+    imagen: "Botellas_website/awhiffofwafflecone.webp",
+    notas: {
+      salida: "Caramelo, Vainilla",
+      corazon: "Canela, Crema Batida",
+      fondo: "Sándalo"
+    }
+  },
+ /*{
+    id: 1026,
+    marca: "Gallagher",
+    nombre: "Tonkapeach",
+    genero: "unisex",
+    ml: "60ml",
+    precio: 165.00,
+    categoria: "nicho",
+    imagen: "Botellas_website/tonkapeach.webp",
+    notas: {
+      salida: "Durazno, Champán, Haba Tonka",
+      corazon: "Hojaldre, Almizcle, Pachulí",
+      fondo: "Neroli, Iris, Sándalo"
+    }
+  },*/
+{
+    id: 1002,
+    marca: "Gallagher",
+    nombre: "Mists of Time",
+    genero: "unisex",
+    ml: "50ml",
+    precio: 140.00,
+    categoria: "nicho",
+    imagen: "Botellas_website/MistsofTimeGallagher.webp",
+    notas: {
+      salida: "Naranja Confitada, Mandarina, Bergamota",
+      corazon: "Ciprés, Cuero, Tabaco",
+      fondo: "Notas Minerales, Almizcle, Vainilla"
+    }
+  },
+{
+    id: 1015,
+    marca: "Gallagher",
+    nombre: "Rosé All Daé",
+    genero: "unisex",
+    ml: "50ml",
+    precio: 145.00,
+    categoria: "nicho",
+    imagen: "Botellas_website/rosealldae.webp",
+    notas: {
+      salida: "Manzana Deshidratada, Miel, Miel",
+      corazon: "Ciruela, Azúcar, Rosa Turca",
+      fondo: "Notas Metálicas, Almizcle, Vainilla"
+    }
+  },
+{
+    id: 1003,
+    marca: "Lorenzo Pazzaglia",
+    nombre: "Black Sea",
+    genero: "unisex",
+    ml: "50ml",
+    precio: 200.00,
+    categoria: "nicho",
+    imagen: "Botellas_website/lpblacksea.webp",
+    notas: {
+      salida: "Sal, Notas Acuosas, Bergamota",
+      corazon: "Notas Marinas, Y-lang Y-lang, Flor de Naranjo",
+      fondo: "Ámbar Gris, Algas, Almizcle"
+    }
+  },
+{
+    id: 1027,
+    marca: "Parfums de Marly",
+    nombre: "Layton",
+    genero: "unisex",
+    ml: "75ml",
+    precio: 200.00,
+    categoria: "nicho",
+    imagen: "Botellas_website/pdmlayton.webp",
+    notas: {
+      salida: "Manzana, Lavanda, Bergamota",
+      corazon: "Geranio, Violeta, Jazmín",
+      fondo: "Vainilla, Cardamomo, Ambermax"
+    }
+  },
+/*{
+    id: 1028,
+    marca: "Parfums de Marly",
+    nombre: "Althaïr",
+    genero: "unisex",
+    ml: "75ml",
+    precio: 200.00,
+    categoria: "nicho",
+    imagen: "Botellas_website/pdmalthair.webp",
+    notas: {
+      salida: "Canela, Azahar, Cardamomo",
+      corazon: "Vainilla de Bourbon, Elemi",
+      fondo: "Haba Tonka, Almendra, Almizcle"
+    }
+  },*/
+{
+    id: 1029,
+    marca: "Parfums de Marly",
+    nombre: "Greenly",
+    genero: "unisex",
+    ml: "75ml",
+    precio: 200.00,
+    categoria: "nicho",
+    imagen: "Botellas_website/pdmgreenly.webp",
+    notas: {
+      salida: "Manzana, Bergamota, Mandarina",
+      corazon: "Cedro, Violeta, Cashmeran",
+      fondo: "Musgo de Roble, Pachulí, Almizcle"
+    }
+  },
+{
+    id: 1004,
+    marca: "Clinique",
+    nombre: "Clinique Happy for Men",
+    genero: "hombre",
+    ml: "100ml",
+    precio: 50.00,
+    categoria: "disenador",
+    imagen: "Botellas_website/cliniquehappy.webp",
+    notas: {
+      salida: "Mandarina, Notas Marinas, Lima",
+      corazon: "Fresia, Rosa, Jazmín",
+      fondo: "Ciprés, Cedro, Almizcle"
+    }
+  },
+{
+    id: 1005,
+    marca: "Guerlain",
+    nombre: "Vetiver for men",
+    genero: "hombre",
+    ml: "100ml",
+    precio: 105.00,
+    categoria: "disenador",
+    imagen: "Botellas_website/guerlainvetiver.webp",
+    notas: {
+      salida: "Mandarina, Bergamota, Tabaco",
+      corazon: "Vetiver, Sándalo, Pimienta",
+      fondo: "Vetiver, Cuero, Ámbar"
+    }
+  },
+{
+    id: 1006,
+    marca: "Valentino",
+    nombre: "BIR Yellow Dream",
+    genero: "hombre",
+    ml: "100ml",
+    precio: 115.00,
+    categoria: "disenador",
+    imagen: "Botellas_website/biryellowdream.webp",
+    notas: {
+      salida: "Mandarina, Piña",
+      corazon: "Jengibre, Pan de Jengibre, Especias",
+      fondo: "Absoluto de Vainilla, Esencia de Cedro"
+    }
+  },
+{
+    id: 1007,
+    marca: "Valentino",
+    nombre: "BIR UOMO",
+    genero: "hombre",
+    ml: "100ml",
+    precio: 115.00,
+    categoria: "disenador",
+    imagen: "Botellas_website/biredt.webp",
+    notas: {
+      salida: "Notas Minerales, Hoja de Violeta, Sal",
+      corazon: "Sabio, Jengibre",
+      fondo: "Maderas, Vetiver"
+    }
+  },
+{
+    id: 1008,
+    marca: "Valentino",
+    nombre: "BIR Coral Fantasy",
+    genero: "hombre",
+    ml: "100ml",
+    precio: 120.00,
+    categoria: "disenador",
+    imagen: "Botellas_website/bircoralfantasy.webp",
+    notas: {
+      salida: "Manzana Roja, Cardamomo, Bergamota",
+      corazon: "Lavanda, Geranio, Salvia",
+      fondo: "Hoja de Tabaco, Pachulí, Vetiver"
+    }
+  },
+{
+    id: 1009,
+    marca: "Azzaro",
+    nombre: "The Most Wanted",
+    genero: "hombre",
+    ml: "100ml",
+    precio: 90.00,
+    categoria: "disenador",
+    imagen: "Botellas_website/tmw.webp",
+    notas: {
+      salida: "Cardamomo",
+      corazon: "Caramelo",
+      fondo: "Amberwood"
+    }
+  },
+{
+    id: 1025,
+    marca: "Azzaro",
+    nombre: "Wanted by night",
+    genero: "hombre",
+    ml: "100ml",
+    precio: 85.00,
+    categoria: "disenador",
+    imagen: "Botellas_website/wantedbynight.webp",
+    notas: {
+      salida: "Canela, Mandarina, Lavanda",
+      corazon: "Incienso, Notas Frutales, Comino",
+      fondo: "Tabaco, Vainilla, Cuero"
+    }
+  },
+{
+    id: 1010,
+    marca: "Azzaro",
+    nombre: "The Most Wanted Parfum",
+    genero: "hombre",
+    ml: "100ml",
+    precio: 90.00,
+    categoria: "disenador",
+    imagen: "Botellas_website/tmwparfum.webp",
+    notas: {
+      salida: "Jengibre",
+      corazon: "Maderas",
+      fondo: "Vainilla de Bourbon"
+    }
+  },
+{
+    id: 1046,
+    marca: "Azzaro",
+    nombre: "Forever Wanted Elixir",
+    genero: "hombre",
+    ml: "100ml",
+    precio: 110.00,
+    categoria: "disenador",
+    imagen: "Botellas_website/wantedelixir.webp",
+    notas: {
+      salida: "Frambuesa, Mandarina, Bergamota",
+      corazon: "Cardamomo, Lavanda, Salvia",
+      fondo: "Cuero, Vetiver, Wolfwood"
+    }
+  },
+{
+    id: 1011,
+    marca: "Bvlgari",
+    nombre: "Man In Black Parfum",
+    genero: "hombre",
+    ml: "60ml",
+    precio: 95.00,
+    categoria: "disenador",
+    imagen: "Botellas_website/maninblackparfum.webp",
+    notas: {
+      salida: "Especias, Elemi",
+      corazon: "Iris, Nardos",
+      fondo: "Benzoin, Notas oscuras y amaderadas"
+    }
+  },
+{
+    id: 1012,
+    marca: "Kilian",
+    nombre: "Apple Brandy on the Rocks",
+    genero: "unisex",
+    ml: "50ml",
+    precio: 215.00,
+    categoria: "nicho",
+    imagen: "Botellas_website/applebrandy.webp",
+    notas: {
+      salida: "Cardamomo, Bergamota",
+      corazon: "Ron, Brandy, Piña",
+      fondo: "Cedro, Ambroxán"
+    }
+  },
+{
+    id: 1013,
+    marca: "Xerjoff",
+    nombre: "Torino 21",
+    genero: "unisex",
+    ml: "50ml",
+    precio: 165.00,
+    categoria: "nicho",
+    imagen: "Botellas_website/torino21.webp",
+    notas: {
+      salida: "Menta, Limón, Tomillo",
+      corazon: "Jazmín, Romero, Lavanda",
+      fondo: "Almizcle, Verbena"
+    }
+  },
+{
+    id: 1014,
+    marca: "Tom Ford",
+    nombre: "Oud Minérale (2023)",
+    genero: "unisex",
+    ml: "100ml",
+    precio: 195.00,
+    categoria: "nicho",
+    imagen: "Botellas_website/oudmineraletf.webp",
+    notas: {
+      salida: "Notas marinas, Sal, Pastos Marinos",
+      corazon: "Balsamero",
+      fondo: "Ámbar, Pimienta Rosa"
+    }
+  },
+{
+    id: 1016,
+    marca: "Jean Paul Gaultier",
+    nombre: "Le Beau Paradise Garden",
+    genero: "hombre",
+    ml: "125ml",
+    precio: 110.00,
+    categoria: "disenador",
+    imagen: "Botellas_website/paradisegarden.webp",
+    notas: {
+      salida: "Notas Verdes, Notas Acuáticas, Menta",
+      corazon: "Coco, Higo, Sal",
+      fondo: "Haba Tonka, Sándalo"
+    }
+  },
+{
+    id: 1017,
+    marca: "Jean Paul Gaultier",
+    nombre: "Le Beau",
+    genero: "hombre",
+    ml: "125ml",
+    precio: 100.00,
+    categoria: "disenador",
+    imagen: "Botellas_website/lebeau.webp",
+    notas: {
+      salida: "Bergamota",
+      corazon: "Coco",
+      fondo: "Haba Tonka"
+    }
+  },
+{
+    id: 1018,
+    marca: "Versace",
+    nombre: "Pour Homme Oud Noir",
+    genero: "hombre",
+    ml: "100ml",
+    precio: 100.00,
+    categoria: "disenador",
+    imagen: "Botellas_website/versaceoudnoir.webp",
+    notas: {
+      salida: "Pimienta Negra, Naranja Agria, Neroli",
+      corazon: "Azafrán, Cardamomo, Olibanum",
+      fondo: "Oud, Pachulí, Leatherwood"
+    }
+  },
+{
+    id: 1019,
+    marca: "Ralph Lauren",
+    nombre: "Club Elixir",
+    genero: "hombre",
+    ml: "75ml",
+    precio: 100.00,
+    categoria: "disenador",
+    imagen: "Botellas_website/ralphelixir.webp",
+    notas: {
+      salida: "Cardamomo, Mandarina, Pomelo ",
+      corazon: "Lavanda, Sabio, Geranio",
+      fondo: "Cuero, Pachulí, Balsamero"
+    }
+  },
+{
+    id: 1020,
+    marca: "Hugo Boss",
+    nombre: "The Scent Magnetic",
+    genero: "hombre",
+    ml: "100ml",
+    precio: 100.00,
+    categoria: "disenador",
+    imagen: "Botellas_website/thescentmagnetic.webp",
+    notas: {
+      salida: "Maninka ",
+      corazon: "Salvado",
+      fondo: "Cáscara de vainilla negra"
+    }
+  },
+{
+    id: 1021,
+    marca: "Hugo Boss",
+    nombre: "Bottled Bold Citrus",
+    genero: "hombre",
+    ml: "100ml",
+    precio: 100.00,
+    categoria: "disenador",
+    imagen: "Botellas_website/boldcitrus.webp",
+    notas: {
+      salida: "Limón, Bergamota",
+      corazon: "Resina Elemi, Geranio",
+      fondo: "Vetiver, Pachulí"
+    }
+  },
+{
+    id: 1022,
+    marca: "Hugo Boss",
+    nombre: "Bottled Beyond",
+    genero: "hombre",
+    ml: "150ml",
+    precio: 140.00,
+    categoria: "disenador",
+    imagen: "Botellas_website/bottledbeyond.webp",
+    notas: {
+      salida: "Jengibre",
+      corazon: "Cuero",
+      fondo: "Notas de Woody"
+    }
+  },
+{
+    id: 1050,
+    marca: "Hugo Boss",
+    nombre: "Bottled Infinite",
+    genero: "hombre",
+    ml: "100ml",
+    precio: 95.00,
+    categoria: "disenador",
+    imagen: "Botellas_website/bottledinfinite.webp",
+    notas: {
+      salida: "Manzana, Canela, Mandarina",
+      corazon: "Lavanda, Romero, Pachulí",
+      fondo: "Sándalo, Olivo"
+    }
+  },
+{
+    id: 1051,
+    marca: "Hugo Boss",
+    nombre: "Bottled Elixir",
+    genero: "hombre",
+    ml: "100ml",
+    precio: 110.00,
+    categoria: "disenador",
+    imagen: "Botellas_website/bottledelixir.webp",
+    notas: {
+      salida: "Incienso, Cardamomo",
+      corazon: "Vetiver, Pachulí",
+      fondo: "Ládano, Cedro"
+    }
+  },
+{
+    id: 1058,
+    marca: "Hugo Boss",
+    nombre: "Bottled Tonic",
+    genero: "hombre",
+    ml: "100ml",
+    precio: 80.00,
+    categoria: "disenador",
+    imagen: "Botellas_website/bottledtonic.webp",
+    notas: {
+      salida: "Manzana, Pomelo, Limón",
+      corazon: "Gengibre, Canela, Geranio",
+      fondo: "Vetiver, Notas Amaderadas"
+    }
+  },
+{
+    id: 1058,
+    marca: "Hugo Boss",
+    nombre: "Boss Bottled",
+    genero: "hombre",
+    ml: "100ml",
+    precio: 85.00,
+    categoria: "disenador",
+    imagen: "Botellas_website/bottled.webp",
+    notas: {
+      salida: "Manzana, Ciruela, Limón",
+      corazon: "Caoba, Canela, Clavel",
+      fondo: "Vetiver, Vainilla, Cedro"
+    }
+  },
+{
+    id: 1058,
+    marca: "Hugo Boss",
+    nombre: "Hugo Jeans Man",
+    genero: "hombre",
+    ml: "125ml",
+    precio: 75.00,
+    categoria: "disenador",
+    imagen: "Botellas_website/hugojeans.webp",
+    notas: {
+      salida: "Pomelo, Cal",
+      corazon: "Bayas de Enebro, Menta",
+      fondo: "Vetiver, Cedro"
+    }
+  },
+/*{
+    id: 1023,
+    marca: "Rabanne",
+    nombre: "Invictus Aqua (2024)",
+    genero: "hombre",
+    ml: "100ml",
+    precio: 100.00,
+    categoria: "disenador",
+    imagen: "Botellas_website/invictusaqua.webp",
+    notas: {
+      salida: "Pomelo",
+      corazon: "Notas de mar",
+      fondo: "Amberwood"
+    }
+  },*/
+{
+    id: 1024,
+    marca: "Rabanne",
+    nombre: "Invictus Elixir",
+    genero: "hombre",
+    ml: "100ml",
+    precio: 105.00,
+    categoria: "disenador",
+    imagen: "Botellas_website/invictuselixir.webp",
+    notas: {
+      salida: "Lavanda, Cardamomo, Pimienta Negra",
+      corazon: "Incienso, Pachulí",
+      fondo: "Vainilla, Haba Tonka"
+    }
+  },
+{
+    id: 1030,
+    marca: "Dolce&Gabbana",
+    nombre: "Pour Homme Intenso",
+    genero: "hombre",
+    ml: "200ml",
+    precio: 110.00,
+    categoria: "disenador",
+    imagen: "Botellas_website/dgintenso.webp",
+    notas: {
+      salida: "Lavanda, Notas Acuáticas, Albahaca",
+      corazon: "Tabaco, Esclarea, Heno",
+      fondo: "Sándalo, Ciprés, Ámbar"
+    }
+  },
+{
+    id: 1031,
+    marca: "Dolce&Gabbana",
+    nombre: "Light Blue 2025",
+    genero: "hombre",
+    ml: "100ml",
+    precio: 90.00,
+    categoria: "disenador",
+    imagen: "Botellas_website/lightblueedt2025.webp",
+    notas: {
+      salida: "Limón",
+      corazon: "Romero",
+      fondo: "Pachulí"
+    }
+  },
+{
+    id: 1032,
+    marca: "Dolce&Gabbana",
+    nombre: "K EDT",
+    genero: "hombre",
+    ml: "100ml",
+    precio: 75.00,
+    categoria: "disenador",
+    imagen: "Botellas_website/kedt.webp",
+    notas: {
+      salida: "Limón, Bayas ,Naranja Sanguina",
+      corazon: "Pimienta de Jamaica, Geranio, Lavanda",
+      fondo: "Pachulí, Vetiver, Cedro"
+    }
+  },
+{
+    id: 1033,
+    marca: "Dolce&Gabbana",
+    nombre: "K EDP",
+    genero: "hombre",
+    ml: "150ml",
+    precio: 115.00,
+    categoria: "disenador",
+    imagen: "Botellas_website/kedp.webp",
+    notas: {
+      salida: "Limón, Bayas ,Pimienta de Jamaica",
+      corazon: "Higo, Geranio, Lavanda",
+      fondo: "Pachulí, Vetiver, Cedro"
+    }
+  },
+{
+    id: 1034,
+    marca: "Room 1015",
+    nombre: "Cherry Punk",
+    genero: "unisex",
+    ml: "100ml",
+    precio: 200.00,
+    categoria: "nicho",
+    imagen: "Botellas_website/cherrypunk.webp",
+    notas: {
+      salida: "Cereza, Azafrán, Pimienta",
+      corazon: "Violeta, Mimosa, Jazmín",
+      fondo: "Pachulí, Haba Tonka, Cuero"
+    }
+  },
+{
+    id: 1041,
+    marca: "Maison Martin Margiela",
+    nombre: "Jazz Club",
+    genero: "unisex",
+    ml: "100ml",
+    precio: 115.00,
+    categoria: "nicho",
+    imagen: "Botellas_website/jazzclub.webp",
+    notas: {
+      salida: "Neroli, Limón, Pimienta",
+      corazon: "Ron, Aceite de Vetiver, Salvia",
+      fondo: "Tabaco, Vaina de Vainilla, Styrax"
+    }
+  },
+/*{
+    id: 1042,
+    marca: "Maison Martin Margiela",
+    nombre: "Sailing Day",
+    genero: "unisex",
+    ml: "100ml",
+    precio: 115.00,
+    categoria: "nicho",
+    imagen: "Botellas_website/sailingday.webp",
+    notas: {
+      salida: "Notas de Mar, Aldehídos, Cilantro",
+      corazon: "Enebro, Iris, Rosa",
+      fondo: "Alga, Ámbar Gris, Cedro"
+    }
+  },*/
+{
+    id: 1043,
+    marca: "Prada",
+    nombre: "L'Homme Intense",
+    genero: "hombre",
+    ml: "100ml",
+    precio: 120.00,
+    categoria: "disenador",
+    imagen: "Botellas_website/pradalhommeintense.webp",
+    notas: {
+      salida: "Iris",
+      corazon: "Amber, Pachuli",
+      fondo: "Haba Tonka, Cuero, Sándalo"
+    }
+  },
+{
+    id: 1044,
+    marca: "Prada",
+    nombre: "L'Homme",
+    genero: "hombre",
+    ml: "100ml",
+    precio: 105.00,
+    categoria: "disenador",
+    imagen: "Botellas_website/pradalhomme.webp",
+    notas: {
+      salida: "Neroli, Pimienta Negra, Cardamomo",
+      corazon: "Violeta, Iris, Geranio",
+      fondo: "Ámbar, Cedro, Sándalo"
+    }
+  },
+{
+    id: 1045,
+    marca: "Chanel",
+    nombre: "Egoiste Platinum",
+    genero: "hombre",
+    ml: "100ml",
+    precio: 90.00,
+    categoria: "disenador",
+    imagen: "Botellas_website/chanelplatinum.webp",
+    notas: {
+      salida: "Lavanda, Romero, Neroli",
+      corazon: "Salvia, Jazmín, Geranio",
+      fondo: "Musgo, Cedro, Sándalo"
+    }
+  },
+{
+    id: 1047,
+    marca: "M. Micallef",
+    nombre: "GNTONIC",
+    genero: "hombre",
+    ml: "100ml",
+    precio: 180.00,
+    categoria: "nicho",
+    imagen: "Botellas_website/gntonic.webp",
+    notas: {
+      salida: "Agua Tónica, Ginebra, Menta",
+      corazon: "Cedro, Lirio, Azahar",
+      fondo: "Musgo, Vetiver, Sándalo"
+    }
+  },
+{
+    id: 1048,
+    marca: "M. Micallef",
+    nombre: "DesirToxic",
+    genero: "unisex",
+    ml: "100ml",
+    precio: 170.00,
+    categoria: "nicho",
+    imagen: "Botellas_website/desirtoxic.webp",
+    notas: {
+      salida: "Cardamomo, Bergamota",
+      corazon: "Haba Tonka, Canabis, Grosella Negra",
+      fondo: "Benjuí, Pachulí, Almizcle"
+    }
+  },
+{
+    id: 1049,
+    marca: "Ralph Lauren",
+    nombre: "Polo Red Parfum",
+    genero: "hombre",
+    ml: "125ml",
+    precio: 95.00,
+    categoria: "disenador",
+    imagen: "Botellas_website/poloredparfum.webp",
+    notas: {
+      salida: "Naranja Sanguina, Bergamota, Pimienta Rosa",
+      corazon: "Ajenjo, Lavanda, Raíz de Florencia",
+      fondo: "Opopónaco, Cedro, Almizcle"
+    }
+  },
+{
+    id: 1050,
+    marca: "Terre d'Hermes",
+    nombre: "Parfum",
+    genero: "hombre",
+    ml: "75ml",
+    precio: 110.00,
+    categoria: "disenador",
+    imagen: "Botellas_website/terreparfum.webp",
+    notas: {
+      salida: "Naranja, Pomelo",
+      corazon: "Pedernal",
+      fondo: "Notas del Bosque, Musgo, Benjuí"
+    }
+  },
+/*{
+    id: 1051,
+    marca: "Terre d'Hermes",
+    nombre: "Eau Givree",
+    genero: "hombre",
+    ml: "100ml",
+    precio: 105.00,
+    categoria: "disenador",
+    imagen: "Botellas_website/terregivree.webp",
+    notas: {
+      salida: "Cidra",
+      corazon: "Bayas de Enebro, Timur",
+      fondo: "Notas Minerales, Notas de Woody"
+    }
+  },*/
+{
+    id: 1052,
+    marca: "Giorgio Armani",
+    nombre: "Acqua di Giò",
+    genero: "hombre",
+    ml: "100ml",
+    precio: 90.00,
+    categoria: "disenador",
+    imagen: "Botellas_website/acquadigio.webp",
+    notas: {
+      salida: "Limón, Bergamota, Neroli",
+      corazon: "Notas del Mar, Calone, Romero",
+      fondo: "Almizcle, Cedro, Ámbar"
+    }
+  },
+{
+    id: 1053,
+    marca: "Giorgio Armani",
+    nombre: "Acqua di Giò Elixir",
+    genero: "hombre",
+    ml: "50ml",
+    precio: 130.00,
+    categoria: "disenador",
+    imagen: "Botellas_website/acquadigioelixir.webp",
+    notas: {
+      salida: "Bergamota, Mandarina Verde, Nuez Moscada",
+      corazon: "Hoja de Violeta, Notas de Agua",
+      fondo: "Cuero, Pachulí, Vetiver"
+    }
+  },
+{
+    id: 1054,
+    marca: "Versace",
+    nombre: "Pour Homme",
+    genero: "hombre",
+    ml: "100ml",
+    precio: 85.00,
+    categoria: "disenador",
+    imagen: "Botellas_website/versacepourhomme.webp",
+    notas: {
+      salida: "Bergamota, Limón, Neroli",
+      corazon: "Jacinto, Cedro, Geranio",
+      fondo: "Almizcle, Haba Tonka, Ámbar"
+    }
+  },
+/*{
+    id: 1055,
+    marca: "Versace",
+    nombre: "Dylan Blue",
+    genero: "hombre",
+    ml: "100ml",
+    precio: 90.00,
+    categoria: "disenador",
+    imagen: "Botellas_website/versacedylanblue.webp",
+    notas: {
+      salida: "Bergamota, Pomelo, Hoja de Higuera",
+      corazon: "Ambroxán, Pimienta Negra, Pachulí",
+      fondo: "Incienso, Almizcle, Haba Tonka"
+    }
+  },*/
+{
+    id: 1056,
+    marca: "Versace",
+    nombre: "Eros Flame",
+    genero: "hombre",
+    ml: "100ml",
+    precio: 90.00,
+    categoria: "disenador",
+    imagen: "Botellas_website/versaceerosflame.webp",
+    notas: {
+      salida: "Mandarina, Limón, Romero",
+      corazon: "Geranio, Rosa, Papperwood",
+      fondo: "Vainilla, Haba Tonka, Sándalo"
+    }
+  },
+{
+    id: 1057,
+    marca: "Hermès",
+    nombre: "H24 Eau de Parfum",
+    genero: "hombre",
+    ml: "100ml",
+    precio: 90.00,
+    categoria: "disenador",
+    imagen: "Botellas_website/h24edp.webp",
+    notas: {
+      salida: "Musgo de Roble, Salvia",
+      corazon: "Esclareo, Narciso",
+      fondo: "Palo de Rosa Brasileño"
+    }
+  },
+{
+    id: 1058,
+    marca: "Tom Ford",
+    nombre: "Noir Extreme",
+    genero: "hombre",
+    ml: "50ml",
+    precio: 135.00,
+    categoria: "nicho",
+    imagen: "Botellas_website/tomfordnoir.webp",
+    notas: {
+      salida: "Cardamomo, Nues Moscada, Mandarina",
+      corazon: "Kulfi, Rosa, Jazmín",
+      fondo: "Vainilla, Ámbar, Sándalo"
+    }
+  },
+{
+    id: 1059,
+    marca: "Tom Ford",
+    nombre: "Noir Extreme Parfum",
+    genero: "hombre",
+    ml: "50ml",
+    precio: 145.00,
+    categoria: "nicho",
+    imagen: "Botellas_website/tomfordnoirparfum.webp",
+    notas: {
+      salida: "Cardamomo, Gengibre, Cítricos",
+      corazon: "Kulfi, Rosa, Jazmín",
+      fondo: "Vainilla, Ámbar, Cuero"
+    }
+  },
+];
+
+// --- SWITCH DECANTS / BOTELLAS ---
+let modoCatalogo = 'decants';
+
+function obtenerProductosActivos() {
+    return modoCatalogo === 'botellas' ? productosBotellas : productos;
+}
+
+function actualizarPlaceholderBusqueda() {
+    const input = document.getElementById('perfume-search');
+    if (!input) return;
+    input.placeholder = modoCatalogo === 'botellas'
+        ? 'Busca tu botella favorita.'
+        : 'Busca tu perfume favorito.';
+}
+
+function resetearVistaCatalogo() {
+    const search = document.getElementById('perfume-search');
+    const container = document.getElementById('perfume-container');
+    if (search) search.value = '';
+    if (container) container.style.display = 'none';
+    document.querySelectorAll('.card').forEach(card => {
+        card.style.display = 'none';
+        card.classList.add('hidden');
+    });
+}
+
+function aplicarModoCatalogo(modo) {
+    const selector = document.getElementById('catalog-mode-selector');
+    const labelDecants = document.getElementById('label-decants');
+    const labelFull = document.getElementById('label-full');
+    if (!selector || !labelDecants || !labelFull) return;
+
+    const esBotellas = modo === 'botellas';
+    modoCatalogo = esBotellas ? 'botellas' : 'decants';
+
+    selector.classList.toggle('full-mode', esBotellas);
+    selector.setAttribute('aria-checked', esBotellas ? 'true' : 'false');
+    labelDecants.classList.toggle('active', !esBotellas);
+    labelFull.classList.toggle('active', esBotellas);
+    actualizarPlaceholderBusqueda();
+}
+
+function switchCatalog() {
+    const siguiente = modoCatalogo === 'decants' ? 'botellas' : 'decants';
+    aplicarModoCatalogo(siguiente);
+    localStorage.setItem('modoCatalogo', modoCatalogo);
+    renderizarProductos();
+    resetearVistaCatalogo();
+}
+
+function iniciarModoCatalogo() {
+    const guardado = localStorage.getItem('modoCatalogo');
+    aplicarModoCatalogo(guardado === 'botellas' ? 'botellas' : 'decants');
+}
+
 // --- 1. LÓGICA DE BÚSQUEDA Y FILTRADO ---
 
 function buscarPerfume() {
@@ -2539,11 +3771,26 @@ function buscarPerfume() {
     });
 }
 
+function scrollAlCatalogo() {
+    const grid = document.getElementById('perfume-container');
+    if (!grid) return;
+
+    setTimeout(() => {
+        const topBar = document.querySelector('.top-bar');
+        const gap = window.innerWidth <= 480 ? 18 : 12;
+        const headerOffset = topBar
+            ? topBar.getBoundingClientRect().bottom + gap
+            : (window.innerWidth <= 480 ? 185 : 110);
+
+        const y = grid.getBoundingClientRect().top + window.pageYOffset - headerOffset;
+        window.scrollTo({ top: Math.max(0, y), behavior: 'smooth' });
+    }, 200);
+}
+
 function filtrar(categoria) {
     const cards = document.querySelectorAll('.card');
     const container = document.getElementById('perfume-container');
-    const searchBar = document.querySelector('.search-container');
-    
+
     container.style.display = 'grid';
 
     cards.forEach(card => {
@@ -2556,24 +3803,14 @@ function filtrar(categoria) {
         }
     });
 
-    // Esta forma es la que mejor funciona en móviles modernos
-    setTimeout(() => {
-        const yOffset = -100; // Espacio para que no lo tape la barra superior
-        const y = searchBar.getBoundingClientRect().top + window.pageYOffset + yOffset;
-        
-        window.scrollTo({
-            top: y,
-            behavior: 'smooth'
-        });
-    }, 200);
+    scrollAlCatalogo();
 }
 
 // FILTRO POR GÉNERO (Men / Women / Unisex)
 function filtrarGenero(genero) {
     const cards = document.querySelectorAll('.card');
     const container = document.getElementById('perfume-container');
-    const searchBar = document.querySelector('.search-container');
-    
+
     container.style.display = 'grid';
 
     cards.forEach(card => {
@@ -2586,7 +3823,7 @@ function filtrarGenero(genero) {
         }
     });
 
-    window.scrollTo({ top: searchBar.offsetTop - 100, behavior: 'smooth' });
+    scrollAlCatalogo();
 }
 
 // --- 2. LÓGICA DEL CARRITO ---
@@ -2755,15 +3992,29 @@ document.addEventListener('DOMContentLoaded', () => {
 
 function renderizarProductos() {
     const container = document.getElementById('perfume-container');
-    if(!container) return;
-    container.innerHTML = ""; 
+    if (!container) return;
 
-    productos.forEach(p => {
+    const lista = obtenerProductosActivos();
+    container.innerHTML = '';
+    container.style.display = 'none';
+
+    if (lista.length === 0) {
+        container.innerHTML = `
+            <p class="catalogo-vacio">
+                ${modoCatalogo === 'botellas'
+                    ? 'Catálogo de botellas en preparación. Agrega productos en <strong>productosBotellas</strong>.'
+                    : 'No hay productos en este catálogo.'}
+            </p>`;
+        return;
+    }
+
+    lista.forEach(p => {
         const card = document.createElement('div');
-        card.className = `card hidden`; // Empiezan ocultas para el efecto de búsqueda/filtro
-        card.style.display = "none";    // Se muestran solo al filtrar o buscar
+        card.className = 'card hidden';
+        card.style.display = 'none';
         card.setAttribute('data-category', p.categoria);
         card.setAttribute('data-gender', p.genero);
+        card.setAttribute('data-catalogo', modoCatalogo);
 
         card.innerHTML = `
             <div class="img-container">
@@ -2797,8 +4048,17 @@ function renderizarProductos() {
 // --- 4. ENCENDIDO DEL MOTOR (DOMContent Loaded) ---
 
 document.addEventListener('DOMContentLoaded', () => {
-    // 1. Dibujar todos los perfumes en el HTML
+    // Switch + catálogo activo (decants o botellas)
+    iniciarModoCatalogo();
     renderizarProductos();
+    const catalogSelector = document.getElementById('catalog-mode-selector');
+    catalogSelector.addEventListener('click', switchCatalog);
+    catalogSelector.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            switchCatalog();
+        }
+    });
     
     // 2. Cargar estado previo del carrito
     renderCarrito();
