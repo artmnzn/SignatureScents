@@ -649,6 +649,7 @@ footer {
     width: 100%;
     box-sizing: border-box;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    -webkit-font-smoothing: antialiased;
 }
 
 .announcement-bar p {
@@ -752,6 +753,14 @@ footer {
 }
 
 @media (max-width: 768px) {
+  .announcement-bar {
+    box-shadow: none;
+  }
+
+  .top-bar {
+    top: calc(var(--announcement-h) - 2px);
+  }
+
   .category-selector {
     flex-direction: column;
     align-items: center;
@@ -4605,17 +4614,28 @@ function seleccionarZona(zona) {
 function sincronizarAlturaBanner() {
     const banner = document.querySelector('.announcement-bar');
     if (!banner) return;
-    const h = Math.ceil(banner.getBoundingClientRect().height);
+    const h = banner.offsetHeight;
     document.documentElement.style.setProperty('--announcement-h', h + 'px');
+}
+
+function sincronizarAlturaBannerDeferred() {
+    sincronizarAlturaBanner();
+    requestAnimationFrame(sincronizarAlturaBanner);
 }
 
 // 4. El "encendido" al cargar la página
 document.addEventListener('DOMContentLoaded', () => {
-    sincronizarAlturaBanner();
-    window.addEventListener('resize', sincronizarAlturaBanner);
+    sincronizarAlturaBannerDeferred();
+    window.addEventListener('resize', sincronizarAlturaBannerDeferred);
+    window.addEventListener('orientationchange', () => {
+        setTimeout(sincronizarAlturaBannerDeferred, 100);
+    });
     const banner = document.querySelector('.announcement-bar');
     if (banner && typeof ResizeObserver !== 'undefined') {
-        new ResizeObserver(sincronizarAlturaBanner).observe(banner);
+        new ResizeObserver(sincronizarAlturaBannerDeferred).observe(banner);
+    }
+    if (document.fonts && document.fonts.ready) {
+        document.fonts.ready.then(sincronizarAlturaBannerDeferred);
     }
     // 1. Verificamos si hay productos en el carrito
     // Asumo que tu array de productos se llama 'carrito'
@@ -4698,7 +4718,7 @@ function renderizarProductos() {
 // --- 4. ENCENDIDO DEL MOTOR (DOMContent Loaded) ---
 
 document.addEventListener('DOMContentLoaded', () => {
-    sincronizarAlturaBanner();
+    sincronizarAlturaBannerDeferred();
     // Switch + catálogo activo (decants o botellas)
     iniciarModoCatalogo();
     renderizarProductos();
