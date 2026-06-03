@@ -6,6 +6,10 @@
   <title>Signature Scents</title>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500&display=swap" rel="stylesheet">
   <style>
+:root {
+  --announcement-h: 40px;
+}
+
 html, body {
   max-width: 100%;
   overflow-x: hidden;
@@ -78,7 +82,7 @@ footer {
     /* --- NAVEGACIÓN (TOP BAR) --- */
 .top-bar {
     position: fixed;
-    top: 40px; 
+    top: var(--announcement-h);
     left: 0;
     width: 100%;
     z-index: 1000;
@@ -632,6 +636,9 @@ footer {
 }
 .announcement-bar {
     position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
     z-index: 9999;
     background: linear-gradient(90deg, #1e3a8a 0%, #6b7280 100%);
     color: #ffffff;
@@ -640,6 +647,7 @@ footer {
     font-family: 'Segoe UI', sans-serif;
     font-size: 14px;
     width: 100%;
+    box-sizing: border-box;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
@@ -756,7 +764,6 @@ footer {
     flex-wrap: wrap;
     height: auto;
     padding: 10px 15px;
-    top: 65px;
   }
 
   .brand-header {
@@ -823,7 +830,6 @@ footer {
         flex-wrap: wrap; /* Permite dos filas */
         height: auto;
         padding: 10px 10px;
-        top: 65px; /* Ajuste para la barra azul */
     }
 
  .catalog-mode-selector {
@@ -4595,8 +4601,22 @@ function seleccionarZona(zona) {
     actualizarBarraProgreso(totalActual);
 }
 
+// Ajusta el header justo debajo del banner (sin hueco en móvil)
+function sincronizarAlturaBanner() {
+    const banner = document.querySelector('.announcement-bar');
+    if (!banner) return;
+    const h = Math.ceil(banner.getBoundingClientRect().height);
+    document.documentElement.style.setProperty('--announcement-h', h + 'px');
+}
+
 // 4. El "encendido" al cargar la página
 document.addEventListener('DOMContentLoaded', () => {
+    sincronizarAlturaBanner();
+    window.addEventListener('resize', sincronizarAlturaBanner);
+    const banner = document.querySelector('.announcement-bar');
+    if (banner && typeof ResizeObserver !== 'undefined') {
+        new ResizeObserver(sincronizarAlturaBanner).observe(banner);
+    }
     // 1. Verificamos si hay productos en el carrito
     // Asumo que tu array de productos se llama 'carrito'
     const carritoVacio = typeof carrito !== 'undefined' && carrito.length === 0;
@@ -4678,6 +4698,7 @@ function renderizarProductos() {
 // --- 4. ENCENDIDO DEL MOTOR (DOMContent Loaded) ---
 
 document.addEventListener('DOMContentLoaded', () => {
+    sincronizarAlturaBanner();
     // Switch + catálogo activo (decants o botellas)
     iniciarModoCatalogo();
     renderizarProductos();
