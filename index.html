@@ -120,13 +120,15 @@ body {
   transition: background-color 0.45s ease, color 0.45s ease;
 }
 
-/* Fondo fijo Decants: capa propia evita el salto en móvil al mostrar/ocultar la barra del navegador */
+/* Fondo fijo Decants: capa en html para que no la tape el background del body al scrollear */
 html.theme-decants body {
   background-image: none;
+  background-color: transparent;
   position: relative;
+  z-index: 1;
 }
 
-html.theme-decants body::before {
+html.theme-decants::before {
   content: '';
   position: fixed;
   top: 0;
@@ -139,11 +141,9 @@ html.theme-decants body::before {
   background-size: cover;
   background-position: center top;
   background-repeat: no-repeat;
-  z-index: -1;
+  z-index: 0;
   pointer-events: none;
   transform: translate3d(0, 0, 0);
-  backface-visibility: hidden;
-  will-change: transform;
 }
 
 main, .main-content { 
