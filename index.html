@@ -54,6 +54,7 @@
 html.theme-decants {
   --bg-page: #f5f0e8;
   --bg-page-image: url('Decants_website/decantsimage.png');
+  background-color: #f5f0e8;
   --bg-header: #fffcf7;
   --bg-card: rgba(255, 255, 255, 0.93);
   --bg-card-img: linear-gradient(180deg, #faf8f5 0%, #f0ebe3 100%);
@@ -109,13 +110,19 @@ body {
   background-image: var(--bg-page-image);
   background-size: cover;
   background-position: center top;
-  background-attachment: fixed;
+  background-attachment: scroll;
   background-repeat: no-repeat;
   color: var(--text-primary);
   text-align: center;
   display: block;
-  min-height: auto;
+  min-height: 100dvh;
   transition: background-color 0.45s ease, color 0.45s ease;
+}
+
+@media (min-width: 769px) {
+  html.theme-decants body {
+    background-attachment: fixed;
+  }
 }
 
 main, .main-content { 
@@ -931,6 +938,21 @@ html.theme-decants .top-bar {
     min-width: 0;
     text-align: left;
   }
+
+  .search-container {
+    max-width: none;
+    padding: 0 18px;
+    box-sizing: border-box;
+  }
+
+  #perfume-search {
+    width: 100%;
+    padding-left: 54px;
+  }
+
+  .search-icon {
+    left: 34px;
+  }
 }
 
 @media (max-width: 480px) {
@@ -1014,8 +1036,6 @@ html.theme-decants .top-bar {
     height: 55px;
     font-size: 16px;
   }
-  
-  #perfume-search { width: auto; }
   
   .category-card:active .category-overlay span {
     color: #fff !important;
