@@ -55,6 +55,7 @@ html.theme-decants {
   --bg-page: #f5f0e8;
   --bg-page-image: url('Decants_website/decantsimage.png');
   background-color: #f5f0e8;
+  overscroll-behavior-y: none;
   --bg-header: #fffcf7;
   --bg-card: rgba(255, 255, 255, 0.93);
   --bg-card-img: linear-gradient(180deg, #faf8f5 0%, #f0ebe3 100%);
@@ -110,7 +111,7 @@ body {
   background-image: var(--bg-page-image);
   background-size: cover;
   background-position: center top;
-  background-attachment: scroll;
+  background-attachment: fixed;
   background-repeat: no-repeat;
   color: var(--text-primary);
   text-align: center;
@@ -119,10 +120,30 @@ body {
   transition: background-color 0.45s ease, color 0.45s ease;
 }
 
-@media (min-width: 769px) {
-  html.theme-decants body {
-    background-attachment: fixed;
-  }
+/* Fondo fijo Decants: capa propia evita el salto en móvil al mostrar/ocultar la barra del navegador */
+html.theme-decants body {
+  background-image: none;
+  position: relative;
+}
+
+html.theme-decants body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100lvh;
+  min-height: 100%;
+  background-color: #f5f0e8;
+  background-image: url('Decants_website/decantsimage.png');
+  background-size: cover;
+  background-position: center top;
+  background-repeat: no-repeat;
+  z-index: -1;
+  pointer-events: none;
+  transform: translate3d(0, 0, 0);
+  backface-visibility: hidden;
+  will-change: transform;
 }
 
 main, .main-content { 
